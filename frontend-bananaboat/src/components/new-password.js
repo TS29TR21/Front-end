@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ChangePassword = ({ email }) => {
+const NewPassword = ({ email }) => {
   // State to hold password values
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -77,7 +77,11 @@ const ChangePassword = ({ email }) => {
             {/* Submit Button */}
             <tr>
               <td align="center">
-                <input type="submit" name="newPasswordBtn" value="Change Password" />
+                <input
+                  type="submit"
+                  name="newPasswordBtn"
+                  value="Change Password"
+                />
               </td>
             </tr>
           </tbody>
@@ -87,4 +91,4 @@ const ChangePassword = ({ email }) => {
   );
 };
 
-export default ChangePassword;
+export default NewPassword;
