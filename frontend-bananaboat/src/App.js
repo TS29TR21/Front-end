@@ -11,6 +11,9 @@ import PasswordReset from "./components/reset-password.js";
 import ResourceReport from "./components/resource-report.js";
 import UpdateUserRole from "./components/update-user-role.js";
 import UploadTaggingResource from "./components/file-upload-tagging.js";
+import SubjectView from "./components/subject-view.js";
+import FAQ from "./components/faq.js";
+import AboutUs from "./components/about-us.js";
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
             <Route path="/reset-password-page" element={<PasswordReset />} />
             <Route path="/resource-report-page" element={<ResourceReport />} />
             <Route path="/update-role-page" element={<UpdateUserRole />} />
+            <Route path="/subject-view-page" element={<SubjectView />} />
+            <Route path="/faq-page" element={<FAQ />} />
+            <Route path="/about-us-page" element={<AboutUs />} />
             <Route
               path="/file-upload-page"
               element={<UploadTaggingResource />}

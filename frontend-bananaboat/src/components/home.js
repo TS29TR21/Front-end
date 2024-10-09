@@ -17,7 +17,7 @@ const Home = () => {
         <nav>
           <ul style={styles.sidebarList}>
             <li style={styles.sidebarListItem}>
-              <Link to="/subject-view" style={styles.link}>
+              <Link to="/subject-view-page" style={styles.link}>
                 Subject View
               </Link>
             </li>
@@ -57,12 +57,12 @@ const Home = () => {
               </Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <Link to="/about-us" style={styles.link}>
+              <Link to="/about-us-page" style={styles.link}>
                 About Us
               </Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <Link to="/faq" style={styles.link}>
+              <Link to="/faq-page" style={styles.link}>
                 FAQ
               </Link>
             </li>
