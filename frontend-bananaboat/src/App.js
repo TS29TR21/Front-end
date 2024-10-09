@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/home.js";
 import Login from "./components/login.js";
-import ResourceSearch from "./components/resource-report.js";
+import ResourceSearch from "./components/resource-search.js";
 import ModerationForm from "./components/moderation.js";
 import NewPassword from "./components/new-password.js";
 import RateResource from "./components/rate-resource.js";

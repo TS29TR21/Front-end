@@ -1,29 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Ensure react-router-dom is installed
 
 const Home = () => {
-  const sidebarRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Function to make sidebar draggable
-  const handleMouseDown = (e) => {
-    const sidebar = sidebarRef.current;
-    const startX = e.clientX;
-    const startWidth = sidebar.offsetWidth;
-
-    const handleMouseMove = (event) => {
-      const newWidth = startWidth + (event.clientX - startX);
-      sidebar.style.width = `${newWidth}px`;
-    };
-
-    const handleMouseUp = () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -34,53 +13,59 @@ const Home = () => {
   return (
     <div style={styles.pageContainer}>
       {/* Sidebar */}
-      <aside
-        ref={sidebarRef}
-        style={styles.sidebar}
-        onMouseDown={handleMouseDown}
-      >
+      <aside style={styles.sidebar}>
         <nav>
           <ul style={styles.sidebarList}>
-            <li>
-              <Link to="/subject-view">Subject View</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/subject-view" style={styles.link}>
+                Subject View
+              </Link>
             </li>
-            <li>
-              <Link to="/resource-search-page">Search Results</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/resource-search-page" style={styles.link}>
+                Search Results
+              </Link>
             </li>
-            <li>
-              <Link to="/file-upload-page">Contribute</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/file-upload-page" style={styles.link}>
+                Contribute
+              </Link>
             </li>
-            <li>
-              <Link to="/other-oers">Other Useful OERs</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/other-oers" style={styles.link}>
+                Other Useful OERs
+              </Link>
             </li>
-            <li>
-              <Link to="/contributors">Contributors</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/contributors" style={styles.link}>
+                Contributors
+              </Link>
             </li>
-
-            <li>
-              <Link to="/self-directed-learning">Self-Directed Learning</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/self-directed-learning" style={styles.link}>
+                Self-Directed Learning
+              </Link>
             </li>
-            {/*<li>
-              <Link to="/moderate-page">Moderate</Link>
-            </li>*/}
-            <li>
-              <Link to="/register-page">Account Creation</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/register-page" style={styles.link}>
+                Account Creation
+              </Link>
             </li>
-            <li>
-              <Link to="/reset-password-page">Password Reset</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/reset-password-page" style={styles.link}>
+                Password Reset
+              </Link>
             </li>
-            {/*<li>
-              <Link to="/analytics">Analytics</Link>
-            </li>*/}
-            <li>
-              <Link to="/about-us">About Us</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/about-us" style={styles.link}>
+                About Us
+              </Link>
             </li>
-            <li>
-              <Link to="/faq">FAQ</Link>
+            <li style={styles.sidebarListItem}>
+              <Link to="/faq" style={styles.link}>
+                FAQ
+              </Link>
             </li>
-            {/*<li>
-              <Link to="/user-management">User Management</Link>
-            </li>*/}
           </ul>
         </nav>
       </aside>
@@ -165,19 +150,30 @@ const styles = {
     height: "100vh",
   },
   sidebar: {
-    width: "250px",
+    width: "200px", // Reduced width
     backgroundColor: "#2c2c2c",
-    padding: "20px",
+    padding: "10px", // Reduced padding
     color: "white",
-    cursor: "ew-resize", // Change cursor to indicate resizable
   },
   sidebarList: {
     listStyleType: "none",
     padding: 0,
   },
   sidebarListItem: {
-    marginBottom: "10px",
-    fontSize: "18px",
+    marginBottom: "8px", // Reduced margin
+  },
+  link: {
+    color: "white",
+    textDecoration: "none",
+    padding: "8px 12px", // Reduced padding for links
+    borderRadius: "4px",
+    display: "block",
+    transition: "background-color 0.3s, transform 0.3s", // Add transition for smooth hover effect
+  },
+  // Add hover effect using pseudo-element in CSS
+  linkHover: {
+    backgroundColor: "#4CAF50",
+    transform: "scale(1.05)", // Slightly enlarge on hover
   },
   mainContent: {
     flex: 1,
@@ -196,7 +192,7 @@ const styles = {
   },
   searchInput: {
     padding: "10px",
-    width: "300px",
+    width: "250px", // Adjusted width for search input
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
@@ -221,25 +217,8 @@ const styles = {
   bannerText: {
     textAlign: "left",
   },
-  donateButton: {
-    marginTop: "10px",
-    padding: "10px 20px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-  },
   navSection: {
     textAlign: "center",
-  },
-  linkList: {
-    listStyleType: "none",
-    padding: 0,
-  },
-  linkListItem: {
-    margin: "10px 0",
-    fontSize: "18px",
   },
 };
 

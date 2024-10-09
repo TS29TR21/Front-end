@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+/* 
+  styles.css 
+.link 
+{
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px; /* Reduced padding for links 
+  border-radius: 4px;
+  display: block;
+  transition: background-color 0.3s, transform 0.3s; /* Add transition for smooth hover effect 
+}
+
+.link:hover {
+  background-color: #4caf50; /* Change to desired hover color 
+  transform: scale(1.05); /* Slightly enlarge on hover 
+}
+*/
