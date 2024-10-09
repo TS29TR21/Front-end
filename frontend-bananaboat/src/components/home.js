@@ -32,17 +32,17 @@ const Home = () => {
               </Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <Link to="/other-oers" style={styles.link}>
+              <Link to="/oer-page" style={styles.link}>
                 Other Useful OERs
               </Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <Link to="/contributors" style={styles.link}>
+              <Link to="/contributors-page" style={styles.link}>
                 Contributors
               </Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <Link to="/self-directed-learning" style={styles.link}>
+              <Link to="/self-page" style={styles.link}>
                 Self-Directed Learning
               </Link>
             </li>

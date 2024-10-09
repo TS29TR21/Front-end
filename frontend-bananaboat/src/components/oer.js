@@ -12,6 +12,20 @@ const OER = () => {
 
   return (
     <div style={styles.pageContainer}>
+      <nav style={styles.navigation}>
+        <ul style={styles.navList}>
+          <li style={styles.sidebarListItem}>
+            <Link to="/about-us-page" style={styles.link}>
+              About Us
+            </Link>
+          </li>
+          <li style={styles.navItem}>
+            <Link to="/faq-page" style={styles.link}>
+              FAQ
+            </Link>
+          </li>
+        </ul>
+      </nav>
       {/* Main Content */}
       <main style={styles.mainContent}>
         <header style={styles.header}>
