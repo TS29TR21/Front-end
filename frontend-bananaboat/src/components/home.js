@@ -23,7 +23,6 @@ const Home = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // Handle search logic here (e.g., filtering subjects)
     console.log("Search query:", searchQuery);
   };
 
@@ -99,7 +98,6 @@ const Home = () => {
               and erecting bridges toward a more knowledgeable and
               interconnected world.
             </p>
-            {/* Other overview content */}
           </>
         );
     }
@@ -224,7 +222,6 @@ const Home = () => {
 
         <section style={styles.banner}>
           <div style={styles.bannerText}>
-            {/* Render dynamic content here */}
             {renderSectionContent()}
           </div>
         </section>
@@ -238,60 +235,44 @@ const styles = {
   pageContainer: {
     display: "flex",
     height: "100vh",
+    width: "100vw", // Ensures full width
+    margin: 0, // Removes any default margin
   },
   sidebar: {
-    width: "200px", // Reduced width
+    width: "200px",
     backgroundColor: "#2c2c2c",
-    padding: "10px", // Reduced padding
+    padding: "10px",
     color: "white",
-  },
-  sidebarList: {
-    listStyleType: "none",
-    padding: 0,
-  },
-  sidebarListItem: {
-    marginBottom: "8px", // Reduced margin
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-    padding: "8px 12px", // Reduced padding for links
-    borderRadius: "4px",
-    display: "block",
-    border: "none",
-    background: "none",
-    cursor: "pointer",
-    transition: "background-color 0.3s, transform 0.3s", // Add transition for smooth hover effect
+    height: "100vh", // Ensures the sidebar takes full height
   },
   mainContent: {
     flex: 1,
     padding: "20px",
     backgroundColor: "#f4f4f4",
     overflowY: "auto",
+    height: "100vh", // Ensures the main content takes full height
+  },
+  sidebarList: {
+    listStyleType: "none",
+    padding: 0,
+  },
+  sidebarListItem: {
+    marginBottom: "8px",
+  },
+  link: {
+    color: "white",
+    textDecoration: "none",
+    padding: "8px 12px",
+    borderRadius: "4px",
+    display: "block",
+    border: "none",
+    background: "none",
+    cursor: "pointer",
+    transition: "background-color 0.3s, transform 0.3s",
   },
   header: {
     textAlign: "center",
     paddingBottom: "20px",
-  },
-  searchSection: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "20px",
-  },
-  searchInput: {
-    padding: "10px",
-    width: "250px", // Adjusted width for search input
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    marginRight: "10px",
-  },
-  searchButton: {
-    padding: "10px 15px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
   },
   banner: {
     display: "flex",
