@@ -7,11 +7,11 @@ const UploadTaggingResource = () => {
     upload_file1: null,
     upload_file2: null,
     upload_file3: null,
-    contributor: "",
     resourceName: "",
     subject: "",
     grade: "",
-    keywords: "",
+    keywords: [],
+    currentKeyword: "",
   });
 
   // Handle file changes
@@ -30,63 +30,59 @@ const UploadTaggingResource = () => {
     });
   };
 
+  // Handle keyword input changes
+  const handleKeywordInputChange = (e) => {
+    setFormData({
+      ...formData,
+      currentKeyword: e.target.value,
+    });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && formData.currentKeyword) {
+      e.preventDefault();
+      setFormData((prevState) => ({
+        ...prevState,
+        keywords: [...prevState.keywords, prevState.currentKeyword],
+        currentKeyword: '',
+      }));
+    }
+  };
+
+  const removeKeyword = (index) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      keywords: prevState.keywords.filter((_, i) => i !== index),
+    }));
+  };
+
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData();
-
-    // Append the form data
-    for (let key in formData) {
-      data.append(key, formData[key]);
-    }
-
-    // Example API call (You should replace this with your API endpoint)
-    try {
-      const response = await fetch("/resourceUploadTagging", {
-        method: "POST",
-        body: data,
-      });
-      const result = await response.json();
-      console.log(result);
-      alert("Form submitted successfully");
-    } catch (error) {
-      console.error("Error submitting the form", error);
-    }
+    console.log("Form Data:", {
+      ...formData,
+      keywords: formData.keywords.join(", "),
+    });
+    alert("Form submitted! Check console for details.");
   };
 
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>
-        This is the Uploading & Tagging Resource page
+        Upload and Tag Keywords to resources
       </h1>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <table border="1" align="center">
           <tbody>
             <tr>
               <td>
-                <input
-                  type="file"
-                  name="upload_file"
-                  onChange={handleFileChange}
-                />
+                <input type="file" name="upload_file" onChange={handleFileChange} />
                 <br />
-                <input
-                  type="file"
-                  name="upload_file1"
-                  onChange={handleFileChange}
-                />
+                <input type="file" name="upload_file1" onChange={handleFileChange} />
                 <br />
-                <input
-                  type="file"
-                  name="upload_file2"
-                  onChange={handleFileChange}
-                />
+                <input type="file" name="upload_file2" onChange={handleFileChange} />
                 <br />
-                <input
-                  type="file"
-                  name="upload_file3"
-                  onChange={handleFileChange}
-                />
+                <input type="file" name="upload_file3" onChange={handleFileChange} />
                 <br />
                 <input
                   type="text"
@@ -116,15 +112,26 @@ const UploadTaggingResource = () => {
             </tr>
             <tr>
               <td>
-                <textarea
-                  name="keywords"
-                  placeholder="Keywords/Tags - CSV"
-                  rows="4"
-                  cols="50"
-                  style={{ fontSize: "16px" }}
-                  value={formData.keywords}
-                  onChange={handleInputChange}
-                ></textarea>
+			  	Add keywords and press Enter
+                <div className="keyword-input-container" style={styles.keywordContainer}>
+                  {formData.keywords.map((keyword, index) => (
+                    <span key={index} className="keyword-bubble" style={styles.keywordBubble}>
+                      {keyword}
+                      <button type="button" onClick={() => removeKeyword(index)} className="remove-button" style={styles.removeButton}>×</button>
+                    </span>
+                  ))}
+				  
+                  <input
+                    type="text"
+                    placeholder="Add keyword and press Enter"
+                    name="currentKeyword"
+                    value={formData.currentKeyword}
+                    onChange={handleKeywordInputChange}
+                    onKeyDown={handleKeyDown}
+                    className="keyword-input"
+                    style={styles.keywordInput}
+                  />
+                </div>
                 <br />
               </td>
             </tr>
@@ -138,6 +145,41 @@ const UploadTaggingResource = () => {
       </form>
     </div>
   );
+};
+
+// Inline styles
+const styles = {
+  keywordContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    padding: '10px',
+    marginTop: '10px',
+    gap: '5px',
+  },
+  keywordBubble: {
+    backgroundColor: '#e0e0e0',
+    borderRadius: '15px',
+    padding: '5px 10px',
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '14px',
+  },
+  removeButton: {
+    border: 'none',
+    background: 'transparent',
+    color: 'red',
+    cursor: 'pointer',
+    marginLeft: '5px',
+    fontWeight: 'bold',
+  },
+  keywordInput: {
+    border: 'none',
+    outline: 'none',
+    flex: '1',
+    padding: '5px',
+  },
 };
 
 export default UploadTaggingResource;
