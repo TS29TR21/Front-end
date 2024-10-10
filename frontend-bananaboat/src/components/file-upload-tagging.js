@@ -90,14 +90,6 @@ const UploadTaggingResource = () => {
                 <br />
                 <input
                   type="text"
-                  placeholder="Contributor"
-                  name="contributor"
-                  value={formData.contributor}
-                  onChange={handleInputChange}
-                />
-                <br />
-                <input
-                  type="text"
                   placeholder="Resource Name"
                   name="resourceName"
                   value={formData.resourceName}
