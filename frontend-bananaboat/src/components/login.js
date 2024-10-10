@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Login = () => {
-  // You can manage form state here if needed
+  // Manage form state
   const [formData, setFormData] = useState({
     username_or_email: "",
     password: "",
@@ -16,13 +16,6 @@ const Login = () => {
     });
   };
 
-  // Handle form submission (back button)
-  const handleBackSubmit = (e) => {
-    e.preventDefault();
-    // Logic for handling back action
-    console.log("Back button clicked");
-  };
-
   // Handle form submission (login button)
   const handleLoginSubmit = (e) => {
     e.preventDefault();
@@ -31,58 +24,105 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <header>
-        <center>This is the login page</center>
-      </header>
+    <div style={styles.pageContainer}>
+      <main style={styles.mainContent}>
+        <header style={styles.header}>
+          <h1>Login</h1>
+        </header>
 
-      <form onSubmit={handleBackSubmit}>
+        <form onSubmit={handleLoginSubmit} style={styles.form}>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Username or Email"
+              name="username_or_email"
+              value={formData.username_or_email}
+              onChange={handleInputChange}
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="submit"
+              value="Login"
+              style={styles.submitButton}
+            />
+          </div>
+        </form>
+
         <center>
-          <input type="submit" value="Back" name="backButton" />
+          <br />
+          <a href="/resetPasswordPage" style={styles.forgotPassword}>Forgot Password?</a>
         </center>
-      </form>
-
-      <form onSubmit={handleLoginSubmit}>
-        <table border="1" align="center">
-          <tbody>
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  placeholder="Username or Email"
-                  name="username_or_email"
-                  value={formData.username_or_email}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td align="center">
-                <input type="submit" name="loginButton" value="Login" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </form>
-
-      <center>
-        <a href="/resetPasswordPage">Forgot Password</a>
-        <br />
-        <br />
-      </center>
+      </main>
     </div>
   );
+};
+
+// Styles for the component
+const styles = {
+  pageContainer: {
+    display: "flex",
+    height: "50vh",
+    padding: "20px",
+    backgroundColor: "#f4f4f4",
+  },
+  mainContent: {
+    flex: 1,
+    padding: "20px",
+    backgroundColor: "#ffffff",
+    borderRadius: "8px",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+    overflowY: "auto",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center', // Center content horizontally
+    justifyContent: 'center', // Center content vertically
+  },
+  header: {
+    textAlign: "center",
+    marginBottom: "20px",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+    maxWidth: "600px", // Increased max width for more horizontal space
+  },
+  formGroup: {
+    marginBottom: "20px", // Increased margin for more spacing
+    width: "100%",
+  },
+  input: {
+    width: "100%",
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+  },
+  submitButton: {
+    padding: "10px 15px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    width: "100%",
+  },
+  forgotPassword: {
+    textDecoration: "none",
+    color: "#4CAF50",
+  },
 };
 
 export default Login;
