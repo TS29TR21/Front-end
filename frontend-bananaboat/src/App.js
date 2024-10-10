@@ -17,6 +17,7 @@ import AboutUs from "./components/about-us.js";
 import OER from "./components/oer.js";
 import Contributors from "./components/contributors.js";
 import Self from "./components/sdl.js";
+import Analytics from "./components/analytics.js";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/oer-page" element={<OER />} />
             <Route path="/contributors-page" element={<Contributors />} />
             <Route path="/self-page" element={<Self />} />
+            <Route path="/analytics-page" element={<Analytics />} />
             <Route
               path="/file-upload-page"
               element={<UploadTaggingResource />}

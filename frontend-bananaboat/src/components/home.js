@@ -15,6 +15,7 @@ import AboutUs from "./about-us.js";
 import OER from "./oer.js";
 import Contributors from "./contributors.js";
 import Self from "./sdl.js";
+import Analytics from "./analytics.js";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,6 +51,8 @@ const Home = () => {
         return <FAQ />;
       case "login":
         return <Login />;
+      case "analytics":
+        return <Analytics />;
       default:
         return (
           <>
@@ -183,6 +186,14 @@ const Home = () => {
                 onClick={() => setActiveSection("reset-password")}
               >
                 Password Reset
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("analytics")}
+              >
+                Analytics
               </button>
             </li>
             <li style={styles.sidebarListItem}>
