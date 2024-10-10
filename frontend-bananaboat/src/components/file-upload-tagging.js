@@ -69,7 +69,7 @@ const UploadTaggingResource = () => {
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>
-        Upload and Tag Keywords to resources
+        Upload and Tag Keywords to Resources
       </h1>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <table border="1" align="center">
@@ -100,19 +100,28 @@ const UploadTaggingResource = () => {
                   onChange={handleInputChange}
                 />
                 <br />
-                <input
-                  type="text"
-                  placeholder="Grade"
+                <select
                   name="grade"
                   value={formData.grade}
                   onChange={handleInputChange}
-                />
+                >
+                  <option value="" disabled>Select Grade</option>
+                  {/* Grade options from 1 to 12 */}
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i} value={`Grade ${i + 1}`}>Grade {i + 1}</option>
+                  ))}
+                  {/* Year options from 1st to 4th year */}
+                  {Array.from({ length: 4 }, (_, i) => (
+                    <option key={i + 12} value={`${i + 1}st Year`}>{i + 1}st Year</option>
+                  ))}
+                  <option value="Honours">Honours</option>
+                </select>
                 <br />
               </td>
             </tr>
             <tr>
               <td>
-			  	Add keywords and press Enter
+                Add keywords and press Enter
                 <div className="keyword-input-container" style={styles.keywordContainer}>
                   {formData.keywords.map((keyword, index) => (
                     <span key={index} className="keyword-bubble" style={styles.keywordBubble}>
@@ -120,7 +129,6 @@ const UploadTaggingResource = () => {
                       <button type="button" onClick={() => removeKeyword(index)} className="remove-button" style={styles.removeButton}>×</button>
                     </span>
                   ))}
-				  
                   <input
                     type="text"
                     placeholder="Add keyword and press Enter"
