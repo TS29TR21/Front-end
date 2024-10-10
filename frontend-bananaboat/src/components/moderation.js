@@ -32,73 +32,105 @@ const ModerationForm = () => {
   };
 
   return (
-    <div>
+    <div style={styles.container}>
       <header>
-        <center>Moderate Resources</center>
+        <h1 style={styles.title}>Moderate Resources</h1>
       </header>
 
-      <form onSubmit={handleSubmit} action="resourceModeration" method="POST">
-        <table border="1" style={{ margin: "auto" }}>
-          <tbody>
-            {/* Resource ID Dropdown */}
-            <tr>
-              <td>
-                <select
-                  name="source_id"
-                  value={formData.source_id}
-                  onChange={handleInputChange}
-                >
-                  <option value="">Select Resource ID</option>
-                  {resources.map((resource) => (
-                    <option key={resource.id} value={resource.id}>
-                      {resource.name}
-                    </option>
-                  ))}
-                </select>
-              </td>
-            </tr>
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <div style={styles.inputGroup}>
+          <select
+            name="source_id"
+            value={formData.source_id}
+            onChange={handleInputChange}
+            style={styles.select}
+          >
+            <option value="">Select Resource ID</option>
+            {resources.map((resource) => (
+              <option key={resource.id} value={resource.id}>
+                {resource.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-            {/* Moderation Comment Input */}
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  placeholder="Moderation Comment"
-                  name="mod_comment"
-                  value={formData.mod_comment}
-                  onChange={handleInputChange}
-                />
-              </td>
-            </tr>
+        <div style={styles.inputGroup}>
+          <input
+            type="text"
+            placeholder="Moderation Comment"
+            name="mod_comment"
+            value={formData.mod_comment}
+            onChange={handleInputChange}
+            style={styles.input}
+          />
+        </div>
 
-            {/* Status Select Field */}
-            <tr>
-              <td>
-                <select
-                  id="status"
-                  name="mod_status"
-                  value={formData.mod_status}
-                  onChange={handleInputChange}
-                >
-                  <option value="approved">Approve</option>
-                  <option value="rejected">Reject</option>
-                </select>
-              </td>
-            </tr>
+        <div style={styles.inputGroup}>
+          <select
+            name="mod_status"
+            value={formData.mod_status}
+            onChange={handleInputChange}
+            style={styles.select}
+          >
+            <option value="approved">Approve</option>
+            <option value="rejected">Reject</option>
+          </select>
+        </div>
 
-            {/* Submit Button */}
-            <tr>
-              <td>
-                <center>
-                  <input type="submit" value="Submit" name="modButton" />
-                </center>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div style={styles.buttonContainer}>
+          <button type="submit" style={styles.submitButton}>
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
+};
+
+// Styles for the component
+const styles = {
+  container: {
+    maxWidth: '800px',
+    margin: 'auto',
+    padding: '20px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  },
+  title: {
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  inputGroup: {
+    marginBottom: '15px',
+  },
+  input: {
+    padding: '10px',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+    width: '100%',
+  },
+  select: {
+    padding: '10px',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+    width: '100%',
+  },
+  buttonContainer: {
+    textAlign: 'center',
+  },
+  submitButton: {
+    padding: '10px',
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  },
 };
 
 export default ModerationForm;
