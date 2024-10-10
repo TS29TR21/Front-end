@@ -1,36 +1,87 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Ensure react-router-dom is installed
 
 const Contributors = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
+  const contributors = [
+    {
+      name: "John Doe",
+      resources: [
+        "Resource 1 - Introduction to React",
+        "Resource 2 - Advanced JavaScript",
+        "Resource 3 - API Development with Node.js",
+      ],
+    },
+    {
+      name: "Jane Smith",
+      resources: [
+        "Resource 1 - Understanding CSS",
+        "Resource 2 - Frontend Performance Optimization",
+      ],
+    },
+    {
+      name: "Alice Johnson",
+      resources: [
+        "Resource 1 - Introduction to Python",
+        "Resource 2 - Data Analysis with Pandas",
+      ],
+    },
+    // Add more contributors as needed
+  ];
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // Handle search logic here (e.g., filtering subjects)
     console.log("Search query:", searchQuery);
+  };
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
   };
 
   return (
     <div style={styles.pageContainer}>
-      <nav style={styles.navigation}>
-        <ul style={styles.navList}>
-          <li style={styles.sidebarListItem}>
-            <Link to="/about-us-page" style={styles.link}>
-              About Us
-            </Link>
-          </li>
-          <li style={styles.navItem}>
-            <Link to="/faq-page" style={styles.link}>
-              FAQ
-            </Link>
-          </li>
-        </ul>
-      </nav>
       {/* Main Content */}
       <main style={styles.mainContent}>
         <header style={styles.header}>
-          <h1>This is the Contributors page</h1>
+          <h1>Contributors</h1>
         </header>
+
+        <div style={styles.searchSection}>
+          <form onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Search contributors..."
+              style={styles.searchInput}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button type="submit" style={styles.searchButton}>Search</button>
+          </form>
+        </div>
+
+        <div style={styles.contributorList}>
+          {contributors
+            .filter(contributor =>
+              contributor.name.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map((contributor, index) => (
+              <div key={index} style={styles.contributorItem}>
+                <h3 onClick={() => toggleExpand(index)} style={styles.contributorName}>
+                  {contributor.name}
+                </h3>
+                {expandedIndex === index && (
+                  <ul style={styles.resourceList}>
+                    {contributor.resources.map((resource, resourceIndex) => (
+                      <li key={resourceIndex} style={styles.resourceItem}>
+                        {resource}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+        </div>
       </main>
     </div>
   );
@@ -41,32 +92,6 @@ const styles = {
   pageContainer: {
     display: "flex",
     height: "100vh",
-  },
-  sidebar: {
-    width: "200px", // Reduced width
-    backgroundColor: "#2c2c2c",
-    padding: "10px", // Reduced padding
-    color: "white",
-  },
-  sidebarList: {
-    listStyleType: "none",
-    padding: 0,
-  },
-  sidebarListItem: {
-    marginBottom: "8px", // Reduced margin
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-    padding: "8px 12px", // Reduced padding for links
-    borderRadius: "4px",
-    display: "block",
-    transition: "background-color 0.3s, transform 0.3s", // Add transition for smooth hover effect
-  },
-  // Add hover effect using pseudo-element in CSS
-  linkHover: {
-    backgroundColor: "#4CAF50",
-    transform: "scale(1.05)", // Slightly enlarge on hover
   },
   mainContent: {
     flex: 1,
@@ -85,7 +110,7 @@ const styles = {
   },
   searchInput: {
     padding: "10px",
-    width: "250px", // Adjusted width for search input
+    width: "250px",
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
@@ -98,20 +123,27 @@ const styles = {
     borderRadius: "4px",
     cursor: "pointer",
   },
-  banner: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#e4e4e4",
-    padding: "20px",
-    borderRadius: "8px",
-    marginBottom: "30px",
+  contributorList: {
+    marginTop: "20px",
   },
-  bannerText: {
-    textAlign: "left",
+  contributorItem: {
+    marginBottom: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    padding: "10px",
+    cursor: "pointer",
+    transition: "background-color 0.3s",
   },
-  navSection: {
-    textAlign: "center",
+  contributorName: {
+    margin: "0",
+  },
+  resourceList: {
+    listStyleType: "none",
+    paddingLeft: "20px",
+  },
+  resourceItem: {
+    marginBottom: "5px",
+    color: "#555",
   },
 };
 
