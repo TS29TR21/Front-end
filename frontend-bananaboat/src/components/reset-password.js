@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 
+// Password Reset Component
 const PasswordReset = () => {
   const [email, setEmail] = useState('');
 
   // Handle input change
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-  };
-
-  // Handle back button click
-  const handleBack = (e) => {
-    e.preventDefault();
-    window.location.href = '/'; // Redirect to the homepage
   };
 
   // Handle form submission for password reset
@@ -55,44 +50,61 @@ const PasswordReset = () => {
   };
 
   return (
-    <div>
-      <header>
-        <h2 style={{ textAlign: 'center' }}>FORGOT PASSWORD</h2>
-      </header>
-
-      {/* Back Button Form */}
-      <form onSubmit={handleBack}>
-        <div style={{ textAlign: 'center' }}>
-          <input type="submit" value="Back" name="backButton" />
+    <div style={styles.container}>
+      <h1 style={styles.title}>Password Reset</h1>
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <div style={styles.inputGroup}>
+          <input
+            type="text"
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={handleEmailChange}
+            required
+            style={styles.input}
+          />
         </div>
-      </form>
-
-      {/* Password Reset Form */}
-      <form onSubmit={handleSubmit}>
-        <table border="1" style={{ margin: 'auto', marginTop: '20px' }}>
-          <tbody>
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  placeholder="Email"
-                  name="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <td align="center">
-                <input type="submit" name="getCode" value="Get Code" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <button type="submit" style={styles.submitButton}>Get Code</button>
       </form>
     </div>
   );
+};
+
+// Styles for the component
+const styles = {
+  container: {
+    maxWidth: '900px', // Increased width for more horizontal space
+    margin: 'auto',
+    padding: '20px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  },
+  title: {
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  inputGroup: {
+    marginBottom: '15px', // Margin between input groups
+  },
+  input: {
+    padding: '10px',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+    width: '100%', // Full width for the input
+  },
+  submitButton: {
+    padding: '10px',
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  },
 };
 
 export default PasswordReset;

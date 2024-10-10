@@ -44,6 +44,8 @@ const Home = () => {
         return <Register />;
       case "reset-password":
         return <PasswordReset />;
+      case "new-password":
+        return <NewPassword />;
       case "about-us":
         return <AboutUs />;
       case "faq":
@@ -205,6 +207,14 @@ const Home = () => {
                 onClick={() => setActiveSection("reset-password")}
               >
                 Password Reset
+                </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("new-password")}
+              >
+                New Reset
               </button>
             </li>
             <li style={styles.sidebarListItem}>
@@ -296,13 +306,18 @@ const styles = {
     paddingBottom: "20px",
   },
   banner: {
-    display: "flex",
+    /*display: "flex",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#e4e4e4",
     padding: "20px",
+    border: "1px solid #ccc",
     borderRadius: "8px",
-    marginBottom: "30px",
+    marginBottom: "30px",*/
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    padding: "20px",
+    backgroundColor: "white",
   },
   bannerText: {
     textAlign: "left",
