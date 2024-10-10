@@ -34,7 +34,7 @@ const ModerationForm = () => {
   return (
     <div>
       <header>
-        <center>This is the moderation page</center>
+        <center>Moderate Resources</center>
       </header>
 
       <form onSubmit={handleSubmit} action="resourceModeration" method="POST">

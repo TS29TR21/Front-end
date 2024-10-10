@@ -1,22 +1,66 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Ensure react-router-dom is installed
 
 const Analytics = () => {
+  // Define metrics for each component
+  const metricsData = [
+    { page: "Home", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Subject View", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Resource Search", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Contribute", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Other Useful OERs", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Moderate Resources", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Contributors", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Self-Directed Learning", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Login", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Account Creation", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Password Reset", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "Analytics", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "About Us", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+    { page: "FAQ", metrics: { totalUsers: 0, activeUsers: 0, pageViews: 0 } },
+  ];
+
   const [searchQuery, setSearchQuery] = useState("");
+  const [filteredMetrics, setFilteredMetrics] = useState(metricsData);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // Handle search logic here (e.g., filtering subjects)
-    console.log("Search query:", searchQuery);
+    const filtered = metricsData.filter(item =>
+      item.page.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredMetrics(filtered);
   };
 
   return (
     <div style={styles.pageContainer}>
-      {/* Main Content */}
       <main style={styles.mainContent}>
         <header style={styles.header}>
-          <h1>This is the Analytics page</h1>
+          <h1>User Analytics</h1>
         </header>
+
+        {/* Search Section */}
+        <section style={styles.searchSection}>
+          <input
+            type="text"
+            placeholder="Search analytics..."
+            style={styles.searchInput}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button style={styles.searchButton} onClick={handleSearch}>
+            Search
+          </button>
+        </section>
+
+        {/* Key Metrics Section */}
+        <section style={styles.metricsSection}>
+          {filteredMetrics.map((item, index) => (
+            <div key={index} style={styles.metricCard}>
+              <h2>{item.page}</h2>
+              <p>Total Users: {item.metrics.totalUsers}</p>
+              <p>Active Users: {item.metrics.activeUsers}</p>
+              <p>Page Views: {item.metrics.pageViews}</p>
+            </div>
+          ))}
+        </section>
       </main>
     </div>
   );
@@ -27,32 +71,6 @@ const styles = {
   pageContainer: {
     display: "flex",
     height: "100vh",
-  },
-  sidebar: {
-    width: "200px", // Reduced width
-    backgroundColor: "#2c2c2c",
-    padding: "10px", // Reduced padding
-    color: "white",
-  },
-  sidebarList: {
-    listStyleType: "none",
-    padding: 0,
-  },
-  sidebarListItem: {
-    marginBottom: "8px", // Reduced margin
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-    padding: "8px 12px", // Reduced padding for links
-    borderRadius: "4px",
-    display: "block",
-    transition: "background-color 0.3s, transform 0.3s", // Add transition for smooth hover effect
-  },
-  // Add hover effect using pseudo-element in CSS
-  linkHover: {
-    backgroundColor: "#4CAF50",
-    transform: "scale(1.05)", // Slightly enlarge on hover
   },
   mainContent: {
     flex: 1,
@@ -71,7 +89,7 @@ const styles = {
   },
   searchInput: {
     padding: "10px",
-    width: "250px", // Adjusted width for search input
+    width: "250px",
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
@@ -84,19 +102,15 @@ const styles = {
     borderRadius: "4px",
     cursor: "pointer",
   },
-  banner: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+  metricsSection: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "20px",
+  },
+  metricCard: {
     backgroundColor: "#e4e4e4",
     padding: "20px",
     borderRadius: "8px",
-    marginBottom: "30px",
-  },
-  bannerText: {
-    textAlign: "left",
-  },
-  navSection: {
     textAlign: "center",
   },
 };
