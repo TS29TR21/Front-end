@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Ensure react-router-dom is installed
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeSection, setActiveSection] = useState("overview");
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -10,87 +10,31 @@ const Home = () => {
     console.log("Search query:", searchQuery);
   };
 
-  return (
-    <div style={styles.pageContainer}>
-      {/* Sidebar */}
-      <aside style={styles.sidebar}>
-        <nav>
-          <ul style={styles.sidebarList}>
-            <li style={styles.sidebarListItem}>
-              <Link to="/subject-view-page" style={styles.link}>
-                Subject View
-              </Link>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <Link to="/resource-search-page" style={styles.link}>
-                Search Results
-              </Link>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <Link to="/file-upload-page" style={styles.link}>
-                Contribute
-              </Link>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <Link to="/oer-page" style={styles.link}>
-                Other Useful OERs
-              </Link>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <Link to="/contributors-page" style={styles.link}>
-                Contributors
-              </Link>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <Link to="/self-page" style={styles.link}>
-                Self-Directed Learning
-              </Link>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <Link to="/register-page" style={styles.link}>
-                Account Creation
-              </Link>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <Link to="/reset-password-page" style={styles.link}>
-                Password Reset
-              </Link>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <Link to="/about-us-page" style={styles.link}>
-                About Us
-              </Link>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <Link to="/faq-page" style={styles.link}>
-                FAQ
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-
-      {/* Main Content */}
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
-          <h1>Share2Teach</h1>
-        </header>
-        <section style={styles.searchSection}>
-          <form onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search subjects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={styles.searchInput}
-            />
-            <button type="submit" style={styles.searchButton}>
-              Search
-            </button>
-          </form>
-        </section>
-        <section style={styles.banner}>
-          <div style={styles.bannerText}>
+  const renderSectionContent = () => {
+    switch (activeSection) {
+      case "subject-view":
+        return <p>Subject View Content...</p>;
+      case "resource-search":
+        return <p>Search Results Content...</p>;
+      case "file-upload":
+        return <p>File Upload and Contribute Section...</p>;
+      case "oer":
+        return <p>Other Useful OERs Content...</p>;
+      case "contributors":
+        return <p>Contributors Section...</p>;
+      case "self-directed":
+        return <p>Self-Directed Learning Section...</p>;
+      case "register":
+        return <p>Account Creation Section...</p>;
+      case "reset-password":
+        return <p>Password Reset Section...</p>;
+      case "about-us":
+        return <p>About Us Content...</p>;
+      case "faq":
+        return <p>FAQ Content...</p>;
+      default:
+        return (
+          <>
             <h2>Overview</h2>
             <p>
               Share2Teach is introduced as a vibrant open educational resource
@@ -134,10 +78,127 @@ const Home = () => {
               and erecting bridges toward a more knowledgeable and
               interconnected world.
             </p>
+            {/* Other overview content */}
+          </>
+        );
+    }
+  };
+
+  return (
+    <div style={styles.pageContainer}>
+      {/* Sidebar */}
+      <aside style={styles.sidebar}>
+        <nav>
+          <ul style={styles.sidebarList}>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("subject-view")}
+              >
+                Subject View
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("resource-search")}
+              >
+                Search Results
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("file-upload")}
+              >
+                Contribute
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("oer")}
+              >
+                Other Useful OERs
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("contributors")}
+              >
+                Contributors
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("self-directed")}
+              >
+                Self-Directed Learning
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("register")}
+              >
+                Account Creation
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("reset-password")}
+              >
+                Password Reset
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("about-us")}
+              >
+                About Us
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("faq")}
+              >
+                FAQ
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      {/* Main Content */}
+      <main style={styles.mainContent}>
+        <header style={styles.header}>
+          <h1>Share2Teach</h1>
+        </header>
+        <section style={styles.searchSection}>
+          <form onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Search subjects..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={styles.searchInput}
+            />
+            <button type="submit" style={styles.searchButton}>
+              Search
+            </button>
+          </form>
+        </section>
+        <section style={styles.banner}>
+          <div style={styles.bannerText}>
+            {/* Render dynamic content here */}
+            {renderSectionContent()}
           </div>
         </section>
-
-        <section style={styles.navSection}></section>
       </main>
     </div>
   );
@@ -168,12 +229,10 @@ const styles = {
     padding: "8px 12px", // Reduced padding for links
     borderRadius: "4px",
     display: "block",
+    border: "none",
+    background: "none",
+    cursor: "pointer",
     transition: "background-color 0.3s, transform 0.3s", // Add transition for smooth hover effect
-  },
-  // Add hover effect using pseudo-element in CSS
-  linkHover: {
-    backgroundColor: "#4CAF50",
-    transform: "scale(1.05)", // Slightly enlarge on hover
   },
   mainContent: {
     flex: 1,
@@ -216,9 +275,6 @@ const styles = {
   },
   bannerText: {
     textAlign: "left",
-  },
-  navSection: {
-    textAlign: "center",
   },
 };
 
