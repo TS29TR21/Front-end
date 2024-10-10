@@ -48,6 +48,8 @@ const Home = () => {
         return <AboutUs />;
       case "faq":
         return <FAQ />;
+      case "login":
+        return <Login />;
       default:
         return (
           <>
@@ -157,6 +159,14 @@ const Home = () => {
                 onClick={() => setActiveSection("self-directed")}
               >
                 Self-Directed Learning
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("login")}
+              >
+                Login
               </button>
             </li>
             <li style={styles.sidebarListItem}>
