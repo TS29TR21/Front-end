@@ -1,46 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Ensure you have react-router-dom installed
 
 const SubjectView = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Handle search logic here (e.g., filtering subjects)
+    console.log("Search query:", searchQuery);
+  };
+
   return (
     <div style={styles.container}>
-      <p>
-        This is the Subject View page where you can browse and search through
-        different subjects.
-      </p>
-
-      <nav style={styles.navigation}>
-        <ul style={styles.navList}>
-          <li style={styles.navItem}>
-            <Link to="/resource-search-page" style={styles.link}>
-              Search Results
-            </Link>
-          </li>
-          <li style={styles.navItem}>
-            <Link to="/file-upload-page" style={styles.link}>
-              Contribute
-            </Link>
-          </li>
-          <li style={styles.sidebarListItem}>
-            <Link to="/about-us-page" style={styles.link}>
-              About Us
-            </Link>
-          </li>
-          <li style={styles.navItem}>
-            <Link to="/faq-page" style={styles.link}>
-              FAQ
-            </Link>
-          </li>
-        </ul>
-      </nav>
-
-      <div style={styles.content}>
-        <p>
-          Explore the subjects or contribute by uploading new resources to help
-          others learn. You can also check out the FAQ section for more
-          information or search for specific subjects or topics.
-        </p>
-      </div>
+      <section style={styles.searchSection}>
+        <form onSubmit={handleSearch}>
+          <input
+            type="text"
+            placeholder="Search subjects (Databases, Math, etc.)..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={styles.searchInput}
+          />
+          <button type="submit" style={styles.searchButton}>
+            Search
+          </button>
+        </form>
+      </section>
     </div>
   );
 };
@@ -79,6 +63,26 @@ const styles = {
   },
   content: {
     marginTop: "20px",
+  },
+  searchSection: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "20px",
+  },
+  searchInput: {
+    padding: "10px",
+    width: "250px", // Adjusted width for search input
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    marginRight: "10px",
+  },
+  searchButton: {
+    padding: "10px 15px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
 };
 

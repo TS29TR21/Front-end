@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const ResourceSearch = () => {
-  const [subject, setSubject] = useState('');
-  const [keywords, setKeywords] = useState('');
+  const [keywords, setKeywords] = useState("");
   const [resources, setResources] = useState([]);
 
   // Handle input changes
-  const handleSubjectChange = (e) => setSubject(e.target.value);
   const handleKeywordsChange = (e) => setKeywords(e.target.value);
 
   // Handle form submission
@@ -14,10 +12,10 @@ const ResourceSearch = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`resourceSearch?subject=${subject}&keywords=${keywords}`, {
-        method: 'GET',
+      const response = await fetch(`resourceSearch?keywords=${keywords}`, {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
@@ -25,26 +23,17 @@ const ResourceSearch = () => {
         const data = await response.json();
         setResources(data.resources || []); // Update the resources state with the fetched data
       } else {
-        alert('Failed to fetch resources. Please try again.');
+        alert("Failed to fetch resources. Please try again.");
       }
     } catch (error) {
-      console.error('Error during resource search:', error);
-      alert('An error occurred while searching for resources.');
+      console.error("Error during resource search:", error);
+      alert("An error occurred while searching for resources.");
     }
   };
 
   return (
     <div>
       <form onSubmit={handleSearch}>
-        <label htmlFor="subject">Subject:</label>
-        <input
-          type="text"
-          name="subject"
-          id="subject"
-          value={subject}
-          onChange={handleSubjectChange}
-        />
-
         <label htmlFor="keywords">Keywords:</label>
         <input
           type="text"

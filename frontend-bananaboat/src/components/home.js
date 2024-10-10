@@ -1,4 +1,20 @@
 import React, { useState } from "react";
+import Login from "./login.js";
+import ResourceSearch from "./resource-search.js";
+import ModerationForm from "./moderation.js";
+import NewPassword from "./new-password.js";
+import RateResource from "./rate-resource.js";
+import Register from "./register.js";
+import PasswordReset from "./reset-password.js";
+import ResourceReport from "./resource-report.js";
+import UpdateUserRole from "./update-user-role.js";
+import UploadTaggingResource from "./file-upload-tagging.js";
+import SubjectView from "./subject-view.js";
+import FAQ from "./faq.js";
+import AboutUs from "./about-us.js";
+import OER from "./oer.js";
+import Contributors from "./contributors.js";
+import Self from "./sdl.js";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,25 +29,25 @@ const Home = () => {
   const renderSectionContent = () => {
     switch (activeSection) {
       case "subject-view":
-        return <p>Subject View Content...</p>;
+        return <SubjectView />;
       case "resource-search":
-        return <p>Search Results Content...</p>;
+        return <ResourceSearch />;
       case "file-upload":
-        return <p>File Upload and Contribute Section...</p>;
+        return <UploadTaggingResource />;
       case "oer":
-        return <p>Other Useful OERs Content...</p>;
+        return <OER />;
       case "contributors":
-        return <p>Contributors Section...</p>;
+        return <Contributors />;
       case "self-directed":
-        return <p>Self-Directed Learning Section...</p>;
+        return <Self />;
       case "register":
-        return <p>Account Creation Section...</p>;
+        return <Register />;
       case "reset-password":
-        return <p>Password Reset Section...</p>;
+        return <PasswordReset />;
       case "about-us":
-        return <p>About Us Content...</p>;
+        return <AboutUs />;
       case "faq":
-        return <p>FAQ Content...</p>;
+        return <FAQ />;
       default:
         return (
           <>
@@ -91,6 +107,11 @@ const Home = () => {
         <nav>
           <ul style={styles.sidebarList}>
             <li style={styles.sidebarListItem}>
+              <button style={styles.link} onClick={() => setActiveSection("/")}>
+                Home
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
               <button
                 style={styles.link}
                 onClick={() => setActiveSection("subject-view")}
@@ -103,7 +124,7 @@ const Home = () => {
                 style={styles.link}
                 onClick={() => setActiveSection("resource-search")}
               >
-                Search Results
+                Search Resources
               </button>
             </li>
             <li style={styles.sidebarListItem}>
@@ -179,20 +200,7 @@ const Home = () => {
         <header style={styles.header}>
           <h1>Share2Teach</h1>
         </header>
-        <section style={styles.searchSection}>
-          <form onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search subjects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={styles.searchInput}
-            />
-            <button type="submit" style={styles.searchButton}>
-              Search
-            </button>
-          </form>
-        </section>
+
         <section style={styles.banner}>
           <div style={styles.bannerText}>
             {/* Render dynamic content here */}
