@@ -54,6 +54,8 @@ const Home = () => {
         return <Analytics />;
 	  case "moderate":
 		return <ModerationForm />;
+	  case "rate-resource":
+		return <RateResource/>;
       default:
         return (
           <>
@@ -146,6 +148,14 @@ const Home = () => {
                 onClick={() => setActiveSection("oer")}
               >
                 Other Useful OERs
+              </button>
+            </li>
+			<li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("rate-resource")}
+              >
+                Rate Resources
               </button>
             </li>
 			<li style={styles.sidebarListItem}>
