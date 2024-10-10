@@ -52,6 +52,8 @@ const Home = () => {
         return <Login />;
       case "analytics":
         return <Analytics />;
+	  case "moderate":
+		return <ModerationForm />;
       default:
         return (
           <>
@@ -145,6 +147,15 @@ const Home = () => {
               >
                 Other Useful OERs
               </button>
+            </li>
+			<li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("moderate")}
+              >
+                Moderate Resources
+              </button>
+			
             </li>
             <li style={styles.sidebarListItem}>
               <button

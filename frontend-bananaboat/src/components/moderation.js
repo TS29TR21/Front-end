@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 
 const ModerationForm = () => {
+  // Sample list of resources
+  const resources = [
+    { id: "1", name: "Resource One" },
+    { id: "2", name: "Resource Two" },
+    { id: "3", name: "Resource Three" },
+    { id: "4", name: "Resource Four" },
+  ];
+
   // State to hold form values
   const [formData, setFormData] = useState({
     source_id: "",
@@ -20,7 +28,6 @@ const ModerationForm = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logic to send data to the backend or perform an action
     console.log("Form submitted with data:", formData);
   };
 
@@ -33,16 +40,21 @@ const ModerationForm = () => {
       <form onSubmit={handleSubmit} action="resourceModeration" method="POST">
         <table border="1" style={{ margin: "auto" }}>
           <tbody>
-            {/* Resource ID Input */}
+            {/* Resource ID Dropdown */}
             <tr>
               <td>
-                <input
-                  type="text"
-                  placeholder="Resource ID"
+                <select
                   name="source_id"
                   value={formData.source_id}
                   onChange={handleInputChange}
-                />
+                >
+                  <option value="">Select Resource ID</option>
+                  {resources.map((resource) => (
+                    <option key={resource.id} value={resource.id}>
+                      {resource.name}
+                    </option>
+                  ))}
+                </select>
               </td>
             </tr>
 
