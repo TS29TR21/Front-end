@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const UpdateUserRole = () => {
-  const [userId, setUserId] = useState('');
-  const [role, setRole] = useState('adminUser');
+  const [userId, setUserId] = useState("");
+  const [role, setRole] = useState("adminUser");
 
   // Handle input changes
   const handleUserIdChange = (e) => setUserId(e.target.value);
@@ -18,67 +18,153 @@ const UpdateUserRole = () => {
     };
 
     try {
-      const response = await fetch('updateRole', {
-        method: 'POST',
+      const response = await fetch("updateRole", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': getCSRFToken(), // Adjust based on your CSRF token implementation
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCSRFToken(), // Adjust based on your CSRF token implementation
         },
         body: JSON.stringify(roleData),
       });
 
       if (response.ok) {
-        alert('User role updated successfully!');
-        // Optionally, clear the form or redirect
-        setUserId('');
-        setRole('adminUser'); // Reset to default role
+        alert("User role updated successfully!");
+        // Clear the form after successful submission
+        setUserId("");
+        setRole("adminUser");
       } else {
-        alert('Failed to update user role. Please try again.');
+        alert("Failed to update user role. Please try again.");
       }
     } catch (error) {
-      console.error('Error updating user role:', error);
-      alert('An error occurred while updating the user role.');
+      console.error("Error updating user role:", error);
+      alert("An error occurred while updating the user role.");
     }
   };
 
   // Example function to get CSRF token (customize as needed)
   const getCSRFToken = () => {
-    return document.cookie.split(';').find(item => item.trim().startsWith('csrftoken=')).split('=')[1];
+    return document.cookie
+      .split(";")
+      .find((item) => item.trim().startsWith("csrftoken="))
+      .split("=")[1];
   };
 
   return (
-    <div>
-      <header>
-        <center>This Update User Role page</center>
+    <div style={styles.container}>
+      <header style={styles.header}>
+        <h1>Update User Role</h1>
       </header>
-      <center>
-        <form onSubmit={handleSubmit}>
-          <p>
-            User ID:
+      <div style={styles.formContainer}>
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <div style={styles.formGroup}>
+            <label htmlFor="user_id" style={styles.label}>
+              User ID
+            </label>
             <input
               type="text"
-              placeholder="User ID"
+              id="user_id"
+              placeholder="Enter User ID"
               name="user_id"
               value={userId}
               onChange={handleUserIdChange}
+              style={styles.input}
             />
-          </p>
-          
-          <p>
-            Role:
-            <select id="user_role" name="role" value={role} onChange={handleRoleChange}>
+          </div>
+
+          <div style={styles.formGroup}>
+            <label htmlFor="user_role" style={styles.label}>
+              Role
+            </label>
+            <select
+              id="user_role"
+              name="role"
+              value={role}
+              onChange={handleRoleChange}
+              style={styles.select}
+            >
               <option value="adminUser">Admin</option>
               <option value="moderatorUser">Moderator</option>
               <option value="educatorUser">Educator</option>
             </select>
-          </p>
+          </div>
 
-          <br />
-          <input type="submit" name="Update" value="Update" />
+          <div style={styles.formGroup}>
+            <button type="submit" style={styles.submitButton}>
+              Update Role
+            </button>
+          </div>
         </form>
-      </center>
+      </div>
     </div>
   );
+};
+
+// Styling for the page
+const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh",
+    backgroundColor: "#f4f4f9",
+  },
+  header: {
+    textAlign: "center",
+    marginBottom: "20px",
+  },
+  formContainer: {
+    width: "100%",
+    maxWidth: "500px",
+    backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  formGroup: {
+    marginBottom: "20px",
+  },
+  label: {
+    marginBottom: "8px",
+    fontWeight: "bold",
+    fontSize: "14px",
+    color: "#333",
+  },
+  input: {
+    width: "100%",
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    fontSize: "14px",
+    transition: "border-color 0.3s",
+  },
+  inputFocus: {
+    borderColor: "#4CAF50",
+  },
+  select: {
+    width: "100%",
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    fontSize: "14px",
+  },
+  submitButton: {
+    padding: "10px 20px",
+    backgroundColor: "#4CAF50",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontSize: "16px",
+    transition: "background-color 0.3s",
+  },
+  submitButtonHover: {
+    backgroundColor: "#45A049",
+  },
 };
 
 export default UpdateUserRole;
