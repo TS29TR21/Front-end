@@ -1,34 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Contributors = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const [contributors, setContributors] = useState([]);
 
-  const contributors = [
-    {
-      name: "John Doe",
-      resources: [
-        "Resource 1 - Introduction to React",
-        "Resource 2 - Advanced JavaScript",
-        "Resource 3 - API Development with Node.js",
-      ],
-    },
-    {
-      name: "Jane Smith",
-      resources: [
-        "Resource 1 - Understanding CSS",
-        "Resource 2 - Frontend Performance Optimization",
-      ],
-    },
-    {
-      name: "Alice Johnson",
-      resources: [
-        "Resource 1 - Introduction to Python",
-        "Resource 2 - Data Analysis with Pandas",
-      ],
-    },
-    // Add more contributors as needed
-  ];
+  // Fetch contributors from the API when the component mounts
+  useEffect(() => {
+    const fetchContributors = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/user/deserial");
+        const data = await response.json();
+        // Map the data from the API to match the structure of the contributors
+        const formattedContributors = data.map(user => ({
+          name: `${user.first_name} ${user.last_name}`,
+          resources: user.groups, // Adjust this based on the actual structure of user data
+        }));
+        setContributors(formattedContributors);
+      } catch (error) {
+        console.error("Error fetching contributors:", error);
+      }
+    };
+
+    fetchContributors();
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
