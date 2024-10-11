@@ -8,7 +8,7 @@ const UpdateUserRole = () => {
   const handleUserIdChange = (e) => setUserId(e.target.value);
   const handleRoleChange = (e) => setRole(e.target.value);
 
-  // Handle form submission
+  // Handle form submission (PUT request)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -18,14 +18,17 @@ const UpdateUserRole = () => {
     };
 
     try {
-      const response = await fetch("updateRole", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCSRFToken(), // Adjust based on your CSRF token implementation
-        },
-        body: JSON.stringify(roleData),
-      });
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/user/deserial/${userId}/`,
+        {
+          method: "PUT", // Use PUT to update the user role
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(), // Adjust based on your CSRF token implementation
+          },
+          body: JSON.stringify(roleData),
+        }
+      );
 
       if (response.ok) {
         alert("User role updated successfully!");
@@ -33,7 +36,8 @@ const UpdateUserRole = () => {
         setUserId("");
         setRole("adminUser");
       } else {
-        alert("Failed to update user role. Please try again.");
+        const errorMessage = await response.json();
+        alert(`Failed to update user role. Error: ${errorMessage}`);
       }
     } catch (error) {
       console.error("Error updating user role:", error);
