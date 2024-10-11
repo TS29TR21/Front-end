@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const ResourceReport = () => {
   const [resourceId, setResourceId] = useState("");
   const [userId, setUserId] = useState("");
   const [reportComplaint, setReportComplaint] = useState("");
+  const [resources, setResources] = useState([]); // State to hold the fetched resources
+
+  // Fetch resource IDs from the API when the component mounts
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/resource/deserial"
+        ); // Update with your actual API endpoint
+        if (!response.ok) throw new Error("Failed to fetch resources");
+        const data = await response.json();
+        setResources(data); // Set fetched resources
+      } catch (error) {
+        console.error("Error fetching resources:", error);
+      }
+    };
+
+    fetchResources();
+  }, []);
 
   // Handle input changes
   const handleResourceIdChange = (e) => setResourceId(e.target.value);
@@ -15,23 +34,28 @@ const ResourceReport = () => {
     e.preventDefault();
 
     const reportData = {
-      resourceId,
-      userId,
-      reportComplaint,
+      resource_id: resourceId,
+      user_id: userId,
+      complaint: reportComplaint,
     };
 
     try {
-      const response = await fetch("resourceReport", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCSRFToken(), // Adjust based on your CSRF token implementation
-        },
-        body: JSON.stringify(reportData),
-      });
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/report/deserial",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reportData),
+        }
+      );
 
       if (response.ok) {
         alert("Report submitted successfully!");
+        setResourceId(""); // Clear form fields after successful submission
+        setUserId("");
+        setReportComplaint("");
       } else {
         alert("Failed to submit report. Please try again.");
       }
@@ -39,14 +63,6 @@ const ResourceReport = () => {
       console.error("Error submitting report:", error);
       alert("An error occurred while submitting the report.");
     }
-  };
-
-  // Example function to get CSRF token (customize as needed)
-  const getCSRFToken = () => {
-    return document.cookie
-      .split(";")
-      .find((item) => item.trim().startsWith("csrftoken="))
-      .split("=")[1];
   };
 
   return (
@@ -69,10 +85,11 @@ const ResourceReport = () => {
             style={styles.select}
           >
             <option value="">Select Resource ID</option>
-            <option value="1">Resource 1</option>
-            <option value="2">Resource 2</option>
-            <option value="3">Resource 3</option>
-            {/* Add more options as needed */}
+            {resources.map((resource) => (
+              <option key={resource.id} value={resource.id}>
+                {resource.id}
+              </option>
+            ))}
           </select>
         </div>
 
