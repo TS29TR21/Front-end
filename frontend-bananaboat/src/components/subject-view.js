@@ -1,26 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const SubjectView = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [allResources, setAllResources] = useState([]); // Store all resources
+  const [filteredSubjects, setFilteredSubjects] = useState([]); // Store filtered subjects
 
-  // Example subjects
-  const subjects = [
-    "Databases",
-    "Mathematics",
-    "Data Structures",
-    "Operating Systems",
-    "Cloud Computing",
-    "Cybersecurity",
-    "Software Engineering",
-    "Artificial Intelligence",
-    "Web Development",
-    "Machine Learning",
-  ];
+  // Fetch resources from the API on mount
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/resource/deserial"
+        ); // API endpoint
+        if (!response.ok) throw new Error("Failed to fetch resources");
+        const data = await response.json();
+        setAllResources(data); // Set the fetched resources
+        setFilteredSubjects(data.map((resource) => resource.subject)); // Initialize filtered subjects
+      } catch (error) {
+        console.error("Error fetching resources:", error);
+      }
+    };
 
-  // Filter subjects based on search query
-  const filteredSubjects = subjects.filter((subject) =>
-    subject.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    fetchResources();
+  }, []);
+
+  // Handle input changes
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    // Filter subjects based on the search input
+    const filtered = allResources
+      .map((resource) => resource.subject) // Extract subjects from resources
+      .filter((subject) => subject.toLowerCase().includes(value.toLowerCase())); // Filter subjects
+
+    setFilteredSubjects(filtered); // Update filtered subjects
+  };
 
   return (
     <div style={styles.pageContainer}>
@@ -31,13 +46,12 @@ const SubjectView = () => {
 
         {/* Search Section */}
         <section style={styles.searchSection}>
-          
           <input
             type="text"
-            placeholder="Search subjects (Databases, Math, etc.)..."
+            placeholder="Search subjects"
             style={styles.searchInput}
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
           />
         </section>
 
@@ -85,14 +99,6 @@ const styles = {
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
-  },
-  searchButton: {
-    padding: "10px 15px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
   },
   subjectsSection: {
     display: "grid",
