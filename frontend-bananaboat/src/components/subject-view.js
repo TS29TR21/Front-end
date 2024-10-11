@@ -1,11 +1,30 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Ensure you have react-router-dom installed
 
 const SubjectView = () => {
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Example subjects
+  const subjects = [
+    "Databases",
+    "Mathematics",
+    "Data Structures",
+    "Operating Systems",
+    "Cloud Computing",
+    "Cybersecurity",
+    "Software Engineering",
+    "Artificial Intelligence",
+    "Web Development",
+    "Machine Learning",
+  ];
+
+  // Filter subjects based on search query
+  const filteredSubjects = subjects.filter((subject) =>
+    subject.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const handleSearch = (e) => {
     e.preventDefault();
-    // Handle search logic here (e.g., filtering subjects)
+    // Handle search logic here
     console.log("Search query:", searchQuery);
   };
 
@@ -25,6 +44,20 @@ const SubjectView = () => {
           </button>
         </form>
       </section>
+
+      <section style={styles.subjectSection}>
+        {filteredSubjects.length > 0 ? (
+          <ul style={styles.subjectList}>
+            {filteredSubjects.map((subject, index) => (
+              <li key={index} style={styles.subjectItem}>
+                {subject}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p style={styles.noResults}>No subjects found.</p>
+        )}
+      </section>
     </div>
   );
 };
@@ -36,34 +69,6 @@ const styles = {
     backgroundColor: "#f0f0f0",
     minHeight: "100vh",
   },
-  navigation: {
-    marginBottom: "20px",
-  },
-  navList: {
-    listStyleType: "none",
-    padding: 0,
-    display: "flex",
-    gap: "15px",
-  },
-  navItem: {
-    display: "inline",
-  },
-  link: {
-    textDecoration: "none",
-    color: "#4CAF50",
-    fontWeight: "bold",
-    padding: "10px",
-    backgroundColor: "#fff",
-    borderRadius: "4px",
-    transition: "background-color 0.3s",
-  },
-  linkHover: {
-    backgroundColor: "#4CAF50",
-    color: "#fff",
-  },
-  content: {
-    marginTop: "20px",
-  },
   searchSection: {
     display: "flex",
     justifyContent: "center",
@@ -71,7 +76,7 @@ const styles = {
   },
   searchInput: {
     padding: "10px",
-    width: "250px", // Adjusted width for search input
+    width: "250px",
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
@@ -83,6 +88,26 @@ const styles = {
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
+  },
+  subjectSection: {
+    textAlign: "center",
+  },
+  subjectList: {
+    listStyleType: "none",
+    padding: 0,
+  },
+  subjectItem: {
+    backgroundColor: "#fff",
+    padding: "10px",
+    margin: "10px 0",
+    borderRadius: "4px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    fontSize: "18px",
+    color: "#333",
+  },
+  noResults: {
+    fontSize: "18px",
+    color: "#999",
   },
 };
 

@@ -54,10 +54,14 @@ const Home = () => {
         return <Login />;
       case "analytics":
         return <Analytics />;
-	  case "moderate":
-		return <ModerationForm />;
-	  case "rate-resource":
-		return <RateResource/>;
+      case "moderate":
+        return <ModerationForm />;
+      case "rate-resource":
+        return <RateResource />;
+      case "resource-report":
+        return <ResourceReport />;
+      case "update-user-role":
+        return <UpdateUserRole />;
       default:
         return (
           <>
@@ -152,7 +156,7 @@ const Home = () => {
                 Other Useful OERs
               </button>
             </li>
-			<li style={styles.sidebarListItem}>
+            <li style={styles.sidebarListItem}>
               <button
                 style={styles.link}
                 onClick={() => setActiveSection("rate-resource")}
@@ -160,14 +164,13 @@ const Home = () => {
                 Rate Resources
               </button>
             </li>
-			<li style={styles.sidebarListItem}>
+            <li style={styles.sidebarListItem}>
               <button
                 style={styles.link}
                 onClick={() => setActiveSection("moderate")}
               >
                 Moderate Resources
               </button>
-			
             </li>
             <li style={styles.sidebarListItem}>
               <button
@@ -207,7 +210,7 @@ const Home = () => {
                 onClick={() => setActiveSection("reset-password")}
               >
                 Password Reset
-                </button>
+              </button>
             </li>
             <li style={styles.sidebarListItem}>
               <button
@@ -241,6 +244,22 @@ const Home = () => {
                 FAQ
               </button>
             </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("resource-report")}
+              >
+                Resource Report
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("update-user-role")}
+              >
+                Update User Role
+              </button>
+            </li>
           </ul>
         </nav>
       </aside>
@@ -252,9 +271,7 @@ const Home = () => {
         </header>
 
         <section style={styles.banner}>
-          <div style={styles.bannerText}>
-            {renderSectionContent()}
-          </div>
+          <div style={styles.bannerText}>{renderSectionContent()}</div>
         </section>
       </main>
     </div>
