@@ -22,52 +22,57 @@ const SubjectView = () => {
     subject.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Handle search logic here
-    console.log("Search query:", searchQuery);
-  };
-
   return (
-    <div style={styles.container}>
-      <section style={styles.searchSection}>
-        <form onSubmit={handleSearch}>
+    <div style={styles.pageContainer}>
+      <main style={styles.mainContent}>
+        <header style={styles.header}>
+          <h1>Subject View</h1>
+        </header>
+
+        {/* Search Section */}
+        <section style={styles.searchSection}>
+          
           <input
             type="text"
             placeholder="Search subjects (Databases, Math, etc.)..."
+            style={styles.searchInput}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={styles.searchInput}
           />
-          <button type="submit" style={styles.searchButton}>
-            Search
-          </button>
-        </form>
-      </section>
+        </section>
 
-      <section style={styles.subjectSection}>
-        {filteredSubjects.length > 0 ? (
-          <ul style={styles.subjectList}>
-            {filteredSubjects.map((subject, index) => (
-              <li key={index} style={styles.subjectItem}>
-                {subject}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p style={styles.noResults}>No subjects found.</p>
-        )}
-      </section>
+        {/* Subjects Section */}
+        <section style={styles.subjectsSection}>
+          {filteredSubjects.length > 0 ? (
+            filteredSubjects.map((subject, index) => (
+              <div key={index} style={styles.subjectCard}>
+                <h2>{subject}</h2>
+              </div>
+            ))
+          ) : (
+            <p style={styles.noResults}>No subjects found.</p>
+          )}
+        </section>
+      </main>
     </div>
   );
 };
 
-// Styles for the component
+// Styles for the page
 const styles = {
-  container: {
+  pageContainer: {
+    display: "flex",
+    height: "100vh",
+  },
+  mainContent: {
+    flex: 1,
     padding: "20px",
-    backgroundColor: "#f0f0f0",
-    minHeight: "100vh",
+    backgroundColor: "#f4f4f4",
+    overflowY: "auto",
+  },
+  header: {
+    textAlign: "center",
+    paddingBottom: "20px",
   },
   searchSection: {
     display: "flex",
@@ -89,23 +94,19 @@ const styles = {
     borderRadius: "4px",
     cursor: "pointer",
   },
-  subjectSection: {
+  subjectsSection: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "20px",
+  },
+  subjectCard: {
+    backgroundColor: "#e4e4e4",
+    padding: "20px",
+    borderRadius: "8px",
     textAlign: "center",
   },
-  subjectList: {
-    listStyleType: "none",
-    padding: 0,
-  },
-  subjectItem: {
-    backgroundColor: "#fff",
-    padding: "10px",
-    margin: "10px 0",
-    borderRadius: "4px",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-    fontSize: "18px",
-    color: "#333",
-  },
   noResults: {
+    textAlign: "center",
     fontSize: "18px",
     color: "#999",
   },
