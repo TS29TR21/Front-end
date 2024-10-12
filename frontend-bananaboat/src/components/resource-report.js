@@ -14,7 +14,7 @@ const ResourceReport = () => {
       setIsLoading(true); // Start loading
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/api/report/deserial"
+          "http://127.0.0.1:8000/api/resource/deserial"
         ); // Update with your actual API endpoint
         if (!response.ok) throw new Error("Failed to fetch resources");
         const data = await response.json();
