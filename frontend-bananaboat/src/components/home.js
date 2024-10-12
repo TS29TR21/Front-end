@@ -6,6 +6,7 @@ import NewPassword from "./new-password.js";
 import RateResource from "./rate-resource.js";
 import Register from "./register.js";
 import PasswordReset from "./reset-password.js";
+import VerificationCode from "./verifiaction-code.js";
 import ResourceReport from "./resource-report.js";
 import UpdateUserRole from "./update-user-role.js";
 import UploadTaggingResource from "./file-upload-tagging.js";
@@ -46,6 +47,8 @@ const Home = () => {
         return <PasswordReset />;
       case "new-password":
         return <NewPassword />;
+      case "verification-code":
+        return <VerificationCode />;
       case "about-us":
         return <AboutUs />;
       case "faq":
@@ -176,6 +179,14 @@ const Home = () => {
                 onClick={() => setActiveSection("new-password")}
               >
                 New Reset
+              </button>
+            </li>
+            <li style={styles.sidebarListItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("verification-code")}
+              >
+                Verification Code
               </button>
             </li>
             <li style={styles.sidebarListItem}>

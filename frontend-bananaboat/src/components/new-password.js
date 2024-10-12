@@ -1,10 +1,23 @@
 import React, { useState } from "react";
 
+// Utility function to get the CSRF token from the cookie
+const getCSRFToken = () => {
+  let csrfToken = null;
+  const cookies = document.cookie.split(';');
+  cookies.forEach(cookie => {
+    if (cookie.trim().startsWith('csrftoken=')) {
+      csrfToken = cookie.split('=')[1];
+    }
+  });
+  return csrfToken;
+};
+
 // New Password Component
 const NewPassword = ({ email }) => {
-  // State to hold password values
+  // State to hold password values and messages
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState(""); // For displaying success/error messages
 
   // Handle password changes
   const handleNewPasswordChange = (e) => {
@@ -16,29 +29,52 @@ const NewPassword = ({ email }) => {
   };
 
   // Handle form submission for password change
-  const handleChangePasswordSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Logic to handle password change
+
+    if (!newPassword || !confirmPassword) {
+      alert("Please fill in both password fields.");
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
 
-    console.log("Change Password submitted with:", {
-      email,
-      newPassword,
-      confirmPassword,
-    });
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/newPassword/deserial', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken(), // CSRF protection
+        },
+        body: JSON.stringify({ email, newPassword }),
+      });
 
-    // Add your API call logic here to change the password
+      if (response.ok) {
+        setMessage('Password has been updated successfully!');
+        // Redirect to the login page after successful password reset
+        window.location.href = '/login';
+      } else {
+        const data = await response.json();
+        setMessage(data.error || 'Failed to update password. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating password:', error);
+      setMessage('An error occurred while updating the password.');
+    }
   };
 
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Change Password</h1>
 
+      {/* Display success or error message */}
+      {message && <p>{message}</p>}
+
       {/* Change Password Form */}
-      <form onSubmit={handleChangePasswordSubmit} style={styles.form}>
+      <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.inputGroup}>
           <input
             type="password"
@@ -97,13 +133,6 @@ const styles = {
     padding: '10px',
     backgroundColor: '#4CAF50',
     color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-  backButton: {
-    padding: '10px',
-    backgroundColor: '#ccc',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
