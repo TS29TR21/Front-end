@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 const Register = () => {
   // State variables for form fields
   const [formData, setFormData] = useState({
-    firstname: '',
-    lastname: '',
+    first_name: '',
+    last_name: '',
     username: '',
     email: '',
     password: '',
@@ -39,7 +39,6 @@ const Register = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': getCSRFToken(), // Adjust based on your CSRF token implementation
         },
         body: JSON.stringify(formData),
       });
@@ -58,11 +57,6 @@ const Register = () => {
     }
   };
 
-  // Example function to get CSRF token (customize as needed)
-  const getCSRFToken = () => {
-    return document.cookie.split(';').find(item => item.trim().startsWith('csrftoken=')).split('=')[1];
-  };
-
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Register</h1>
@@ -72,16 +66,16 @@ const Register = () => {
           <input
             type="text"
             placeholder="First Name"
-            name="firstname"
-            value={formData.firstname}
+            name="first_name"
+            value={formData.first_name}
             onChange={handleInputChange}
             style={styles.input}
           />
           <input
             type="text"
             placeholder="Last Name"
-            name="lastname"
-            value={formData.lastname}
+            name="last_name"
+            value={formData.last_name}
             onChange={handleInputChange}
             style={styles.input}
           />
