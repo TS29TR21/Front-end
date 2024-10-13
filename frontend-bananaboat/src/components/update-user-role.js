@@ -1,14 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const UpdateUserRole = () => {
   const [userId, setUserId] = useState("");
   const [role, setRole] = useState("adminUser");
+  const [users, setUsers] = useState([]); // State to hold the list of users
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [error, setError] = useState(null); // Error state
+
+  // Fetch user list from the API when the component mounts
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/user/deserial"); // Update with your actual API endpoint
+        if (!response.ok) throw new Error("Failed to fetch users");
+        const data = await response.json();
+        setUsers(data); // Set fetched users
+        setError(null); // Clear any previous errors
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        setError("Could not load users. Please try again later.");
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   // Handle input changes
   const handleUserIdChange = (e) => setUserId(e.target.value);
   const handleRoleChange = (e) => setRole(e.target.value);
 
-  // Handle form submission
+  // Handle form submission (PUT request)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -18,8 +42,8 @@ const UpdateUserRole = () => {
     };
 
     try {
-      const response = await fetch("updateRole", {
-        method: "POST",
+      const response = await fetch(`http://127.0.0.1:8000/api/user/deserial`, {
+        method: "PUT", // Use PUT to update the user role
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": getCSRFToken(), // Adjust based on your CSRF token implementation
@@ -33,7 +57,8 @@ const UpdateUserRole = () => {
         setUserId("");
         setRole("adminUser");
       } else {
-        alert("Failed to update user role. Please try again.");
+        const errorMessage = await response.json();
+        alert(`Failed to update user role. Error: ${errorMessage.message}`);
       }
     } catch (error) {
       console.error("Error updating user role:", error);
@@ -55,45 +80,56 @@ const UpdateUserRole = () => {
         <h1>Update User Role</h1>
       </header>
       <div style={styles.formContainer}>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <div style={styles.formGroup}>
-            <label htmlFor="user_id" style={styles.label}>
-              User ID
-            </label>
-            <input
-              type="text"
-              id="user_id"
-              placeholder="Enter User ID"
-              name="user_id"
-              value={userId}
-              onChange={handleUserIdChange}
-              style={styles.input}
-            />
-          </div>
+        {isLoading ? (
+          <p>Loading users...</p>
+        ) : error ? (
+          <p style={styles.error}>{error}</p>
+        ) : (
+          <form onSubmit={handleSubmit} style={styles.form}>
+            <div style={styles.formGroup}>
+              <label htmlFor="user_id" style={styles.label}>
+                User ID
+              </label>
+              <select
+                id="user_id"
+                name="user_id"
+                value={userId}
+                onChange={handleUserIdChange}
+                style={styles.select}
+              >
+                <option value="">Select User ID</option>
+                {users.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.id} - {user.username}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div style={styles.formGroup}>
-            <label htmlFor="user_role" style={styles.label}>
-              Role
-            </label>
-            <select
-              id="user_role"
-              name="role"
-              value={role}
-              onChange={handleRoleChange}
-              style={styles.select}
-            >
-              <option value="adminUser">Admin</option>
-              <option value="moderatorUser">Moderator</option>
-              <option value="educatorUser">Educator</option>
-            </select>
-          </div>
+            <div style={styles.formGroup}>
+              <label htmlFor="user_role" style={styles.label}>
+                Role
+              </label>
+              <select
+                id="user_role"
+                name="role"
+                value={role}
+                onChange={handleRoleChange}
+                style={styles.select}
+              >
+                <option value="adminUser">Admin</option>
+                <option value="moderatorUser">Moderator</option>
+                <option value="educatorUser">Educator</option>
+              </select>
+            </div>
 
-          <div style={styles.formGroup}>
-            <button type="submit" style={styles.submitButton}>
-              Update Role
-            </button>
-          </div>
-        </form>
+            <div style={styles.formGroup}>
+              <button type="submit" style={styles.submitButton}>
+                Update Role
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
@@ -134,17 +170,6 @@ const styles = {
     fontSize: "14px",
     color: "#333",
   },
-  input: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    fontSize: "14px",
-    transition: "border-color 0.3s",
-  },
-  inputFocus: {
-    borderColor: "#4CAF50",
-  },
   select: {
     width: "100%",
     padding: "10px",
@@ -162,8 +187,9 @@ const styles = {
     fontSize: "16px",
     transition: "background-color 0.3s",
   },
-  submitButtonHover: {
-    backgroundColor: "#45A049",
+  error: {
+    color: "red",
+    textAlign: "center",
   },
 };
 

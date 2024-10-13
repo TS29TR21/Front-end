@@ -254,6 +254,7 @@ const styles = {
     height: "100vh",
     width: "100vw", // Ensures full width
     margin: 0, // Removes any default margin
+    overflow: "hidden", // Prevents scrolling of the main container
   },
   sidebar: {
     width: "200px",
@@ -261,9 +262,12 @@ const styles = {
     padding: "10px",
     color: "white",
     height: "100vh", // Ensures the sidebar takes full height
+    overflowY: "auto", // Makes the sidebar scrollable
   },
   mainContent: {
     flex: 1,
+    display: "flex",
+    flexDirection: "column", // To align header and section vertically
     padding: "20px",
     backgroundColor: "#f4f4f4",
     overflowY: "auto",
@@ -290,23 +294,22 @@ const styles = {
   header: {
     textAlign: "center",
     paddingBottom: "20px",
+    flex: "none", // Ensures header does not take up too much space
   },
   banner: {
-    /*display: "flex",
+    flex: "1", // Ensures banner grows to fill remaining space
+    display: "flex",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#e4e4e4",
     padding: "20px",
     border: "1px solid #ccc",
     borderRadius: "8px",
-    marginBottom: "30px",*/
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-    padding: "20px",
-    backgroundColor: "white",
+    marginBottom: "30px",
   },
   bannerText: {
     textAlign: "left",
+    width: "100%",
   },
 };
 
