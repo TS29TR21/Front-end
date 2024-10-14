@@ -4,21 +4,27 @@ const Contributors = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [contributors, setContributors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Fetch contributors from the API when the component mounts
   useEffect(() => {
     const fetchContributors = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/user/deserial");
+        const response = await fetch("http://127.0.0.1:8000/api/contributors"); // Ensure this endpoint filters users correctly
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
         const data = await response.json();
-        // Map the data from the API to match the structure of the contributors
         const formattedContributors = data.map(user => ({
           name: `${user.first_name} ${user.last_name}`,
-          resources: user.groups, // Adjust this based on the actual structure of user data
+          resources: user.groups || [], // Fallback to an empty array if no groups
         }));
         setContributors(formattedContributors);
       } catch (error) {
-        console.error("Error fetching contributors:", error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,9 +40,16 @@ const Contributors = () => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
+  if (loading) {
+    return <p>Loading contributors...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading contributors: {error}</p>;
+  }
+
   return (
     <div style={styles.pageContainer}>
-      {/* Main Content */}
       <main style={styles.mainContent}>
         <header style={styles.header}>
           <h1>Contributors</h1>

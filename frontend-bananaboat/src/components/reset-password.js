@@ -1,52 +1,46 @@
 import React, { useState } from 'react';
 
-// Password Reset Component
 const PasswordReset = () => {
   const [email, setEmail] = useState('');
-
-  // Handle input change
+  const [message, setMessage] = useState('');
+  
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  // Handle form submission for password reset
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Perform form validation (e.g., check for empty email)
+  
     if (!email) {
       alert("Please enter your email.");
       return;
     }
-
+  
     try {
-      const response = await fetch('resetPassword', {
+      const response = await fetch('http://127.0.0.1:8000/api/resetPassword/deserial', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': getCSRFToken(), // Adjust based on your CSRF token implementation
+          'X-CSRFToken': getCSRFToken(), // CSRF protection
         },
         body: JSON.stringify({ email }),
       });
-
+  
       if (response.ok) {
-        alert('A reset code has been sent to your email.');
-        // Optionally, redirect or reset form if necessary
+        setMessage('A reset code has been sent to your email.');
       } else {
-        alert('Failed to send reset code. Please try again.');
+        const data = await response.json();
+        setMessage(data.error || 'Failed to send reset code. Please try again.');
       }
     } catch (error) {
       console.error('Error during password reset:', error);
-      alert('An error occurred while sending the reset code.');
+      setMessage('An error occurred while sending the reset code.');
     }
   };
 
-  // Function to get CSRF token
   const getCSRFToken = () => {
-    return document.cookie
-      .split('; ')
-      .find(item => item.startsWith('csrftoken='))
-      ?.split('=')[1];
+    // Logic to retrieve CSRF token (if necessary for your app)
+    return document.cookie.split('=')[1]; // Simplified example
   };
 
   return (
@@ -55,25 +49,24 @@ const PasswordReset = () => {
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.inputGroup}>
           <input
-            type="text"
-            placeholder="Email"
-            name="email"
+            type="email"
+            placeholder="Enter your email"
             value={email}
             onChange={handleEmailChange}
             required
             style={styles.input}
           />
         </div>
-        <button type="submit" style={styles.submitButton}>Get Code</button>
+        <button type="submit" style={styles.submitButton}>Send Reset Code</button>
       </form>
+      {message && <p style={styles.message}>{message}</p>}
     </div>
   );
 };
 
-// Styles for the component
 const styles = {
   container: {
-    maxWidth: '900px', // Increased width for more horizontal space
+    maxWidth: '500px',
     margin: 'auto',
     padding: '20px',
     backgroundColor: '#f9f9f9',
@@ -89,13 +82,13 @@ const styles = {
     flexDirection: 'column',
   },
   inputGroup: {
-    marginBottom: '15px', // Margin between input groups
+    marginBottom: '15px',
   },
   input: {
     padding: '10px',
     borderRadius: '4px',
     border: '1px solid #ccc',
-    width: '100%', // Full width for the input
+    width: '100%',
   },
   submitButton: {
     padding: '10px',
@@ -104,6 +97,11 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+  },
+  message: {
+    marginTop: '15px',
+    textAlign: 'center',
+    color: '#ff0000',
   },
 };
 

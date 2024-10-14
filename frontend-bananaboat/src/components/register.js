@@ -4,13 +4,16 @@ import React, { useState } from 'react';
 const Register = () => {
   // State variables for form fields
   const [formData, setFormData] = useState({
-    firstname: '',
-    lastname: '',
+    first_name: '',
+    last_name: '',
     username: '',
     email: '',
     password: '',
     confirmpassword: '',
   });
+
+  // State variable for messages (optional)
+  const [message, setMessage] = useState('');
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -32,50 +35,47 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch('register', {
+      const response = await fetch('http://127.0.0.1:8000/api/user/deserial', { // Adjust the URL as needed
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': getCSRFToken(), // Adjust based on your CSRF token implementation
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        alert('Registration successful!');
-        // Redirect or reset form if necessary
+        const data = await response.json(); // Parse JSON response
+        setMessage('Registration successful! Please log in.');
+        // Optionally, redirect to a login page or reset the form
       } else {
-        alert('Registration failed. Please try again.');
+        const data = await response.json(); // Parse JSON error response
+        setMessage(data.error || 'Registration failed. Please try again.');
       }
     } catch (error) {
       console.error('Error during registration:', error);
-      alert('An error occurred while registering.');
+      setMessage('An error occurred while registering.');
     }
-  };
-
-  // Example function to get CSRF token (customize as needed)
-  const getCSRFToken = () => {
-    return document.cookie.split(';').find(item => item.trim().startsWith('csrftoken=')).split('=')[1];
   };
 
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Register</h1>
+      {message && <p style={styles.message}>{message}</p>} {/* Display messages */}
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.inputGroup}>
           <input
             type="text"
             placeholder="First Name"
-            name="firstname"
-            value={formData.firstname}
+            name="first_name"
+            value={formData.first_name}
             onChange={handleInputChange}
             style={styles.input}
           />
           <input
             type="text"
             placeholder="Last Name"
-            name="lastname"
-            value={formData.lastname}
+            name="last_name"
+            value={formData.last_name}
             onChange={handleInputChange}
             style={styles.input}
           />
@@ -125,7 +125,7 @@ const Register = () => {
 // Styles for the component
 const styles = {
   container: {
-    maxWidth: '900px', // Increased width for more horizontal space
+    maxWidth: '900px',
     margin: 'auto',
     padding: '20px',
     backgroundColor: '#f9f9f9',
@@ -143,13 +143,13 @@ const styles = {
   inputGroup: {
     display: 'flex',
     justifyContent: 'space-between',
-    marginBottom: '15px', // Margin between input groups
+    marginBottom: '15px',
   },
   input: {
     padding: '10px',
     borderRadius: '4px',
     border: '1px solid #ccc',
-    width: '48%', // Reduced width to allow two inputs side by side
+    width: '48%',
   },
   submitButton: {
     padding: '10px',
@@ -158,6 +158,11 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+  },
+  message: {
+    color: 'red',
+    textAlign: 'center',
+    marginBottom: '20px',
   },
 };
 
