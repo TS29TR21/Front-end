@@ -1,14 +1,15 @@
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 
 const AboutUs = () => {
   return (
-    <div style={styles.pageContainer}>
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
+    <div className="container my-5">
+      <main className="bg-white p-4 rounded shadow">
+        <header className="text-center mb-4">
           <h1>About Us</h1>
         </header>
 
-        <section style={styles.section}>
+        <section className="mb-4">
           <h2>Overview</h2>
           <p>
             Share2Teach is an open educational resource (OER) project dedicated
@@ -23,7 +24,7 @@ const AboutUs = () => {
           </p>
         </section>
 
-        <section style={styles.section}>
+        <section className="mb-4">
           <h2>Who We Are</h2>
           <p>
             We are a passionate team dedicated to making learning accessible to
@@ -31,7 +32,7 @@ const AboutUs = () => {
           </p>
         </section>
 
-        <section style={styles.section}>
+        <section className="mb-4">
           <h2>Mission Statement</h2>
           <p>
             Our mission is to empower learners through innovative and accessible
@@ -39,9 +40,9 @@ const AboutUs = () => {
           </p>
         </section>
 
-        <section style={styles.section}>
+        <section className="mb-4">
           <h2>Core Values</h2>
-          <ul>
+          <ul className="list-unstyled">
             <li>
               <strong>Accessibility:</strong> Removing barriers to education.
             </li>
@@ -60,9 +61,9 @@ const AboutUs = () => {
           </ul>
         </section>
 
-        <section style={styles.section}>
+        <section className="mb-4">
           <h2>Meet Our Team</h2>
-          <ul>
+          <ul className="list-unstyled">
             <li>
               <strong>Tendabono Sinthumule:</strong> Software Developer
             </li>
@@ -77,35 +78,6 @@ const AboutUs = () => {
       </main>
     </div>
   );
-};
-
-const styles = {
-  pageContainer: {
-    display: "flex",
-    justifyContent: "center",
-    padding: "20px",
-  },
-  mainContent: {
-    width: "80%",
-    backgroundColor: "#fff",
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  },
-  header: {
-    textAlign: "center",
-    marginBottom: "20px",
-  },
-  section: {
-    marginBottom: "20px",
-  },
-  ul: {
-    listStyle: "none",
-    paddingLeft: "0",
-  },
-  li: {
-    marginBottom: "10px",
-  },
 };
 
 export default AboutUs;

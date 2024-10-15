@@ -87,7 +87,9 @@ const Home = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", bgcolor: "#e8f5e9" }}>
+    <Box sx={{ display: "flex", height: "100vh", bgcolor: "#E3F2FD" }}>
+      {" "}
+      {/* Light professional blue */}
       {/* Sidebar Drawer */}
       <Drawer
         variant="temporary" // Use 'temporary' for mobile view
@@ -140,7 +142,6 @@ const Home = () => {
           ))}
         </List>
       </Drawer>
-
       {/* Main Content */}
       <Box
         sx={{
@@ -165,6 +166,15 @@ const Home = () => {
           </Toolbar>
         </AppBar>
         <Container sx={{ padding: 2, overflowY: "auto" }}>
+          {/* Image with Share2Teach Text */}
+          <div className="text-center mb-4">
+            <img
+              src="https://services.nwu.ac.za/sites/services.nwu.ac.za/files/files/designs-branding/NWU-Stacked-Logo-Black-Digital.png" // Change this path to your image location
+              alt="Share2Teach"
+              className="img-fluid"
+              width={50} // Bootstrap class for responsive image
+            />
+          </div>
           <Box
             sx={{
               padding: 2,
