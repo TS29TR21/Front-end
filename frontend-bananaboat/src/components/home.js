@@ -99,6 +99,7 @@ const Home = () => {
             width: 240,
             bgcolor: "#2c7b2f", // Green background for sidebar
             color: "white",
+            transition: "all 0.3s ease-in-out", // Smooth opening/closing effect
           },
         }}
       >
@@ -127,6 +128,12 @@ const Home = () => {
               button
               key={text}
               onClick={() => handleItemClick(section)}
+              sx={{
+                "&:hover": {
+                  bgcolor: "#388e3c", // Hover effect for sidebar items
+                  transition: "background-color 0.3s ease",
+                },
+              }}
             >
               <ListItemText primary={text} />
             </ListItem>
@@ -138,7 +145,7 @@ const Home = () => {
       <Box
         sx={{
           flexGrow: 1,
-          transition: "margin-left 0.3s",
+          transition: "margin-left 0.3s, transform 0.3s ease", // Smooth transition when sidebar opens/closes
           marginLeft: sidebarOpen ? "240px" : "0",
         }}
       >
@@ -158,7 +165,18 @@ const Home = () => {
           </Toolbar>
         </AppBar>
         <Container sx={{ padding: 2, overflowY: "auto" }}>
-          <Box sx={{ padding: 2, bgcolor: "#ffffff", borderRadius: 2 }}>
+          <Box
+            sx={{
+              padding: 2,
+              bgcolor: "#ffffff",
+              borderRadius: 2,
+              animation: "fadeIn 0.5s ease", // Animation when content changes
+              "@keyframes fadeIn": {
+                "0%": { opacity: 0 },
+                "100%": { opacity: 1 },
+              },
+            }}
+          >
             {renderSectionContent()}
           </Box>
         </Container>

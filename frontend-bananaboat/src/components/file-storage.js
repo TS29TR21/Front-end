@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const FileStorage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -10,18 +10,18 @@ const FileStorage = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('upload_file', selectedFile);
+    formData.append("upload_file", selectedFile);
 
-    fetch('/fileStorage', {
-      method: 'POST',
+    fetch("/fileStorage", {
+      method: "POST",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('File uploaded successfully', data);
+        console.log("File uploaded successfully", data);
       })
       .catch((error) => {
-        console.error('Error uploading file:', error);
+        console.error("Error uploading file:", error);
       });
   };
 
@@ -37,7 +37,11 @@ const FileStorage = () => {
           <tbody>
             <tr>
               <td>
-                <input type="file" name="upload_file" onChange={handleFileChange} />
+                <input
+                  type="file"
+                  name="upload_file"
+                  onChange={handleFileChange}
+                />
               </td>
             </tr>
             <tr>

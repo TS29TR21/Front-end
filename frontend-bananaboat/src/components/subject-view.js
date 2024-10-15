@@ -80,6 +80,8 @@ const styles = {
   },
   mainContent: {
     flex: 1,
+    display: "flex",
+    flexDirection: "column",
     padding: "20px",
     backgroundColor: "#f4f4f4",
     overflowY: "auto",
@@ -104,6 +106,7 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gap: "20px",
+    flexGrow: 1, // This ensures that the subject cards section grows and fills the remaining space
   },
   subjectCard: {
     backgroundColor: "#e4e4e4",

@@ -16,7 +16,7 @@ const Contributors = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        const formattedContributors = data.map(user => ({
+        const formattedContributors = data.map((user) => ({
           name: `${user.first_name} ${user.last_name}`,
           resources: user.groups || [], // Fallback to an empty array if no groups
         }));
@@ -64,18 +64,23 @@ const Contributors = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button type="submit" style={styles.searchButton}>Search</button>
+            <button type="submit" style={styles.searchButton}>
+              Search
+            </button>
           </form>
         </div>
 
         <div style={styles.contributorList}>
           {contributors
-            .filter(contributor =>
+            .filter((contributor) =>
               contributor.name.toLowerCase().includes(searchQuery.toLowerCase())
             )
             .map((contributor, index) => (
               <div key={index} style={styles.contributorItem}>
-                <h3 onClick={() => toggleExpand(index)} style={styles.contributorName}>
+                <h3
+                  onClick={() => toggleExpand(index)}
+                  style={styles.contributorName}
+                >
                   {contributor.name}
                 </h3>
                 {expandedIndex === index && (
