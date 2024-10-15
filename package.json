@@ -1,6 +1,12 @@
 {
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "bootstrap-icons": "^1.11.3"
+    "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.4.5",
+    "react-chartist": "^0.14.3",
+    "react-chartjs-2": "^5.2.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3"
   }
 }

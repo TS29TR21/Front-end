@@ -8,10 +8,12 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Container,
+  Container as MuiContainer,
   IconButton,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu"; // Icon for the menu button
+import MenuIcon from "@mui/icons-material/Menu";
+import ChartistGraph from "react-chartist"; // Importing ChartistGraph for the charts
+import { Card, Row, Col } from "react-bootstrap"; // Importing Bootstrap components for layout and styling
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
 import ModerationForm from "./moderation.js";
@@ -33,11 +35,126 @@ import Analytics from "./analytics.js";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("overview");
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Initially closed
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Search query:", searchQuery);
+  };
+
+  const renderDashboardContent = () => {
+    return (
+      <>
+        <MuiContainer fluid>
+          <Row>
+            <Col lg="3" sm="6">
+              <Card className="card-stats">
+                <Card.Body>
+                  <Row>
+                    <Col xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-light-3 text-success"></i>
+                      </div>
+                    </Col>
+                    <Col xs="7">
+                      <div className="numbers">
+                        <p className="card-category">Revenue</p>
+                        <Card.Title as="h4">$ 1,345</Card.Title>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          {/* Additional Dashboard components like charts */}
+          <Row>
+            <Col md="8">
+              <Card>
+                <Card.Header>
+                  <Card.Title as="h4">Users Behavior</Card.Title>
+                  <p className="card-category">24 Hours performance</p>
+                </Card.Header>
+                <Card.Body>
+                  <div className="ct-chart" id="chartHours">
+                    <ChartistGraph
+                      data={{
+                        labels: [
+                          "9:00AM",
+                          "12:00AM",
+                          "3:00PM",
+                          "6:00PM",
+                          "9:00PM",
+                          "12:00PM",
+                          "3:00AM",
+                          "6:00AM",
+                        ],
+                        series: [
+                          [287, 385, 490, 492, 554, 586, 698, 695],
+                          [67, 152, 143, 240, 287, 335, 435, 437],
+                          [23, 113, 67, 108, 190, 239, 307, 308],
+                        ],
+                      }}
+                      type="Line"
+                      options={{
+                        low: 0,
+                        high: 800,
+                        showArea: false,
+                        height: "245px",
+                        axisX: {
+                          showGrid: false,
+                        },
+                        lineSmooth: true,
+                        showLine: true,
+                        showPoint: true,
+                        fullWidth: true,
+                        chartPadding: {
+                          right: 50,
+                        },
+                      }}
+                      responsiveOptions={[
+                        [
+                          "screen and (max-width: 640px)",
+                          {
+                            axisX: {
+                              labelInterpolationFnc: function (value) {
+                                return value[0];
+                              },
+                            },
+                          },
+                        ],
+                      ]}
+                    />
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md="4">
+              <Card>
+                <Card.Header>
+                  <Card.Title as="h4">Email Statistics</Card.Title>
+                  <p className="card-category">Last Campaign Performance</p>
+                </Card.Header>
+                <Card.Body>
+                  <div
+                    className="ct-chart ct-perfect-fourth"
+                    id="chartPreferences"
+                  >
+                    <ChartistGraph
+                      data={{
+                        labels: ["40%", "20%", "40%"],
+                        series: [40, 20, 40],
+                      }}
+                      type="Pie"
+                    />
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </MuiContainer>
+      </>
+    );
   };
 
   const renderSectionContent = () => {
@@ -76,6 +193,8 @@ const Home = () => {
         return <ResourceReport />;
       case "update-user-role":
         return <UpdateUserRole />;
+      case "dashboard": // Case for rendering the dashboard
+        return renderDashboardContent();
       default:
         return <Typography variant="h5">Welcome to Share2Teach</Typography>;
     }
@@ -83,25 +202,23 @@ const Home = () => {
 
   const handleItemClick = (section) => {
     setActiveSection(section);
-    setSidebarOpen(false); // Close sidebar when an item is clicked
+    setSidebarOpen(false);
   };
 
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#E3F2FD" }}>
-      {" "}
-      {/* Light professional blue */}
       {/* Sidebar Drawer */}
       <Drawer
-        variant="temporary" // Use 'temporary' for mobile view
+        variant="temporary"
         anchor="left"
         open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)} // Close drawer when clicking outside
+        onClose={() => setSidebarOpen(false)}
         sx={{
           "& .MuiDrawer-paper": {
             width: 240,
-            bgcolor: "#2c7b2f", // Green background for sidebar
+            bgcolor: "#2c7b2f",
             color: "white",
-            transition: "all 0.3s ease-in-out", // Smooth opening/closing effect
+            transition: "all 0.3s ease-in-out",
           },
         }}
       >
@@ -111,6 +228,7 @@ const Home = () => {
             { text: "Subject View", section: "subject-view" },
             { text: "Search Resources", section: "resource-search" },
             { text: "Contribute", section: "file-upload" },
+            { text: "Dashboard", section: "dashboard" }, // Add "Dashboard" to the menu
             { text: "Other Useful OERs", section: "oer" },
             { text: "Rate Resources", section: "rate-resource" },
             { text: "Moderate Resources", section: "moderate" },
@@ -132,7 +250,7 @@ const Home = () => {
               onClick={() => handleItemClick(section)}
               sx={{
                 "&:hover": {
-                  bgcolor: "#388e3c", // Hover effect for sidebar items
+                  bgcolor: "#388e3c",
                   transition: "background-color 0.3s ease",
                 },
               }}
@@ -146,7 +264,7 @@ const Home = () => {
       <Box
         sx={{
           flexGrow: 1,
-          transition: "margin-left 0.3s, transform 0.3s ease", // Smooth transition when sidebar opens/closes
+          transition: "margin-left 0.3s, transform 0.3s ease",
           marginLeft: sidebarOpen ? "240px" : "0",
         }}
       >
@@ -156,7 +274,7 @@ const Home = () => {
               edge="start"
               color="inherit"
               aria-label="menu"
-              onClick={() => setSidebarOpen(true)} // Open sidebar on button click
+              onClick={() => setSidebarOpen(true)}
             >
               <MenuIcon />
             </IconButton>
@@ -165,14 +283,13 @@ const Home = () => {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Container sx={{ padding: 2, overflowY: "auto" }}>
-          {/* Image with Share2Teach Text */}
+        <MuiContainer sx={{ padding: 2, overflowY: "auto" }}>
           <div className="text-center mb-4">
             <img
-              src="https://services.nwu.ac.za/sites/services.nwu.ac.za/files/files/designs-branding/NWU-Stacked-Logo-Black-Digital.png" // Change this path to your image location
+              src="https://services.nwu.ac.za/sites/services.nwu.ac.za/files/files/designs-branding/NWU-Stacked-Logo-Black-Digital.png"
               alt="Share2Teach"
               className="img-fluid"
-              width={50} // Bootstrap class for responsive image
+              width={50}
             />
           </div>
           <Box
@@ -180,7 +297,7 @@ const Home = () => {
               padding: 2,
               bgcolor: "#ffffff",
               borderRadius: 2,
-              animation: "fadeIn 0.5s ease", // Animation when content changes
+              animation: "fadeIn 0.5s ease",
               "@keyframes fadeIn": {
                 "0%": { opacity: 0 },
                 "100%": { opacity: 1 },
@@ -189,7 +306,7 @@ const Home = () => {
           >
             {renderSectionContent()}
           </Box>
-        </Container>
+        </MuiContainer>
       </Box>
     </Box>
   );
