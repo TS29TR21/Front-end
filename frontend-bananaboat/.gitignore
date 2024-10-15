@@ -7,6 +7,9 @@
 # testing
 /coverage
 
+#the reason to ignore these two is so that render can build and install its own based on our packages
+/build
+/node_modules
 
 # misc
 .DS_Store
