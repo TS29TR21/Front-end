@@ -10,7 +10,7 @@ const SubjectView = () => {
     const fetchResources = async () => {
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/api/resource/deserial"
+          "http://contained-share2teach.onrender.com/api/resource/deserial"
         ); // API endpoint
         if (!response.ok) throw new Error("Failed to fetch resources");
         const data = await response.json();

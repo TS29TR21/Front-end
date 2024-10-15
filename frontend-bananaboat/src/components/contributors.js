@@ -9,7 +9,7 @@ const Contributors = () => {
   useEffect(() => {
     const fetchContributors = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/user/deserial");
+        const response = await fetch("https://contained-share2teach.onrender/api/user/deserial");
         const data = await response.json();
         // Map the data from the API to match the structure of the contributors
         const formattedContributors = data.map(user => ({
