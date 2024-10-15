@@ -1,4 +1,17 @@
 import React, { useState } from "react";
+import {
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  IconButton,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu"; // Icon for the menu button
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
 import ModerationForm from "./moderation.js";
@@ -6,7 +19,6 @@ import NewPassword from "./new-password.js";
 import RateResource from "./rate-resource.js";
 import Register from "./register.js";
 import PasswordReset from "./reset-password.js";
-import VerificationCode from "./verifiaction-code.js";
 import ResourceReport from "./resource-report.js";
 import UpdateUserRole from "./update-user-role.js";
 import UploadTaggingResource from "./file-upload-tagging.js";
@@ -21,6 +33,7 @@ import Analytics from "./analytics.js";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("overview");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -47,8 +60,6 @@ const Home = () => {
         return <PasswordReset />;
       case "new-password":
         return <NewPassword />;
-      case "verification-code":
-        return <VerificationCode />;
       case "about-us":
         return <AboutUs />;
       case "faq":
@@ -66,251 +77,95 @@ const Home = () => {
       case "update-user-role":
         return <UpdateUserRole />;
       default:
-        return (
-          <>
-            <h2>Welcome to Share2Teach</h2>
-          </>
-        );
+        return <Typography variant="h5">Welcome to Share2Teach</Typography>;
     }
   };
 
+  const handleItemClick = (section) => {
+    setActiveSection(section);
+    setSidebarOpen(false); // Optionally keep sidebar open or close based on your preference
+  };
+
   return (
-    <div style={styles.pageContainer}>
+    <Box sx={{ display: "flex", height: "100vh", bgcolor: "#e8f5e9" }}>
       {/* Sidebar */}
-      <aside style={styles.sidebar}>
-        <nav>
-          <ul style={styles.sidebarList}>
-            <li style={styles.sidebarListItem}>
-              <button style={styles.link} onClick={() => setActiveSection("/")}>
-                Home
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("subject-view")}
-              >
-                Subject View
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("resource-search")}
-              >
-                Search Resources
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("file-upload")}
-              >
-                Contribute
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("oer")}
-              >
-                Other Useful OERs
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("rate-resource")}
-              >
-                Rate Resources
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("moderate")}
-              >
-                Moderate Resources
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("contributors")}
-              >
-                Contributors
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("self-directed")}
-              >
-                Self-Directed Learning
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("login")}
-              >
-                Login
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("register")}
-              >
-                Account Creation
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("reset-password")}
-              >
-                Password Reset
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("new-password")}
-              >
-                New Reset
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("verification-code")}
-              >
-                Verification Code
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("analytics")}
-              >
-                Analytics
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("about-us")}
-              >
-                About Us
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("faq")}
-              >
-                FAQ
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("resource-report")}
-              >
-                Resource Report
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("update-user-role")}
-              >
-                Update User Role
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </aside>
+      <Drawer
+        variant="persistent"
+        anchor="left"
+        open={sidebarOpen}
+        sx={{
+          width: 240,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: 240,
+            bgcolor: "#2c7b2f", // Green background for sidebar
+            color: "white",
+          },
+        }}
+      >
+        <List>
+          {[
+            { text: "Home", section: "/" },
+            { text: "Subject View", section: "subject-view" },
+            { text: "Search Resources", section: "resource-search" },
+            { text: "Contribute", section: "file-upload" },
+            { text: "Other Useful OERs", section: "oer" },
+            { text: "Rate Resources", section: "rate-resource" },
+            { text: "Moderate Resources", section: "moderate" },
+            { text: "Contributors", section: "contributors" },
+            { text: "Self-Directed Learning", section: "self-directed" },
+            { text: "Login", section: "login" },
+            { text: "Account Creation", section: "register" },
+            { text: "Password Reset", section: "reset-password" },
+            { text: "New Reset", section: "new-password" },
+            { text: "Analytics", section: "analytics" },
+            { text: "About Us", section: "about-us" },
+            { text: "FAQ", section: "faq" },
+            { text: "Resource Report", section: "resource-report" },
+            { text: "Update User Role", section: "update-user-role" },
+          ].map(({ text, section }) => (
+            <ListItem
+              button
+              key={text}
+              onClick={() => handleItemClick(section)}
+            >
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
 
       {/* Main Content */}
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
-          <h1>Share2Teach</h1>
-        </header>
-
-        <section style={styles.banner}>
-          <div style={styles.bannerText}>{renderSectionContent()}</div>
-        </section>
-      </main>
-    </div>
+      <Box
+        sx={{
+          flexGrow: 1,
+          transition: "margin-left 0.3s",
+          marginLeft: sidebarOpen ? "240px" : "0",
+        }}
+      >
+        <AppBar position="static" sx={{ bgcolor: "#4caf50" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={() => setSidebarOpen(!sidebarOpen)} // Toggle sidebar on button click
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Share2Teach
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Container sx={{ padding: 2, overflowY: "auto" }}>
+          <Box sx={{ padding: 2, bgcolor: "#ffffff", borderRadius: 2 }}>
+            {renderSectionContent()}
+          </Box>
+        </Container>
+      </Box>
+    </Box>
   );
-};
-
-// Styles for the page
-const styles = {
-  pageContainer: {
-    display: "flex",
-    height: "100vh",
-    width: "100vw", // Ensures full width
-    margin: 0, // Removes any default margin
-    overflow: "hidden", // Prevents scrolling of the main container
-  },
-  sidebar: {
-    width: "200px",
-    backgroundColor: "#2c2c2c",
-    padding: "10px",
-    color: "white",
-    height: "100vh", // Ensures the sidebar takes full height
-    overflowY: "auto", // Makes the sidebar scrollable
-  },
-  mainContent: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column", // To align header and section vertically
-    padding: "20px",
-    backgroundColor: "#f4f4f4",
-    overflowY: "auto",
-    height: "100vh", // Ensures the main content takes full height
-  },
-  sidebarList: {
-    listStyleType: "none",
-    padding: 0,
-  },
-  sidebarListItem: {
-    marginBottom: "8px",
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-    padding: "8px 12px",
-    borderRadius: "4px",
-    display: "block",
-    border: "none",
-    background: "none",
-    cursor: "pointer",
-    transition: "background-color 0.3s, transform 0.3s",
-  },
-  header: {
-    textAlign: "center",
-    paddingBottom: "20px",
-    flex: "none", // Ensures header does not take up too much space
-  },
-  banner: {
-    flex: "1", // Ensures banner grows to fill remaining space
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#e4e4e4",
-    padding: "20px",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    marginBottom: "30px",
-  },
-  bannerText: {
-    textAlign: "left",
-    width: "100%",
-  },
 };
 
 export default Home;
