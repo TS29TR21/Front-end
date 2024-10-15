@@ -33,7 +33,7 @@ import Analytics from "./analytics.js";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("overview");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Initially closed
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -83,19 +83,18 @@ const Home = () => {
 
   const handleItemClick = (section) => {
     setActiveSection(section);
-    setSidebarOpen(false); // Optionally keep sidebar open or close based on your preference
+    setSidebarOpen(false); // Close sidebar when an item is clicked
   };
 
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#e8f5e9" }}>
-      {/* Sidebar */}
+      {/* Sidebar Drawer */}
       <Drawer
-        variant="persistent"
+        variant="temporary" // Use 'temporary' for mobile view
         anchor="left"
         open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)} // Close drawer when clicking outside
         sx={{
-          width: 240,
-          flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: 240,
             bgcolor: "#2c7b2f", // Green background for sidebar
@@ -149,7 +148,7 @@ const Home = () => {
               edge="start"
               color="inherit"
               aria-label="menu"
-              onClick={() => setSidebarOpen(!sidebarOpen)} // Toggle sidebar on button click
+              onClick={() => setSidebarOpen(true)} // Open sidebar on button click
             >
               <MenuIcon />
             </IconButton>
