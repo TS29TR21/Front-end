@@ -12,8 +12,7 @@ import {
   IconButton,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChartistGraph from "react-chartist"; // Importing ChartistGraph for the charts
-import { Card, Row, Col } from "react-bootstrap"; // Importing Bootstrap components for layout and styling
+import { Card, Row, Col } from "react-bootstrap";
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
 import ModerationForm from "./moderation.js";
@@ -42,6 +41,7 @@ const Home = () => {
     console.log("Search query:", searchQuery);
   };
 
+  // Rendering dashboard content from the previous dashboard.js
   const renderDashboardContent = () => {
     return (
       <>
@@ -63,91 +63,6 @@ const Home = () => {
                       </div>
                     </Col>
                   </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-          {/* Additional Dashboard components like charts */}
-          <Row>
-            <Col md="8">
-              <Card>
-                <Card.Header>
-                  <Card.Title as="h4">Users Behavior</Card.Title>
-                  <p className="card-category">24 Hours performance</p>
-                </Card.Header>
-                <Card.Body>
-                  <div className="ct-chart" id="chartHours">
-                    <ChartistGraph
-                      data={{
-                        labels: [
-                          "9:00AM",
-                          "12:00AM",
-                          "3:00PM",
-                          "6:00PM",
-                          "9:00PM",
-                          "12:00PM",
-                          "3:00AM",
-                          "6:00AM",
-                        ],
-                        series: [
-                          [287, 385, 490, 492, 554, 586, 698, 695],
-                          [67, 152, 143, 240, 287, 335, 435, 437],
-                          [23, 113, 67, 108, 190, 239, 307, 308],
-                        ],
-                      }}
-                      type="Line"
-                      options={{
-                        low: 0,
-                        high: 800,
-                        showArea: false,
-                        height: "245px",
-                        axisX: {
-                          showGrid: false,
-                        },
-                        lineSmooth: true,
-                        showLine: true,
-                        showPoint: true,
-                        fullWidth: true,
-                        chartPadding: {
-                          right: 50,
-                        },
-                      }}
-                      responsiveOptions={[
-                        [
-                          "screen and (max-width: 640px)",
-                          {
-                            axisX: {
-                              labelInterpolationFnc: function (value) {
-                                return value[0];
-                              },
-                            },
-                          },
-                        ],
-                      ]}
-                    />
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md="4">
-              <Card>
-                <Card.Header>
-                  <Card.Title as="h4">Email Statistics</Card.Title>
-                  <p className="card-category">Last Campaign Performance</p>
-                </Card.Header>
-                <Card.Body>
-                  <div
-                    className="ct-chart ct-perfect-fourth"
-                    id="chartPreferences"
-                  >
-                    <ChartistGraph
-                      data={{
-                        labels: ["40%", "20%", "40%"],
-                        series: [40, 20, 40],
-                      }}
-                      type="Pie"
-                    />
-                  </div>
                 </Card.Body>
               </Card>
             </Col>
@@ -193,7 +108,7 @@ const Home = () => {
         return <ResourceReport />;
       case "update-user-role":
         return <UpdateUserRole />;
-      case "dashboard": // Case for rendering the dashboard
+      case "dashboard":
         return renderDashboardContent();
       default:
         return <Typography variant="h5">Welcome to Share2Teach</Typography>;
@@ -228,7 +143,7 @@ const Home = () => {
             { text: "Subject View", section: "subject-view" },
             { text: "Search Resources", section: "resource-search" },
             { text: "Contribute", section: "file-upload" },
-            { text: "Dashboard", section: "dashboard" }, // Add "Dashboard" to the menu
+            { text: "Dashboard", section: "dashboard" }, // "Dashboard" added to the menu
             { text: "Other Useful OERs", section: "oer" },
             { text: "Rate Resources", section: "rate-resource" },
             { text: "Moderate Resources", section: "moderate" },

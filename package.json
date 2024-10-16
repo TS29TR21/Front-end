@@ -8,5 +8,12 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3"
-  }
+  },
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ]
 }
