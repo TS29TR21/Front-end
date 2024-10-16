@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import {
   Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
   AppBar,
   Toolbar,
   Typography,
   Container as MuiContainer,
   IconButton,
+  Drawer,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { NavLink, Routes, Route } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 import { Card, Row, Col } from "react-bootstrap";
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
@@ -32,172 +31,158 @@ import Self from "./sdl.js";
 import Analytics from "./analytics.js";
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeSection, setActiveSection] = useState("overview");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Search query:", searchQuery);
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
   };
 
-  // Rendering dashboard content from the previous dashboard.js
-  const renderDashboardContent = () => {
-    return (
-      <>
-        <MuiContainer fluid>
-          <Row>
-            <Col lg="3" sm="6">
-              <Card className="card-stats">
-                <Card.Body>
-                  <Row>
-                    <Col xs="5">
-                      <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-light-3 text-success"></i>
-                      </div>
-                    </Col>
-                    <Col xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Revenue</p>
-                        <Card.Title as="h4">$ 1,345</Card.Title>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </MuiContainer>
-      </>
-    );
-  };
+  // Define your route paths and associated components
+  const routes = [
+    { name: "Home", path: "/", icon: "nc-icon nc-bank", component: Home },
+    {
+      name: "Subject View",
+      path: "subject-view",
+      icon: "nc-icon nc-book-bookmark",
+      component: SubjectView,
+    },
+    {
+      name: "Search Resources",
+      path: "resource-search",
+      icon: "nc-icon nc-zoom-split",
+      component: ResourceSearch,
+    },
+    {
+      name: "Contribute",
+      path: "file-upload",
+      icon: "nc-icon nc-cloud-upload-94",
+      component: UploadTaggingResource,
+    },
 
-  const renderSectionContent = () => {
-    switch (activeSection) {
-      case "subject-view":
-        return <SubjectView />;
-      case "resource-search":
-        return <ResourceSearch />;
-      case "file-upload":
-        return <UploadTaggingResource />;
-      case "oer":
-        return <OER />;
-      case "contributors":
-        return <Contributors />;
-      case "self-directed":
-        return <Self />;
-      case "register":
-        return <Register />;
-      case "reset-password":
-        return <PasswordReset />;
-      case "new-password":
-        return <NewPassword />;
-      case "about-us":
-        return <AboutUs />;
-      case "faq":
-        return <FAQ />;
-      case "login":
-        return <Login />;
-      case "analytics":
-        return <Analytics />;
-      case "moderate":
-        return <ModerationForm />;
-      case "rate-resource":
-        return <RateResource />;
-      case "resource-report":
-        return <ResourceReport />;
-      case "update-user-role":
-        return <UpdateUserRole />;
-      case "dashboard":
-        return renderDashboardContent();
-      default:
-        return <Typography variant="h5">Welcome to Share2Teach</Typography>;
-    }
-  };
-
-  const handleItemClick = (section) => {
-    setActiveSection(section);
-    setSidebarOpen(false);
-  };
+    {
+      name: "Other Useful OERs",
+      path: "oer",
+      icon: "nc-icon nc-globe-2",
+      component: OER,
+    },
+    {
+      name: "Rate Resources",
+      path: "rate-resource",
+      icon: "nc-icon nc-check-2",
+      component: RateResource,
+    },
+    {
+      name: "Moderate Resources",
+      path: "moderate",
+      icon: "nc-icon nc-paper",
+      component: ModerationForm,
+    },
+    {
+      name: "Contributors",
+      path: "contributors",
+      icon: "nc-icon nc-user-run",
+      component: Contributors,
+    },
+    {
+      name: "Self-Directed Learning",
+      path: "self-directed",
+      icon: "nc-icon nc-hat-3",
+      component: Self,
+    },
+    {
+      name: "Login",
+      path: "login",
+      icon: "nc-icon nc-lock-circle-open",
+      component: Login,
+    },
+    {
+      name: "Account Creation",
+      path: "register",
+      icon: "nc-icon nc-single-02",
+      component: Register,
+    },
+    {
+      name: "Password Reset",
+      path: "reset-password",
+      icon: "nc-icon nc-refresh-69",
+      component: PasswordReset,
+    },
+    {
+      name: "New Reset",
+      path: "new-password",
+      icon: "nc-icon nc-key-25",
+      component: NewPassword,
+    },
+    {
+      name: "Analytics",
+      path: "analytics",
+      icon: "nc-icon nc-chart-pie-36",
+      component: Analytics,
+    },
+    {
+      name: "About Us",
+      path: "about-us",
+      icon: "nc-icon nc-badge",
+      component: AboutUs,
+    },
+    { name: "FAQ", path: "faq", icon: "nc-icon nc-support-17", component: FAQ },
+    {
+      name: "Resource Report",
+      path: "resource-report",
+      icon: "nc-icon nc-bullet-list-67",
+      component: ResourceReport,
+    },
+    {
+      name: "Update User Role",
+      path: "update-user-role",
+      icon: "nc-icon nc-settings-gear-65",
+      component: UpdateUserRole,
+    },
+  ];
 
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#E3F2FD" }}>
-      {/* Sidebar Drawer */}
-      <Drawer
-        variant="temporary"
-        anchor="left"
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        sx={{
-          "& .MuiDrawer-paper": {
-            width: 240,
-            bgcolor: "#2c7b2f",
-            color: "white",
-            transition: "all 0.3s ease-in-out",
-          },
-        }}
-      >
-        <List>
-          {[
-            { text: "Home", section: "/" },
-            { text: "Subject View", section: "subject-view" },
-            { text: "Search Resources", section: "resource-search" },
-            { text: "Contribute", section: "file-upload" },
-            { text: "Dashboard", section: "dashboard" }, // "Dashboard" added to the menu
-            { text: "Other Useful OERs", section: "oer" },
-            { text: "Rate Resources", section: "rate-resource" },
-            { text: "Moderate Resources", section: "moderate" },
-            { text: "Contributors", section: "contributors" },
-            { text: "Self-Directed Learning", section: "self-directed" },
-            { text: "Login", section: "login" },
-            { text: "Account Creation", section: "register" },
-            { text: "Password Reset", section: "reset-password" },
-            { text: "New Reset", section: "new-password" },
-            { text: "Analytics", section: "analytics" },
-            { text: "About Us", section: "about-us" },
-            { text: "FAQ", section: "faq" },
-            { text: "Resource Report", section: "resource-report" },
-            { text: "Update User Role", section: "update-user-role" },
-          ].map(({ text, section }) => (
-            <ListItem
-              button
-              key={text}
-              onClick={() => handleItemClick(section)}
-              sx={{
-                "&:hover": {
-                  bgcolor: "#388e3c",
-                  transition: "background-color 0.3s ease",
-                },
-              }}
-            >
-              <ListItemText primary={text} />
-            </ListItem>
+      {/* AppBar with Menu Icon */}
+      <AppBar position="static" sx={{ bgcolor: "#4caf50" }}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleMenuToggle} // Toggle Nav visibility
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Share2Teach
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      {/* Drawer to display Nav when menu icon is clicked */}
+      <Drawer anchor="left" open={menuOpen} onClose={handleMenuToggle}>
+        <Nav
+          className="flex-column"
+          style={{ width: "240px", backgroundColor: "#2c7b2f" }}
+        >
+          {routes.map((prop, key) => (
+            <li className={prop.upgrade ? "active active-pro" : ""} key={key}>
+              <NavLink
+                to={prop.path}
+                className="nav-link"
+                activeClassName="active"
+                style={{ color: "white", padding: "10px" }}
+              >
+                <i className={prop.icon} />
+                <p>{prop.name}</p>
+              </NavLink>
+            </li>
           ))}
-        </List>
+        </Nav>
       </Drawer>
+
       {/* Main Content */}
-      <Box
-        sx={{
-          flexGrow: 1,
-          transition: "margin-left 0.3s, transform 0.3s ease",
-          marginLeft: sidebarOpen ? "240px" : "0",
-        }}
-      >
-        <AppBar position="static" sx={{ bgcolor: "#4caf50" }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={() => setSidebarOpen(true)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Share2Teach
-            </Typography>
-          </Toolbar>
-        </AppBar>
+      <Box sx={{ flexGrow: 1, padding: 2, overflowY: "auto" }}>
         <MuiContainer sx={{ padding: 2, overflowY: "auto" }}>
           <div className="text-center mb-4">
             <img
@@ -207,20 +192,19 @@ const Home = () => {
               width={50}
             />
           </div>
-          <Box
-            sx={{
-              padding: 2,
-              bgcolor: "#ffffff",
-              borderRadius: 2,
-              animation: "fadeIn 0.5s ease",
-              "@keyframes fadeIn": {
-                "0%": { opacity: 0 },
-                "100%": { opacity: 1 },
-              },
-            }}
-          >
-            {renderSectionContent()}
-          </Box>
+
+          {/* React Router Routes */}
+          <Routes>
+            {routes.map((route, key) => (
+              <Route
+                key={key}
+                path={route.path}
+                element={<route.component />}
+              />
+            ))}
+            {/* Redirect to Dashboard/Home if path is "/" */}
+            <Route path="/" />
+          </Routes>
         </MuiContainer>
       </Box>
     </Box>
