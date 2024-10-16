@@ -18,8 +18,8 @@ import OER from "./oer.js";
 import Contributors from "./contributors.js";
 import Self from "./sdl.js";
 import Analytics from "./analytics.js";
-import "./assets/css/light-bootstrap-dashboard-react.css";
-import "./assets/scss/light-bootstrap-dashboard-react.scss";
+import "../assets/css/light-bootstrap-dashboard-react.css";
+import "../assets/scss/light-bootstrap-dashboard-react.scss";
 
 const Home = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,7 +38,6 @@ const Home = () => {
       path: "file-upload",
       component: UploadTaggingResource,
     },
-
     { name: "Other Useful OERs", path: "oer", component: OER },
     { name: "Rate Resources", path: "rate-resource", component: RateResource },
     { name: "Moderate Resources", path: "moderate", component: ModerationForm },
@@ -68,11 +67,18 @@ const Home = () => {
   ];
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#f0f0f5" }}>
+      {" "}
+      {/* Light background color */}
       {/* Navbar */}
-      <Navbar bg="success" variant="dark" expand="lg" sticky="top">
+      <Navbar
+        style={{ backgroundColor: "#4CAF50" }}
+        variant="dark"
+        expand="lg"
+        sticky="top"
+      >
         <Container>
-          <Navbar.Brand href="/">
+          <Navbar.Brand href="/" style={{ color: "#ffffff" }}>
             <img
               src="https://services.nwu.ac.za/sites/services.nwu.ac.za/files/files/designs-branding/NWU-Stacked-Logo-Black-Digital.png"
               alt="Share2Teach"
@@ -94,6 +100,7 @@ const Home = () => {
                   className="nav-link"
                   activeClassName="active"
                   exact
+                  style={{ color: "#ffffff" }} // White text for links
                 >
                   {route.name}
                 </Nav.Link>
@@ -102,9 +109,15 @@ const Home = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
       {/* Main Content */}
-      <Container className="mt-4">
+      <Container
+        className="mt-4"
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "20px",
+          borderRadius: "10px",
+        }}
+      >
         <Row>
           <Col>
             <Routes>
