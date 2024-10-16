@@ -18,7 +18,8 @@ import OER from "./components/oer.js";
 import Contributors from "./components/contributors.js";
 import Self from "./components/sdl.js";
 import Analytics from "./components/analytics.js";
-/*import "./assets/css/light-bootstrap-dashboard-react.css";*/
+import "./assets/css/light-bootstrap-dashboard-react.css";
+import "./assets/scss/light-bootstrap-dashboard-react.scss";
 
 function App() {
   return (

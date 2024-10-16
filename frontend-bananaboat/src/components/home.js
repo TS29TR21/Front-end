@@ -19,6 +19,7 @@ import Contributors from "./contributors.js";
 import Self from "./sdl.js";
 import Analytics from "./analytics.js";
 import "./assets/css/light-bootstrap-dashboard-react.css";
+import "./assets/scss/light-bootstrap-dashboard-react.scss";
 
 const Home = () => {
   const [menuOpen, setMenuOpen] = useState(false);
