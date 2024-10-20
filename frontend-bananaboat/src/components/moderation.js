@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import GoogleAnalytics from './GoogleAnalytics.js';
 
 const ModerationForm = () => {
   // Sample list of resources
@@ -29,6 +30,23 @@ const ModerationForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted with data:", formData);
+    
+    // Track the form submission in Google Analytics
+    const eventType = 'form_submit';
+    const duration = 0; // You can calculate actual duration if needed
+    const customParam = 'ModerationForm'; // Any additional parameter you want to track
+
+    // You can replace the userId with actual user data if available
+    const userId = 'example_user_id'; 
+
+    // Call GoogleAnalytics with tracking data
+    <GoogleAnalytics 
+      page="ModerationForm" 
+      userId={userId} 
+      eventType={eventType} 
+      duration={duration} 
+      customParam={customParam} 
+    />;
   };
 
   return (
@@ -83,6 +101,15 @@ const ModerationForm = () => {
           </button>
         </div>
       </form>
+
+      {/* Include GoogleAnalytics here to track the page view */}
+      <GoogleAnalytics 
+        page="ModerationForm" 
+        userId="example_user_id" 
+        eventType="page_view" 
+        duration={0} 
+        customParam="initial_load" 
+      />
     </div>
   );
 };
