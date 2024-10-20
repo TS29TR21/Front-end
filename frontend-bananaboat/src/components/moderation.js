@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import GoogleAnalytics from './GoogleAnalytics.js';
 
 const ModerationForm = () => {
-  // Sample list of resources
   const resources = [
     { id: "1", name: "Resource One" },
     { id: "2", name: "Resource Two" },
@@ -10,14 +9,14 @@ const ModerationForm = () => {
     { id: "4", name: "Resource Four" },
   ];
 
-  // State to hold form values
   const [formData, setFormData] = useState({
     source_id: "",
     mod_comment: "",
     mod_status: "approved",
   });
 
-  // Handle form input changes
+  const [trackEvent, setTrackEvent] = useState(null); // State to track event
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -26,27 +25,18 @@ const ModerationForm = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted with data:", formData);
     
-    // Track the form submission in Google Analytics
-    const eventType = 'form_submit';
-    const duration = 0; // You can calculate actual duration if needed
-    const customParam = 'ModerationForm'; // Any additional parameter you want to track
-
-    // You can replace the userId with actual user data if available
-    const userId = 'example_user_id'; 
-
-    // Call GoogleAnalytics with tracking data
-    <GoogleAnalytics 
-      page="ModerationForm" 
-      userId={userId} 
-      eventType={eventType} 
-      duration={duration} 
-      customParam={customParam} 
-    />;
+    // Set the event details to track
+    setTrackEvent({
+      page: "ModerationForm",
+      userId: "example_user_id", 
+      eventType: 'form_submit',
+      duration: 0,
+      customParam: 'ModerationForm',
+    });
   };
 
   return (
@@ -102,14 +92,16 @@ const ModerationForm = () => {
         </div>
       </form>
 
-      {/* Include GoogleAnalytics here to track the page view */}
-      <GoogleAnalytics 
-        page="ModerationForm" 
-        userId="example_user_id" 
-        eventType="page_view" 
-        duration={0} 
-        customParam="initial_load" 
-      />
+      {/* Render GoogleAnalytics if an event is set */}
+      {trackEvent && (
+        <GoogleAnalytics 
+          page={trackEvent.page} 
+          userId={trackEvent.userId} 
+          eventType={trackEvent.eventType} 
+          duration={trackEvent.duration} 
+          customParam={trackEvent.customParam} 
+        />
+      )}
     </div>
   );
 };
