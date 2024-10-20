@@ -15,7 +15,7 @@ const ModerationForm = () => {
     mod_status: "approved",
   });
 
-  const [trackEvent, setTrackEvent] = useState(null); // State to track event
+  const [submitted, setSubmitted] = useState(false); // State to track submission
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,15 +28,9 @@ const ModerationForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted with data:", formData);
-    
-    // Set the event details to track
-    setTrackEvent({
-      page: "ModerationForm",
-      userId: "example_user_id", 
-      eventType: 'form_submit',
-      duration: 0,
-      customParam: 'ModerationForm',
-    });
+
+    // Track the event only after form submission
+    setSubmitted(true);
   };
 
   return (
@@ -92,14 +86,14 @@ const ModerationForm = () => {
         </div>
       </form>
 
-      {/* Render GoogleAnalytics if an event is set */}
-      {trackEvent && (
+      {/* Render GoogleAnalytics after form submission */}
+      {submitted && (
         <GoogleAnalytics 
-          page={trackEvent.page} 
-          userId={trackEvent.userId} 
-          eventType={trackEvent.eventType} 
-          duration={trackEvent.duration} 
-          customParam={trackEvent.customParam} 
+          page="ModerationForm" 
+          userId="example_user_id" 
+          eventType="form_submit" 
+          duration={0} 
+          customParam="ModerationForm" 
         />
       )}
     </div>
