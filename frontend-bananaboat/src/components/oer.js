@@ -6,20 +6,20 @@ const OER = () => {
 
   // Example list of useful resources
   const resources = [
-    { title: "Khan Academy", url: "https://www.khanacademy.org" },
-    { title: "Coursera", url: "https://www.coursera.org" },
-    { title: "edX", url: "https://www.edx.org" },
-    { title: "MIT OpenCourseWare", url: "https://ocw.mit.edu" },
-    { title: "OpenStax", url: "https://openstax.org" },
-    { title: "GitHub Education", url: "https://education.github.com" },
-    { title: "Codecademy", url: "https://www.codecademy.com" },
-    { title: "Udemy", url: "https://www.udemy.com" },
-    { title: "FreeCodeCamp", url: "https://www.freecodecamp.org" },
-    { title: "Pluralsight", url: "https://www.pluralsight.com" },
-    { title: "FutureLearn", url: "https://www.futurelearn.com" },
-    { title: "LinkedIn Learning", url: "https://www.linkedin.com/learning" },
-    { title: "Stanford Online", url: "https://online.stanford.edu" },
-    { title: "Harvard Online", url: "https://online-learning.harvard.edu" },
+    { title: "Khan Academy", description: "Free educational courses on various subjects", url: "https://www.khanacademy.org" },
+    { title: "Coursera", description: "Courses from top universities and institutions", url: "https://www.coursera.org" },
+    { title: "edX", description: "Free and paid courses from universities", url: "https://www.edx.org" },
+    { title: "MIT OpenCourseWare", description: "Free lecture notes, exams, and videos from MIT", url: "https://ocw.mit.edu" },
+    { title: "OpenStax", description: "Free educational textbooks", url: "https://openstax.org" },
+    { title: "GitHub Education", description: "Developer resources and educational programs", url: "https://education.github.com" },
+    { title: "Codecademy", description: "Interactive coding tutorials", url: "https://www.codecademy.com" },
+    { title: "Udemy", description: "Online learning platform with courses on various topics", url: "https://www.udemy.com" },
+    { title: "FreeCodeCamp", description: "Learn to code for free", url: "https://www.freecodecamp.org" },
+    { title: "Pluralsight", description: "Tech skills learning platform", url: "https://www.pluralsight.com" },
+    { title: "FutureLearn", description: "Online courses from top institutions", url: "https://www.futurelearn.com" },
+    { title: "LinkedIn Learning", description: "Online learning platform with video courses", url: "https://www.linkedin.com/learning" },
+    { title: "Stanford Online", description: "Free and paid courses from Stanford University", url: "https://online.stanford.edu" },
+    { title: "Harvard Online", description: "Courses from Harvard University", url: "https://online-learning.harvard.edu" },
   ];
 
   // Filter resources based on search query
@@ -27,46 +27,41 @@ const OER = () => {
     resource.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Search query:", searchQuery);
-  };
-
   return (
     <div style={styles.pageContainer}>
       <main style={styles.mainContent}>
         <header style={styles.header}>
-          <h1>This is the Other Useful Resources Page</h1>
+          <h1>Other Useful Educational Resources</h1>
         </header>
 
         {/* Search Section */}
         <section style={styles.searchSection}>
-          <form onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search resources..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={styles.searchInput}
-            />
-            <button type="submit" style={styles.searchButton}>
-              Search
-            </button>
-          </form>
+          <input
+            type="text"
+            placeholder="Search resources..."
+            style={styles.searchInput}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </section>
 
-        {/* Resources List */}
-        <section style={styles.resourceSection}>
+        {/* Resources Section */}
+        <section style={styles.resourcesSection}>
           {filteredResources.length > 0 ? (
-            <ul style={styles.resourceList}>
-              {filteredResources.map((resource, index) => (
-                <li key={index} style={styles.resourceItem}>
-                  <a href={resource.url} style={styles.resourceLink}>
-                    {resource.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            filteredResources.map((resource, index) => (
+              <div key={index} style={styles.resourceCard}>
+                <h2>{resource.title}</h2>
+                <p>{resource.description}</p>
+                <a
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.link}
+                >
+                  Access Resource
+                </a>
+              </div>
+            ))
           ) : (
             <p style={styles.noResults}>No resources found.</p>
           )}
@@ -80,8 +75,7 @@ const OER = () => {
 const styles = {
   pageContainer: {
     display: "flex",
-    flexDirection: "column",
-    minHeight: "100vh",
+    height: "100vh",
   },
   mainContent: {
     flex: 1,
@@ -105,36 +99,24 @@ const styles = {
     border: "1px solid #ccc",
     marginRight: "10px",
   },
-  searchButton: {
-    padding: "10px 15px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
+  resourcesSection: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "20px",
   },
-  resourceSection: {
+  resourceCard: {
+    backgroundColor: "#e4e4e4",
+    padding: "20px",
+    borderRadius: "8px",
     textAlign: "center",
   },
-  resourceList: {
-    listStyleType: "none",
-    padding: 0,
-  },
-  resourceItem: {
-    marginBottom: "10px",
-  },
-  resourceLink: {
+  link: {
     color: "#4CAF50",
     textDecoration: "none",
-    fontSize: "18px",
-    transition: "color 0.3s, transform 0.3s",
-  },
-  resourceLinkHover: {
-    color: "#333",
-    transform: "scale(1.05)",
+    fontWeight: "bold",
   },
   noResults: {
-    fontSize: "18px",
+    textAlign: "center",
     color: "#999",
   },
 };
