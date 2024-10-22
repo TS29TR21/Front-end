@@ -98,22 +98,34 @@ const styles = {
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
+    WebkitBoxSizing: "border-box",  // Safari
+    MozBoxSizing: "border-box",     // Firefox
+    boxSizing: "border-box",        // Standard
   },
   resourcesSection: {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gap: "20px",
+    WebkitBoxSizing: "border-box",  // Safari
+    MozBoxSizing: "border-box",     // Firefox
+    boxSizing: "border-box",        // Standard
   },
   resourceCard: {
     backgroundColor: "#e4e4e4",
     padding: "20px",
     borderRadius: "8px",
     textAlign: "center",
+    WebkitBoxShadow: "0 2px 4px rgba(0,0,0,0.1)",  // Safari
+    MozBoxShadow: "0 2px 4px rgba(0,0,0,0.1)",     // Firefox
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",        // Standard
   },
   link: {
     color: "#4CAF50",
     textDecoration: "none",
     fontWeight: "bold",
+    WebkitTransition: "color 0.3s ease",  // Safari
+    MozTransition: "color 0.3s ease",     // Firefox
+    transition: "color 0.3s ease",        // Standard
   },
   noResults: {
     textAlign: "center",

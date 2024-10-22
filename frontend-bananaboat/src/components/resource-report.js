@@ -137,6 +137,8 @@ const styles = {
     padding: "20px",
     borderRadius: "8px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    WebkitBoxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Safari
+    MozBoxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",    // Firefox
   },
   formGroup: {
     marginBottom: "20px",
@@ -153,6 +155,9 @@ const styles = {
     border: "1px solid #ccc",
     borderRadius: "4px",
     fontSize: "14px",
+    WebkitBoxSizing: "border-box", // Safari
+    MozBoxSizing: "border-box",    // Firefox
+    boxSizing: "border-box",       // Standard
   },
   select: {
     width: "100%",
@@ -160,6 +165,9 @@ const styles = {
     border: "1px solid #ccc",
     borderRadius: "4px",
     fontSize: "14px",
+    WebkitBoxSizing: "border-box", // Safari
+    MozBoxSizing: "border-box",    // Firefox
+    boxSizing: "border-box",       // Standard
   },
   textarea: {
     width: "100%",
@@ -168,6 +176,9 @@ const styles = {
     borderRadius: "4px",
     fontSize: "14px",
     minHeight: "100px",
+    WebkitBoxSizing: "border-box", // Safari
+    MozBoxSizing: "border-box",    // Firefox
+    boxSizing: "border-box",       // Standard
   },
   submitButtonWrapper: {
     textAlign: "center",
@@ -181,6 +192,8 @@ const styles = {
     cursor: "pointer",
     fontSize: "16px",
     transition: "background-color 0.3s",
+    WebkitTransition: "background-color 0.3s", // Safari
+    MozTransition: "background-color 0.3s",    // Firefox
   },
 };
 

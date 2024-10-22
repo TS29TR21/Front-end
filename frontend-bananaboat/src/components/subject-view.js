@@ -99,6 +99,9 @@ const styles = {
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
+    WebkitBoxSizing: "border-box", // Safari
+    MozBoxSizing: "border-box",    // Firefox
+    boxSizing: "border-box",       // Standard
   },
   subjectsSection: {
     display: "grid",

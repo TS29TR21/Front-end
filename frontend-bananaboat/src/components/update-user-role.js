@@ -141,6 +141,9 @@ const styles = {
     border: "1px solid #ccc",
     fontSize: "14px",
     transition: "border-color 0.3s",
+    WebkitBoxSizing: "border-box", // Safari
+    MozBoxSizing: "border-box",    // Firefox
+    boxSizing: "border-box",       // Standard
   },
   inputFocus: {
     borderColor: "#4CAF50",

@@ -79,6 +79,8 @@ const styles = {
     backgroundColor: '#f9f9f9',
     borderRadius: '8px',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    WebkitBoxShadow: '0 2px 4px rgba(0,0,0,0.1)', // Safari
+    MozBoxShadow: '0 2px 4px rgba(0,0,0,0.1)',    // Firefox
   },
   title: {
     textAlign: 'center',
@@ -96,6 +98,9 @@ const styles = {
     borderRadius: '4px',
     border: '1px solid #ccc',
     width: '100%', // Full width for the input
+    WebkitBoxSizing: 'border-box', // Safari
+    MozBoxSizing: 'border-box',    // Firefox
+    boxSizing: 'border-box',       // Standard
   },
   submitButton: {
     padding: '10px',
@@ -104,6 +109,9 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+    WebkitTransition: 'background-color 0.3s ease', // Safari
+    MozTransition: 'background-color 0.3s ease',    // Firefox
+    transition: 'background-color 0.3s ease',       // Standard
   },
 };
 
