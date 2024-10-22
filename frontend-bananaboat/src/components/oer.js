@@ -72,22 +72,6 @@ const OER = () => {
           )}
         </section>
       </main>
-
-      {/* Footer */}
-      <footer style={styles.footer}>
-        <ul style={styles.footerList}>
-          <li style={styles.footerItem}>
-            <Link to="/about-us-page" style={styles.footerLink}>
-              About Us
-            </Link>
-          </li>
-          <li style={styles.footerItem}>
-            <Link to="/faq-page" style={styles.footerLink}>
-              FAQ
-            </Link>
-          </li>
-        </ul>
-      </footer>
     </div>
   );
 };
@@ -152,30 +136,6 @@ const styles = {
   noResults: {
     fontSize: "18px",
     color: "#999",
-  },
-  footer: {
-    backgroundColor: "#333",
-    color: "white",
-    padding: "20px 0",
-    textAlign: "center",
-  },
-  footerList: {
-    listStyleType: "none",
-    padding: 0,
-    margin: 0,
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-  },
-  footerItem: {},
-  footerLink: {
-    color: "white",
-    textDecoration: "none",
-    fontSize: "16px",
-    transition: "color 0.3s",
-  },
-  footerLinkHover: {
-    color: "#4CAF50",
   },
 };
 

@@ -82,7 +82,9 @@ const styles = {
     padding: "20px",
     backgroundColor: "#ffffff",
     borderRadius: "8px",
-    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+    WebkitBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Safari
+    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)",    // Firefox
+    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",       // Standard property
     overflowY: "auto",
     display: 'flex',
     flexDirection: 'column',
@@ -109,6 +111,9 @@ const styles = {
     padding: "10px",
     borderRadius: "4px",
     border: "1px solid #ccc",
+    WebkitBoxSizing: "border-box", // Safari
+    MozBoxSizing: "border-box",    // Firefox
+    boxSizing: "border-box",       // Standard property
   },
   submitButton: {
     padding: "10px 15px",
@@ -118,6 +123,9 @@ const styles = {
     borderRadius: "4px",
     cursor: "pointer",
     width: "100%",
+    WebkitTransition: "background-color 0.3s ease", // Safari
+    MozTransition: "background-color 0.3s ease",    // Firefox
+    transition: "background-color 0.3s ease",       // Standard property
   },
   forgotPassword: {
     textDecoration: "none",

@@ -274,25 +274,22 @@ const styles = {
     border: "none",
     background: "none",
     cursor: "pointer",
-    transition: "background-color 0.3s, transform 0.3s",
+    WebkitTransition: "background-color 0.3s, transform 0.3s", // Safari
+    MozTransition: "background-color 0.3s, transform 0.3s",    // Firefox
+    transition: "background-color 0.3s, transform 0.3s",       // Standard property
   },
   header: {
     textAlign: "center",
     paddingBottom: "20px",
   },
   banner: {
-    /*display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#e4e4e4",
-    padding: "20px",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    marginBottom: "30px",*/
     border: "1px solid #ccc",
     borderRadius: "5px",
     padding: "20px",
     backgroundColor: "white",
+    WebkitBoxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Safari
+    MozBoxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",    // Firefox
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",       // Standard property
   },
   bannerText: {
     textAlign: "left",
@@ -300,3 +297,4 @@ const styles = {
 };
 
 export default Home;
+
