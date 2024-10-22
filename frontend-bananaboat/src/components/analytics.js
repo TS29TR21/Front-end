@@ -69,7 +69,11 @@ const Analytics = () => {
 // Styles for the page
 const styles = {
   pageContainer: {
-    display: "flex",
+    display: "-webkit-box",    // Safari
+    display: "-moz-box",       // Firefox
+    display: "-ms-flexbox",    // IE 10
+    display: "-webkit-flex",   // Safari, Chrome
+    display: "flex",           // Standard
     height: "100vh",
   },
   mainContent: {
@@ -83,7 +87,10 @@ const styles = {
     paddingBottom: "20px",
   },
   searchSection: {
-    display: "flex",
+    display: "-webkit-box",    // Safari
+    display: "-moz-box",       // Firefox
+    display: "-webkit-flex",   // Safari, Chrome
+    display: "flex",           // Standard flexbox
     justifyContent: "center",
     marginBottom: "20px",
   },
@@ -93,6 +100,8 @@ const styles = {
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
+    "-webkit-border-radius": "4px",   // Safari
+    "-moz-border-radius": "4px",      // Firefox
   },
   searchButton: {
     padding: "10px 15px",
@@ -101,9 +110,14 @@ const styles = {
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
+    "-webkit-transition": "background-color 0.3s ease",  // Safari
+    "-moz-transition": "background-color 0.3s ease",     // Firefox
+    transition: "background-color 0.3s ease",            // Standard
   },
   metricsSection: {
-    display: "grid",
+    display: "-moz-grid",                    // Older Firefox
+    display: "-webkit-grid",                 // Safari, Chrome
+    display: "grid",                         // Standard grid
     gridTemplateColumns: "repeat(3, 1fr)",
     gap: "20px",
   },
@@ -112,7 +126,11 @@ const styles = {
     padding: "20px",
     borderRadius: "8px",
     textAlign: "center",
+    "-webkit-box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",  // Safari
+    "-moz-box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",     // Firefox
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",             // Standard
   },
 };
+
 
 export default Analytics;

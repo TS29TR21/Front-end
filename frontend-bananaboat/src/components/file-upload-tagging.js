@@ -172,6 +172,9 @@ const styles = {
     border: '1px solid #ccc',
     width: '100%',
     marginBottom: '15px',
+    WebkitAppearance: 'none', // Vendor prefix for WebKit browsers
+    MozAppearance: 'none',    // Vendor prefix for Firefox
+    appearance: 'none',       // Standard property
   },
   keywordContainer: {
     display: 'flex',
@@ -208,6 +211,9 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+    WebkitTransition: 'background-color 0.3s ease', // Vendor prefix for Safari
+    MozTransition: 'background-color 0.3s ease',    // Vendor prefix for Firefox
+    transition: 'background-color 0.3s ease',       // Standard property
   },
 };
 

@@ -132,7 +132,11 @@ const AboutUs = () => {
 // Styles for the page
 const styles = {
   pageContainer: {
-    display: "flex",
+    display: "-webkit-box",    // For Safari
+    display: "-moz-box",       // For older Firefox
+    display: "-ms-flexbox",    // For IE10
+    display: "-webkit-flex",   // For newer Safari and Chrome
+    display: "flex",           // Standard flexbox
     height: "100vh",
   },
   mainContent: {
@@ -140,6 +144,10 @@ const styles = {
     padding: "20px",
     backgroundColor: "#f4f4f4",
     overflowY: "auto",
+    // Adding browser prefixes for transitions (as an example)
+    "-webkit-transition": "all 0.3s ease", // Safari
+    "-moz-transition": "all 0.3s ease",    // Firefox
+    transition: "all 0.3s ease",           // Standard
   },
   header: {
     textAlign: "center",
@@ -155,10 +163,12 @@ const styles = {
   },
   searchInput: {
     padding: "10px",
-    width: "250px", // Adjusted width for search input
+    width: "250px",
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
+    "-webkit-border-radius": "4px",   // Safari
+    "-moz-border-radius": "4px",      // Firefox
   },
   searchButton: {
     padding: "10px 15px",
@@ -167,6 +177,9 @@ const styles = {
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
+    "-webkit-transition": "background-color 0.3s ease",  // Safari
+    "-moz-transition": "background-color 0.3s ease",     // Firefox
+    transition: "background-color 0.3s ease",            // Standard
   },
 };
 

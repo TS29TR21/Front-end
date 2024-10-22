@@ -128,6 +128,8 @@ const styles = {
     padding: "10px",
     cursor: "pointer",
     transition: "background-color 0.3s",
+    WebkitTransition: "background-color 0.3s ease",  // Safari
+    MozTransition: "background-color 0.3s ease",     // Firefox
   },
   contributorName: {
     margin: "0",
