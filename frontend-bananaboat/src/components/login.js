@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PasswordReset from "./reset-password.js";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   // Manage form state
   const [formData, setFormData] = useState({
     username_or_email: "",
@@ -10,6 +10,7 @@ const Login = () => {
 
   // Manage section state
   const [activeSection, setActiveSection] = useState("login");
+  const [error, setError] = useState(""); // To handle error messages
 
   // Handle form input change
   const handleInputChange = (e) => {
@@ -21,10 +22,28 @@ const Login = () => {
   };
 
   // Handle form submission (login button)
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     // Logic for handling login action
-    console.log("Form data:", formData);
+    try {
+      const response = await fetch("YOUR_API_ENDPOINT/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+      onLogin(data); // Call the parent component's onLogin method with user data
+      console.log("Logged in successfully:", data);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   // Function to handle navigation to password reset

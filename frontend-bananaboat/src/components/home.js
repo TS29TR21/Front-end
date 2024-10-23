@@ -20,7 +20,13 @@ import Analytics from "./analytics.js";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("overview");
+  const [user, setUser] = useState(null); // State to manage user information
 
+  const handleLogin = (userData) => {
+    setUser(userData); // Store user data after login
+    setActiveSection("subject-view"); // Redirect to a different section upon login
+  };
+ 
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Search query:", searchQuery);
@@ -194,18 +200,24 @@ const Home = () => {
         <header style={styles.header}>
           <h1 style={styles.logo}>Share2Teach</h1>
           <div style={styles.authButtons}>
-            <button
-              style={styles.authButton}
-              onClick={() => setActiveSection("login")}
-            >
-              Login
-            </button>
-            <button
-              style={styles.authButton}
-              onClick={() => setActiveSection("register")}
-            >
-              Sign Up
-            </button>
+            {user ? (
+              <span>Welcome, {user.username}!</span> // Display user info
+            ) : (
+              <>
+                <button
+                  style={styles.authButton}
+                  onClick={() => setActiveSection("login")}
+                >
+                  Login
+                </button>
+                <button
+                  style={styles.authButton}
+                  onClick={() => setActiveSection("register")}
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
           </div>
         </header>
 
