@@ -33,7 +33,7 @@ const PasswordReset = ({ handleBackToLoginClick }) => {
           <div style={styles.formGroup}>
             <input
               type="submit"
-              value="Reset Password"
+              value="Get Code"
               style={styles.submitButton}
             />
           </div>
