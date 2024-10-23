@@ -28,6 +28,8 @@ const Home = () => {
 
   const renderSectionContent = () => {
     switch (activeSection) {
+      case "/":
+        return <h2>Welcome to Share2Teach</h2>;
       case "subject-view":
         return <SubjectView />;
       case "resource-search":
@@ -62,12 +64,6 @@ const Home = () => {
         return <ResourceReport />;
       case "update-user-role":
         return <UpdateUserRole />;
-      default:
-        return (
-          <>
-            <h2>Welcome to Share2Teach</h2>
-          </>
-        );
     }
   };
 
@@ -145,22 +141,7 @@ const Home = () => {
               >
                 Self-Directed Learning
               </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("login")}
-              >
-                Login
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("register")}
-              >
-                Account Creation
-              </button>
+            
             </li>
             <li style={styles.sidebarListItem}>
               <button
@@ -225,7 +206,21 @@ const Home = () => {
       {/* Main Content */}
       <main style={styles.mainContent}>
         <header style={styles.header}>
-          <h1>Share2Teach</h1>
+          <h1 style={styles.logo}>Share2Teach</h1>
+          <div style={styles.authButtons}>
+            <button
+              style={styles.authButton}
+              onClick={() => setActiveSection("login")}
+            >
+              Login
+            </button>
+            <button
+              style={styles.authButton}
+              onClick={() => setActiveSection("register")}
+            >
+              Sign Up
+            </button>
+          </div>
         </header>
 
         <section style={styles.banner}>
@@ -279,8 +274,33 @@ const styles = {
     transition: "background-color 0.3s, transform 0.3s",       // Standard property
   },
   header: {
-    textAlign: "center",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingBottom: "20px",
+  },
+  logo: {
+    fontSize: "24px",
+    fontWeight: "bold",
+  },
+  authButtons: {
+    display: "flex",
+    gap: "10px", // Space between buttons
+  },
+  authButton: {
+    padding: "8px 16px",
+    backgroundColor: "#4CAF50", // Button background color
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontSize: "14px",
+    WebkitTransition: "background-color 0.3s", // Safari
+    MozTransition: "background-color 0.3s", // Firefox
+    transition: "background-color 0.3s", // Standard
+  },
+  authButtonHover: {
+    backgroundColor: "#45a049", // Button hover color
   },
   banner: {
     border: "1px solid #ccc",
