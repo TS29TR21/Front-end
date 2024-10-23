@@ -148,14 +148,6 @@ const Home = () => {
             <li style={styles.sidebarListItem}>
               <button
                 style={styles.link}
-                onClick={() => setActiveSection("new-password")}
-              >
-                New Reset
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
                 onClick={() => setActiveSection("analytics")}
               >
                 Analytics

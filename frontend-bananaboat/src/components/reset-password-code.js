@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const ResetPasswordCode = ({ email }) => {
   const [code, setCode] = useState('');
+  const navigate = useNavigate(); // Initialize navigate
 
   // Handle input change for the verification code
   const handleCodeChange = (e) => {
@@ -29,7 +31,7 @@ const ResetPasswordCode = ({ email }) => {
 
       if (response.ok) {
         alert('Code validated successfully!');
-        // Optionally, redirect or reset form if necessary
+        navigate('/new-password-page'); // Navigate to NewPassword component
       } else {
         alert('Failed to validate code. Please try again.');
       }
@@ -83,7 +85,6 @@ const styles = {
     display: "flex",
     height: "60vh",
     width: "90vh",
-    //padding: "20px",
     backgroundColor: "#f4f4f4",
   },
   mainContent: {
@@ -91,18 +92,12 @@ const styles = {
     padding: "20px",
     backgroundColor: "#ffffff",
     borderRadius: "8px",
-    WebkitBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Safari
-    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)",    // Firefox
-    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",       // Standard property
+    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
     overflowY: "auto",
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center', // Center content horizontally
-    justifyContent: 'center', // Center content vertically
-  },
-  header: {
-    textAlign: "center",
-    marginBottom: "20px",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   centerText: {
     textAlign: "center",
@@ -113,10 +108,10 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    maxWidth: "600px", // Increased max width for more horizontal space
+    maxWidth: "600px",
   },
   formGroup: {
-    marginBottom: "20px", // Increased margin for more spacing
+    marginBottom: "20px",
     width: "100%",
   },
   input: {
@@ -124,9 +119,7 @@ const styles = {
     padding: "10px",
     borderRadius: "4px",
     border: "1px solid #ccc",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard property
+    boxSizing: "border-box",
   },
   submitButton: {
     padding: "10px 15px",
@@ -136,18 +129,7 @@ const styles = {
     borderRadius: "4px",
     cursor: "pointer",
     width: "100%",
-    WebkitTransition: "background-color 0.3s ease", // Safari
-    MozTransition: "background-color 0.3s ease",    // Firefox
-    transition: "background-color 0.3s ease",       // Standard property
-  },
-  backButton: {
-    padding: "10px 15px",
-    backgroundColor: "#f4f4f4",
-    color: "#333",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    cursor: "pointer",
-    marginTop: "10px",
+    transition: "background-color 0.3s ease",
   },
 };
 
