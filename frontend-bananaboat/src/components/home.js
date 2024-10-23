@@ -64,6 +64,8 @@ const Home = () => {
         return <ResourceReport />;
       case "update-user-role":
         return <UpdateUserRole />;
+      default:
+      return <h2>Welcome to Share2Teach</h2>;
     }
   };
 
@@ -141,15 +143,7 @@ const Home = () => {
               >
                 Self-Directed Learning
               </button>
-            
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("reset-password")}
-              >
-                Password Reset
-              </button>
+
             </li>
             <li style={styles.sidebarListItem}>
               <button

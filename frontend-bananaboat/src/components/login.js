@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PasswordReset from "./reset-password.js";
 
 const Login = () => {
   // Manage form state
@@ -6,6 +7,9 @@ const Login = () => {
     username_or_email: "",
     password: "",
   });
+
+  // Manage section state
+  const [activeSection, setActiveSection] = useState("login");
 
   // Handle form input change
   const handleInputChange = (e) => {
@@ -23,13 +27,20 @@ const Login = () => {
     console.log("Form data:", formData);
   };
 
-  return (
-    <div style={styles.pageContainer}>
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
-          <h1>Login</h1>
-        </header>
+  // Function to handle navigation to password reset
+  const handleForgotPasswordClick = () => {
+    setActiveSection("reset-password");
+  };
 
+  // Function to handle back navigation to login
+  const handleBackToLoginClick = () => {
+    setActiveSection("login");
+  };
+
+  // Render content based on the active section
+  const renderSectionContent = () => {
+    if (activeSection === "login") {
+      return (
         <form onSubmit={handleLoginSubmit} style={styles.form}>
           <div style={styles.formGroup}>
             <input
@@ -59,11 +70,34 @@ const Login = () => {
             />
           </div>
         </form>
+      );
+    } else if (activeSection === "reset-password") {
+      return <PasswordReset handleBackToLoginClick={handleBackToLoginClick} />;
+    }
+  };
 
-        <center>
-          <br />
-          <a href="/resetPasswordPage" style={styles.forgotPassword}>Forgot Password?</a>
-        </center>
+  return (
+    <div style={styles.pageContainer}>
+      <main style={styles.mainContent}>
+        <header style={styles.header}>
+          <h1>Login</h1>
+        </header>
+
+        {/* Render login form or password reset component */}
+        {renderSectionContent()}
+
+        {activeSection === "login" && (
+          <center>
+            <br />
+            <a
+              href="#"
+              onClick={handleForgotPasswordClick}
+              style={styles.forgotPassword}
+            >
+              Forgot Password?
+            </a>
+          </center>
+        )}
       </main>
     </div>
   );
@@ -73,7 +107,7 @@ const Login = () => {
 const styles = {
   pageContainer: {
     display: "flex",
-    height: "50vh",
+    height: "60vh",
     padding: "20px",
     backgroundColor: "#f4f4f4",
   },
@@ -130,6 +164,7 @@ const styles = {
   forgotPassword: {
     textDecoration: "none",
     color: "#4CAF50",
+    cursor: "pointer",
   },
 };
 

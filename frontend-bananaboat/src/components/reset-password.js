@@ -1,117 +1,120 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-// Password Reset Component
-const PasswordReset = () => {
-  const [email, setEmail] = useState('');
+const PasswordReset = ({ handleBackToLoginClick }) => {
+  const [email, setEmail] = useState("");
 
-  // Handle input change
-  const handleEmailChange = (e) => {
+  const handleInputChange = (e) => {
     setEmail(e.target.value);
   };
 
-  // Handle form submission for password reset
-  const handleSubmit = async (e) => {
+  const handleResetSubmit = (e) => {
     e.preventDefault();
-
-    // Perform form validation (e.g., check for empty email)
-    if (!email) {
-      alert("Please enter your email.");
-      return;
-    }
-
-    try {
-      const response = await fetch('resetPassword', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': getCSRFToken(), // Adjust based on your CSRF token implementation
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      if (response.ok) {
-        alert('A reset code has been sent to your email.');
-        // Optionally, redirect or reset form if necessary
-      } else {
-        alert('Failed to send reset code. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error during password reset:', error);
-      alert('An error occurred while sending the reset code.');
-    }
-  };
-
-  // Function to get CSRF token
-  const getCSRFToken = () => {
-    return document.cookie
-      .split('; ')
-      .find(item => item.startsWith('csrftoken='))
-      ?.split('=')[1];
+    // Logic for handling password reset
+    console.log("Email for password reset:", email);
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Password Reset</h1>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.inputGroup}>
-          <input
-            type="text"
-            placeholder="Email"
-            name="email"
-            value={email}
-            onChange={handleEmailChange}
-            required
-            style={styles.input}
-          />
-        </div>
-        <button type="submit" style={styles.submitButton}>Get Code</button>
-      </form>
+    <div style={styles.pageContainer}>
+      <main style={styles.mainContent}>
+        <header style={styles.header}>
+          <h1>Password Reset</h1>
+        </header>
+
+        <form onSubmit={handleResetSubmit} style={styles.form}>
+          <div style={styles.formGroup}>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={handleInputChange}
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="submit"
+              value="Reset Password"
+              style={styles.submitButton}
+            />
+          </div>
+        </form>
+
+        {/* Back to Login button */}
+        <button onClick={handleBackToLoginClick} style={styles.backButton}>
+          Back to Login
+        </button>
+      </main>
     </div>
   );
 };
 
 // Styles for the component
 const styles = {
-  container: {
-    maxWidth: '900px', // Increased width for more horizontal space
-    margin: 'auto',
-    padding: '20px',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    WebkitBoxShadow: '0 2px 4px rgba(0,0,0,0.1)', // Safari
-    MozBoxShadow: '0 2px 4px rgba(0,0,0,0.1)',    // Firefox
+  pageContainer: {
+    display: "flex",
+    height: "60vh",
+    width: "100vh",
+    padding: "20px",
+    backgroundColor: "#f4f4f4",
   },
-  title: {
-    textAlign: 'center',
-    marginBottom: '20px',
-  },
-  form: {
+  mainContent: {
+    flex: 1,
+    padding: "20px",
+    backgroundColor: "#ffffff",
+    borderRadius: "8px",
+    WebkitBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Safari
+    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)",    // Firefox
+    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",       // Standard property
+    overflowY: "auto",
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center', // Center content horizontally
+    justifyContent: 'center', // Center content vertically
   },
-  inputGroup: {
-    marginBottom: '15px', // Margin between input groups
+  header: {
+    textAlign: "center",
+    marginBottom: "20px",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+    maxWidth: "600px", // Increased max width for more horizontal space
+  },
+  formGroup: {
+    marginBottom: "20px", // Increased margin for more spacing
+    width: "100%",
   },
   input: {
-    padding: '10px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    width: '100%', // Full width for the input
-    WebkitBoxSizing: 'border-box', // Safari
-    MozBoxSizing: 'border-box',    // Firefox
-    boxSizing: 'border-box',       // Standard
+    width: "100%",
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    WebkitBoxSizing: "border-box", // Safari
+    MozBoxSizing: "border-box",    // Firefox
+    boxSizing: "border-box",       // Standard property
   },
   submitButton: {
-    padding: '10px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    WebkitTransition: 'background-color 0.3s ease', // Safari
-    MozTransition: 'background-color 0.3s ease',    // Firefox
-    transition: 'background-color 0.3s ease',       // Standard
+    padding: "10px 15px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    width: "100%",
+    WebkitTransition: "background-color 0.3s ease", // Safari
+    MozTransition: "background-color 0.3s ease",    // Firefox
+    transition: "background-color 0.3s ease",       // Standard property
+  },
+  backButton: {
+    padding: "10px 15px",
+    backgroundColor: "#f4f4f4",
+    color: "#333",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    cursor: "pointer",
+    marginTop: "10px",
   },
 };
 
