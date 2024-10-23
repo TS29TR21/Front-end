@@ -26,7 +26,7 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     // Logic for handling login action
     try {
-      const response = await fetch("YOUR_API_ENDPOINT/login/", {
+      const response = await fetch("http://127.0.0.1:8000/api/user/deserial", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
