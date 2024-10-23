@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 // Register Component
 const Register = () => {
   // State variables for form fields
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    username: '',
-    email: '',
-    password: '',
-    confirmpassword: '',
+    first_name: "",
+    last_name: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
   });
 
   // State variable for messages (optional)
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -35,32 +35,34 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/user/deserial', { // Adjust the URL as needed
-        method: 'POST',
+      const response = await fetch("http://127.0.0.1:8000/api/user/deserial", {
+        // Adjust the URL as needed
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        const data = await response.json(); // Parse JSON response
-        setMessage('Registration successful! Please log in.');
+        // const data = await response.json(); // Parse JSON response
+        setMessage("Registration successful! Please log in.");
         // Optionally, redirect to a login page or reset the form
       } else {
         const data = await response.json(); // Parse JSON error response
-        setMessage(data.error || 'Registration failed. Please try again.');
+        setMessage(data.error || "Registration failed. Please try again.");
       }
     } catch (error) {
-      console.error('Error during registration:', error);
-      setMessage('An error occurred while registering.');
+      console.error("Error during registration:", error);
+      setMessage("An error occurred while registering.");
     }
   };
 
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Register</h1>
-      {message && <p style={styles.message}>{message}</p>} {/* Display messages */}
+      {message && <p style={styles.message}>{message}</p>}{" "}
+      {/* Display messages */}
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.inputGroup}>
           <input
@@ -116,7 +118,9 @@ const Register = () => {
             style={styles.input}
           />
         </div>
-        <button type="submit" style={styles.submitButton}>Register</button>
+        <button type="submit" style={styles.submitButton}>
+          Register
+        </button>
       </form>
     </div>
   );
@@ -125,44 +129,44 @@ const Register = () => {
 // Styles for the component
 const styles = {
   container: {
-    maxWidth: '900px',
-    margin: 'auto',
-    padding: '20px',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    maxWidth: "900px",
+    margin: "auto",
+    padding: "20px",
+    backgroundColor: "#f9f9f9",
+    borderRadius: "8px",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
   },
   title: {
-    textAlign: 'center',
-    marginBottom: '20px',
+    textAlign: "center",
+    marginBottom: "20px",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
   inputGroup: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginBottom: '15px',
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "15px",
   },
   input: {
-    padding: '10px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    width: '48%',
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    width: "48%",
   },
   submitButton: {
-    padding: '10px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
+    padding: "10px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
   message: {
-    color: 'red',
-    textAlign: 'center',
-    marginBottom: '20px',
+    color: "red",
+    textAlign: "center",
+    marginBottom: "20px",
   },
 };
 
