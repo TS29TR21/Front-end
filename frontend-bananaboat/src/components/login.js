@@ -107,8 +107,8 @@ const Login = () => {
 const styles = {
   pageContainer: {
     display: "flex",
-    height: "60vh",
-    padding: "20px",
+    height: "70vh",
+    //padding: "20px",
     backgroundColor: "#f4f4f4",
   },
   mainContent: {

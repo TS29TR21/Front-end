@@ -1,25 +1,31 @@
 import React, { useState } from "react";
+import ResetPasswordCode from "./reset-password-code.js"; // Import the reset password code component
 
 const PasswordReset = ({ handleBackToLoginClick }) => {
+  // Manage form state
   const [email, setEmail] = useState("");
+  
+  // Manage section state
+  const [activeSection, setActiveSection] = useState("reset-password");
 
+  // Handle input change
   const handleInputChange = (e) => {
     setEmail(e.target.value);
   };
 
+  // Handle form submission (Get Code button)
   const handleResetSubmit = (e) => {
     e.preventDefault();
-    // Logic for handling password reset
     console.log("Email for password reset:", email);
+    
+    // Navigate to the reset-password-code section
+    setActiveSection("reset-password-code");
   };
 
-  return (
-    <div style={styles.pageContainer}>
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
-          <h1>Password Reset</h1>
-        </header>
-
+  // Render content based on the active section
+  const renderSectionContent = () => {
+    if (activeSection === "reset-password") {
+      return (
         <form onSubmit={handleResetSubmit} style={styles.form}>
           <div style={styles.formGroup}>
             <input
@@ -38,11 +44,28 @@ const PasswordReset = ({ handleBackToLoginClick }) => {
             />
           </div>
         </form>
+      );
+    } else if (activeSection === "reset-password-code") {
+      return <ResetPasswordCode />; // Render the reset-password-code component
+    }
+  };
+
+  return (
+    <div style={styles.pageContainer}>
+      <main style={styles.mainContent}>
+        <header style={styles.header}>
+          <h3>Password Reset</h3>
+        </header>
+
+        {/* Render form or reset password code component */}
+        {renderSectionContent()}
 
         {/* Back to Login button */}
-        <button onClick={handleBackToLoginClick} style={styles.backButton}>
-          Back to Login
-        </button>
+        {activeSection === "reset-password" && (
+          <button onClick={handleBackToLoginClick} style={styles.backButton}>
+            Back to Login
+          </button>
+        )}
       </main>
     </div>
   );
@@ -54,7 +77,7 @@ const styles = {
     display: "flex",
     height: "60vh",
     width: "100vh",
-    padding: "20px",
+    //padding: "20px",
     backgroundColor: "#f4f4f4",
   },
   mainContent: {

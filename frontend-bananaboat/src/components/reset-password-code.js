@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 
-const ReportResource = ({ email }) => {
+const ResetPasswordCode = ({ email }) => {
   const [code, setCode] = useState('');
 
   // Handle input change for the verification code
   const handleCodeChange = (e) => {
     setCode(e.target.value);
-  };
-
-  // Handle back button click
-  const handleBack = (e) => {
-    e.preventDefault();
-    window.location.href = '/'; // Redirect to the homepage
   };
 
   // Handle form submission for code validation
@@ -54,49 +48,107 @@ const ReportResource = ({ email }) => {
   };
 
   return (
-    <div>
-      <header>
-        <h2 style={{ textAlign: 'center' }}>Report Resource</h2>
-      </header>
+    <div style={styles.pageContainer}>
+      <main style={styles.mainContent}>
 
-      {/* Back Button Form */}
-      <form onSubmit={handleBack}>
-        <div style={{ textAlign: 'center' }}>
-          <input type="submit" value="Back" name="backButton" />
-        </div>
-      </form>
+        <p style={styles.centerText}>
+          A verification code has been sent to {email}, you have 5 minutes to enter the code below.
+        </p>
 
-      <center>
-        A verification code has been sent to {email}, you have 5 minutes to enter the code below.
-      </center>
-
-      {/* Code Validation Form */}
-      <form onSubmit={handleSubmit}>
-        <table border="1" style={{ margin: 'auto', marginTop: '20px' }}>
-          <tbody>
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  placeholder="Enter verification code here"
-                  name="code"
-                  value={code}
-                  onChange={handleCodeChange}
-                  required
-                />
-                <input type="hidden" value={email} name="email" />
-              </td>
-            </tr>
-            <tr>
-              <td align="center">
-                <input type="submit" name="submitCode" value="Submit Code" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </form>
+        {/* Code Validation Form */}
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Enter verification code"
+              name="code"
+              value={code}
+              onChange={handleCodeChange}
+              required
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input type="submit" value="Submit Code" style={styles.submitButton} />
+          </div>
+        </form>
+      </main>
     </div>
   );
 };
 
-export default ReportResource;
+// Styles for the component
+const styles = {
+  pageContainer: {
+    display: "flex",
+    height: "60vh",
+    width: "90vh",
+    //padding: "20px",
+    backgroundColor: "#f4f4f4",
+  },
+  mainContent: {
+    flex: 1,
+    padding: "20px",
+    backgroundColor: "#ffffff",
+    borderRadius: "8px",
+    WebkitBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Safari
+    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)",    // Firefox
+    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",       // Standard property
+    overflowY: "auto",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center', // Center content horizontally
+    justifyContent: 'center', // Center content vertically
+  },
+  header: {
+    textAlign: "center",
+    marginBottom: "20px",
+  },
+  centerText: {
+    textAlign: "center",
+    marginBottom: "20px",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+    maxWidth: "600px", // Increased max width for more horizontal space
+  },
+  formGroup: {
+    marginBottom: "20px", // Increased margin for more spacing
+    width: "100%",
+  },
+  input: {
+    width: "100%",
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    WebkitBoxSizing: "border-box", // Safari
+    MozBoxSizing: "border-box",    // Firefox
+    boxSizing: "border-box",       // Standard property
+  },
+  submitButton: {
+    padding: "10px 15px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    width: "100%",
+    WebkitTransition: "background-color 0.3s ease", // Safari
+    MozTransition: "background-color 0.3s ease",    // Firefox
+    transition: "background-color 0.3s ease",       // Standard property
+  },
+  backButton: {
+    padding: "10px 15px",
+    backgroundColor: "#f4f4f4",
+    color: "#333",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    cursor: "pointer",
+    marginTop: "10px",
+  },
+};
+
+export default ResetPasswordCode;

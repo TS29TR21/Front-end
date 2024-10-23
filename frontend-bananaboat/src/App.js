@@ -7,7 +7,7 @@ import ModerationForm from "./components/moderation.js";
 import NewPassword from "./components/new-password.js";
 import RateResource from "./components/rate-resource.js";
 import Register from "./components/register.js";
-import PasswordReset from "./components/reset-password.js";
+import PasswordReset from "./components/reset-password.js"; // This is the reset-password page
 import ResourceReport from "./components/resource-report.js";
 import UpdateUserRole from "./components/update-user-role.js";
 import UploadTaggingResource from "./components/file-upload-tagging.js";
@@ -18,6 +18,7 @@ import OER from "./components/oer.js";
 import Contributors from "./components/contributors.js";
 import Self from "./components/sdl.js";
 import Analytics from "./components/analytics.js";
+import ResetPasswordCode from "./components/reset-password-code.js"; // Import the new ResetPasswordCode component
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/rate-resource-page" element={<RateResource />} />
             <Route path="/register-page" element={<Register />} />
             <Route path="/reset-password-page" element={<PasswordReset />} />
+            <Route path="/reset-code" element={<ResetPasswordCode email="user@example.com" />} /> {/* Add this line */}
             <Route path="/resource-report-page" element={<ResourceReport />} />
             <Route path="/update-role-page" element={<UpdateUserRole />} />
             <Route path="/subject-view-page" element={<SubjectView />} />
@@ -42,10 +44,7 @@ function App() {
             <Route path="/contributors-page" element={<Contributors />} />
             <Route path="/self-page" element={<Self />} />
             <Route path="/analytics-page" element={<Analytics />} />
-            <Route
-              path="/file-upload-page"
-              element={<UploadTaggingResource />}
-            />
+            <Route path="/file-upload-page" element={<UploadTaggingResource />} />
           </Routes>
         </div>
       </Router>
