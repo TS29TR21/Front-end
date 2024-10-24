@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
 import ModerationForm from "./moderation.js";
@@ -18,61 +19,21 @@ import Self from "./sdl.js";
 import Analytics from "./analytics.js";
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeSection, setActiveSection] = useState("overview");
   const [user, setUser] = useState(null); // State to manage user information
+  const navigate = useNavigate(); // Initialize useNavigate for routing
 
   const handleLogin = (userData) => {
     setUser(userData); // Store user data after login
-    setActiveSection("subject-view"); // Redirect to a different section upon login
-  };
- 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Search query:", searchQuery);
+    navigate("/"); // Redirect to home after login
   };
 
   const renderSectionContent = () => {
-    switch (activeSection) {
-      case "/":
-        return <h2>Welcome to Share2Teach</h2>;
-      case "subject-view":
-        return <SubjectView />;
-      case "resource-search":
-        return <ResourceSearch />;
-      case "file-upload":
-        return <UploadTaggingResource />;
-      case "oer":
-        return <OER />;
-      case "contributors":
-        return <Contributors />;
-      case "self-directed":
-        return <Self />;
-      case "register":
-        return <Register />;
-      case "reset-password":
-        return <PasswordReset />;
-      case "new-password":
-        return <NewPassword />;
-      case "about-us":
-        return <AboutUs />;
-      case "faq":
-        return <FAQ />;
-      case "login":
-        return <Login />;
-      case "analytics":
-        return <Analytics />;
-      case "moderate":
-        return <ModerationForm />;
-      case "rate-resource":
-        return <RateResource />;
-      case "resource-report":
-        return <ResourceReport />;
-      case "update-user-role":
-        return <UpdateUserRole />;
-      default:
-      return <h2>Welcome to Share2Teach</h2>;
-    }
+    return (
+      <>
+        <h2>Welcome to Share2Teach</h2>
+        {/* Add more content based on user roles or other criteria here */}
+      </>
+    );
   };
 
   return (
@@ -82,114 +43,46 @@ const Home = () => {
         <nav>
           <ul style={styles.sidebarList}>
             <li style={styles.sidebarListItem}>
-              <button style={styles.link} onClick={() => setActiveSection("/")}>
-                Home
-              </button>
+              <Link to="/" style={styles.link}>Home</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("subject-view")}
-              >
-                Subject View
-              </button>
+              <Link to="/subject-view-page" style={styles.link}>Subject View</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("resource-search")}
-              >
-                Search Resources
-              </button>
+              <Link to="/resource-search-page" style={styles.link}>Search Resources</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("file-upload")}
-              >
-                Contribute
-              </button>
+              <Link to="/file-upload-page" style={styles.link}>Contribute</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("oer")}
-              >
-                Other Useful OERs
-              </button>
+              <Link to="/oer-page" style={styles.link}>Other Useful OERs</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("rate-resource")}
-              >
-                Rate Resources
-              </button>
+              <Link to="/rate-resource-page" style={styles.link}>Rate Resources</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("moderate")}
-              >
-                Moderate Resources
-              </button>
+              <Link to="/moderate-page" style={styles.link}>Moderate Resources</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("contributors")}
-              >
-                Contributors
-              </button>
+              <Link to="/contributors-page" style={styles.link}>Contributors</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("self-directed")}
-              >
-                Self-Directed Learning
-              </button>
-
+              <Link to="/self-directed-page" style={styles.link}>Self-Directed Learning</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("analytics")}
-              >
-                Analytics
-              </button>
+              <Link to="/analytics-page" style={styles.link}>Analytics</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("about-us")}
-              >
-                About Us
-              </button>
+              <Link to="/about-us-page" style={styles.link}>About Us</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("faq")}
-              >
-                FAQ
-              </button>
+              <Link to="/faq-page" style={styles.link}>FAQ</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("resource-report")}
-              >
-                Resource Report
-              </button>
+              <Link to="/resource-report-page" style={styles.link}>Resource Report</Link>
             </li>
             <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("update-user-role")}
-              >
-                Update User Role
-              </button>
+              <Link to="/update-role-page" style={styles.link}>Update User Role</Link>
             </li>
           </ul>
         </nav>
@@ -204,18 +97,12 @@ const Home = () => {
               <span>Welcome, {user.username}!</span> // Display user info
             ) : (
               <>
-                <button
-                  style={styles.authButton}
-                  onClick={() => setActiveSection("login")}
-                >
-                  Login
-                </button>
-                <button
-                  style={styles.authButton}
-                  onClick={() => setActiveSection("register")}
-                >
-                  Sign Up
-                </button>
+                <Link to="/login-page">
+                  <button style={styles.authButton}>Login</button>
+                </Link>
+                <Link to="/register-page">
+                  <button style={styles.authButton}>Sign Up</button>
+                </Link>
               </>
             )}
           </div>
@@ -267,9 +154,7 @@ const styles = {
     border: "none",
     background: "none",
     cursor: "pointer",
-    WebkitTransition: "background-color 0.3s, transform 0.3s", // Safari
-    MozTransition: "background-color 0.3s, transform 0.3s",    // Firefox
-    transition: "background-color 0.3s, transform 0.3s",       // Standard property
+    transition: "background-color 0.3s, transform 0.3s", // Standard property
   },
   header: {
     display: "flex",
@@ -293,21 +178,14 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
     fontSize: "14px",
-    WebkitTransition: "background-color 0.3s", // Safari
-    MozTransition: "background-color 0.3s", // Firefox
     transition: "background-color 0.3s", // Standard
-  },
-  authButtonHover: {
-    backgroundColor: "#45a049", // Button hover color
   },
   banner: {
     border: "1px solid #ccc",
     borderRadius: "5px",
     padding: "20px",
     backgroundColor: "white",
-    WebkitBoxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Safari
-    MozBoxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",    // Firefox
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",       // Standard property
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Standard property
   },
   bannerText: {
     textAlign: "left",
@@ -315,4 +193,3 @@ const styles = {
 };
 
 export default Home;
-

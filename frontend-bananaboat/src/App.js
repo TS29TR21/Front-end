@@ -7,7 +7,7 @@ import ModerationForm from "./components/moderation.js";
 import NewPassword from "./components/new-password.js";
 import RateResource from "./components/rate-resource.js";
 import Register from "./components/register.js";
-import PasswordReset from "./components/reset-password.js"; // This is the reset-password page
+import PasswordReset from "./components/reset-password.js"; // Password reset page
 import ResourceReport from "./components/resource-report.js";
 import UpdateUserRole from "./components/update-user-role.js";
 import UploadTaggingResource from "./components/file-upload-tagging.js";
@@ -18,35 +18,33 @@ import OER from "./components/oer.js";
 import Contributors from "./components/contributors.js";
 import Self from "./components/sdl.js";
 import Analytics from "./components/analytics.js";
-import ResetPasswordCode from "./components/reset-password-code.js"; // Import the new ResetPasswordCode component
+import ResetPasswordCode from "./components/reset-password-code.js"; // Import the reset code page
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <div>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login-page" element={<Login />} />
-            <Route path="/resource-search-page" element={<ResourceSearch />} />
-            <Route path="/moderate-page" element={<ModerationForm />} />
-            <Route path="/new-password-page" element={<NewPassword />} />
-            <Route path="/rate-resource-page" element={<RateResource />} />
-            <Route path="/register-page" element={<Register />} />
-            <Route path="/reset-password-page" element={<PasswordReset />} />
-            <Route path="/reset-code" element={<ResetPasswordCode email="user@example.com" />} /> {/* Add this line */}
-            <Route path="/resource-report-page" element={<ResourceReport />} />
-            <Route path="/update-role-page" element={<UpdateUserRole />} />
-            <Route path="/subject-view-page" element={<SubjectView />} />
-            <Route path="/faq-page" element={<FAQ />} />
-            <Route path="/about-us-page" element={<AboutUs />} />
-            <Route path="/oer-page" element={<OER />} />
-            <Route path="/contributors-page" element={<Contributors />} />
-            <Route path="/self-page" element={<Self />} />
-            <Route path="/analytics-page" element={<Analytics />} />
-            <Route path="/file-upload-page" element={<UploadTaggingResource />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login-page" element={<Login />} />
+          <Route path="/resource-search-page" element={<ResourceSearch />} />
+          <Route path="/moderate-page" element={<ModerationForm />} />
+          <Route path="/new-password-page" element={<NewPassword />} />
+          <Route path="/rate-resource-page" element={<RateResource />} />
+          <Route path="/register-page" element={<Register />} />
+          <Route path="/reset-password-page" element={<PasswordReset />} />
+          <Route path="/reset-code" element={<ResetPasswordCode email="user@example.com" />} /> {/* Reset code route */}
+          <Route path="/resource-report-page" element={<ResourceReport />} />
+          <Route path="/update-role-page" element={<UpdateUserRole />} />
+          <Route path="/subject-view-page" element={<SubjectView />} />
+          <Route path="/faq-page" element={<FAQ />} />
+          <Route path="/about-us-page" element={<AboutUs />} />
+          <Route path="/oer-page" element={<OER />} />
+          <Route path="/contributors-page" element={<Contributors />} />
+          <Route path="/self-page" element={<Self />} />
+          <Route path="/analytics-page" element={<Analytics />} />
+          <Route path="/file-upload-page" element={<UploadTaggingResource />} />
+        </Routes>
       </Router>
     </div>
   );

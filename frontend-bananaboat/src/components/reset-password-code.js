@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link } from "react-router-dom"; // Import Link for navigation
 
 const ResetPasswordCode = ({ email }) => {
   const [code, setCode] = useState('');
@@ -71,9 +72,15 @@ const ResetPasswordCode = ({ email }) => {
             />
           </div>
           <div style={styles.formGroup}>
-            <input type="submit" value="Submit Code" style={styles.submitButton} />
+            <Link to="/login-page" style={styles.submitButton}>
+              Submit
+            </Link>           
           </div>
         </form>
+
+        <Link to="/reset-password-page" style={styles.backLink}>
+          Back
+        </Link>
       </main>
     </div>
   );
@@ -127,9 +134,15 @@ const styles = {
     color: "white",
     border: "none",
     borderRadius: "4px",
+    textDecoration: "none", // Styling to make it look like a button
+    textAlign: "center",
+    display: "block",
+    marginTop: "10px",
+  },
+  backLink: {
+    textDecoration: "none",
+    color: "#4CAF50",
     cursor: "pointer",
-    width: "100%",
-    transition: "background-color 0.3s ease",
   },
 };
 

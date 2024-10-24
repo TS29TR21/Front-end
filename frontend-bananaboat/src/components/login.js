@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import PasswordReset from "./reset-password.js";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 const Login = ({ onLogin }) => {
-  // Manage form state
   const [formData, setFormData] = useState({
     username_or_email: "",
     password: "",
   });
 
-  // Manage section state
-  const [activeSection, setActiveSection] = useState("login");
   const [error, setError] = useState(""); // To handle error messages
 
   // Handle form input change
@@ -46,20 +43,15 @@ const Login = ({ onLogin }) => {
     }
   };
 
-  // Function to handle navigation to password reset
-  const handleForgotPasswordClick = () => {
-    setActiveSection("reset-password");
-  };
+  return (
+    <div style={styles.pageContainer}>
+      <main style={styles.mainContent}>
+        <header style={styles.header}>
+          <h1>Login</h1>
+        </header>
 
-  // Function to handle back navigation to login
-  const handleBackToLoginClick = () => {
-    setActiveSection("login");
-  };
+        {error && <div style={styles.error}>{error}</div>} {/* Display error message */}
 
-  // Render content based on the active section
-  const renderSectionContent = () => {
-    if (activeSection === "login") {
-      return (
         <form onSubmit={handleLoginSubmit} style={styles.form}>
           <div style={styles.formGroup}>
             <input
@@ -89,34 +81,14 @@ const Login = ({ onLogin }) => {
             />
           </div>
         </form>
-      );
-    } else if (activeSection === "reset-password") {
-      return <PasswordReset handleBackToLoginClick={handleBackToLoginClick} />;
-    }
-  };
 
-  return (
-    <div style={styles.pageContainer}>
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
-          <h1>Login</h1>
-        </header>
-
-        {/* Render login form or password reset component */}
-        {renderSectionContent()}
-
-        {activeSection === "login" && (
-          <center>
-            <br />
-            <a
-              href="#"
-              onClick={handleForgotPasswordClick}
-              style={styles.forgotPassword}
-            >
-              Forgot Password?
-            </a>
-          </center>
-        )}
+        <center>
+          <br />
+          {/* Link to the Password Reset page */}
+          <Link to="/reset-password-page" style={styles.forgotPassword}>
+            Forgot Password?
+          </Link>
+        </center>
       </main>
     </div>
   );
@@ -127,7 +99,6 @@ const styles = {
   pageContainer: {
     display: "flex",
     height: "70vh",
-    //padding: "20px",
     backgroundColor: "#f4f4f4",
   },
   mainContent: {
@@ -135,14 +106,12 @@ const styles = {
     padding: "20px",
     backgroundColor: "#ffffff",
     borderRadius: "8px",
-    WebkitBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Safari
-    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)",    // Firefox
-    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",       // Standard property
+    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
     overflowY: "auto",
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center', // Center content horizontally
-    justifyContent: 'center', // Center content vertically
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     textAlign: "center",
@@ -153,10 +122,10 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    maxWidth: "600px", // Increased max width for more horizontal space
+    maxWidth: "600px",
   },
   formGroup: {
-    marginBottom: "20px", // Increased margin for more spacing
+    marginBottom: "20px",
     width: "100%",
   },
   input: {
@@ -164,9 +133,7 @@ const styles = {
     padding: "10px",
     borderRadius: "4px",
     border: "1px solid #ccc",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard property
+    boxSizing: "border-box",
   },
   submitButton: {
     padding: "10px 15px",
@@ -176,14 +143,16 @@ const styles = {
     borderRadius: "4px",
     cursor: "pointer",
     width: "100%",
-    WebkitTransition: "background-color 0.3s ease", // Safari
-    MozTransition: "background-color 0.3s ease",    // Firefox
-    transition: "background-color 0.3s ease",       // Standard property
+    transition: "background-color 0.3s ease",
   },
   forgotPassword: {
     textDecoration: "none",
     color: "#4CAF50",
     cursor: "pointer",
+  },
+  error: {
+    color: "red",
+    marginBottom: "10px",
   },
 };
 

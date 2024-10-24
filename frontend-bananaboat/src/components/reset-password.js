@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import ResetPasswordCode from "./reset-password-code.js"; // Import the reset password code component
+import { Link } from "react-router-dom"; // Import Link for navigation
 
 const PasswordReset = ({ handleBackToLoginClick }) => {
-  // Manage form state
   const [email, setEmail] = useState("");
-  
-  // Manage section state
-  const [activeSection, setActiveSection] = useState("reset-password");
+  const [error, setError] = useState(""); // To handle error messages
+  const [success, setSuccess] = useState(""); // To handle success messages
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -14,18 +12,38 @@ const PasswordReset = ({ handleBackToLoginClick }) => {
   };
 
   // Handle form submission (Get Code button)
-  const handleResetSubmit = (e) => {
+  const handleResetSubmit = async (e) => {
     e.preventDefault();
     console.log("Email for password reset:", email);
     
-    // Navigate to the reset-password-code section
-    setActiveSection("reset-password-code");
+    // Logic for handling password reset request
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/reset-password/", { // Replace with your API endpoint
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send reset code. Please try again.");
+      }
+
+      const data = await response.json();
+      setSuccess(data.message); // Assuming the API returns a success message
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  // Render content based on the active section
-  const renderSectionContent = () => {
-    if (activeSection === "reset-password") {
-      return (
+  return (
+    <div style={styles.pageContainer}>
+      <main style={styles.mainContent}>
+        <header style={styles.header}>
+          <h1>Password Reset</h1>
+        </header>
+
         <form onSubmit={handleResetSubmit} style={styles.form}>
           <div style={styles.formGroup}>
             <input
@@ -34,38 +52,29 @@ const PasswordReset = ({ handleBackToLoginClick }) => {
               value={email}
               onChange={handleInputChange}
               style={styles.input}
+              required // Ensure input is required
             />
           </div>
           <div style={styles.formGroup}>
-            <input
-              type="submit"
-              value="Get Code"
-              style={styles.submitButton}
-            />
+            <Link to="/reset-code" style={styles.linkButton}>
+              Get Code
+            </Link>
           </div>
+          {error && <p style={styles.errorMessage}>{error}</p>} {/* Show error messages */}
+          {success && <p style={styles.successMessage}>{success}</p>} {/* Show success messages */}
         </form>
-      );
-    } else if (activeSection === "reset-password-code") {
-      return <ResetPasswordCode />; // Render the reset-password-code component
-    }
-  };
 
-  return (
-    <div style={styles.pageContainer}>
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
-          <h3>Password Reset</h3>
-        </header>
-
-        {/* Render form or reset password code component */}
-        {renderSectionContent()}
+        {/* Navigate to the ResetPasswordCode component using Link */}
+        {success && (
+          <Link to="/reset-code" style={styles.linkButton}>
+            Go to Reset Code
+          </Link>
+        )}
 
         {/* Back to Login button */}
-        {activeSection === "reset-password" && (
-          <button onClick={handleBackToLoginClick} style={styles.backButton}>
-            Back to Login
-          </button>
-        )}
+        <Link to="/login-page" style={styles.backLink}>
+          Back
+        </Link>
       </main>
     </div>
   );
@@ -77,7 +86,6 @@ const styles = {
     display: "flex",
     height: "60vh",
     width: "100vh",
-    //padding: "20px",
     backgroundColor: "#f4f4f4",
   },
   mainContent: {
@@ -85,14 +93,12 @@ const styles = {
     padding: "20px",
     backgroundColor: "#ffffff",
     borderRadius: "8px",
-    WebkitBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Safari
-    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)",    // Firefox
-    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",       // Standard property
+    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
     overflowY: "auto",
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center', // Center content horizontally
-    justifyContent: 'center', // Center content vertically
+    alignItems: 'center', 
+    justifyContent: 'center',
   },
   header: {
     textAlign: "center",
@@ -103,10 +109,10 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    maxWidth: "600px", // Increased max width for more horizontal space
+    maxWidth: "600px",
   },
   formGroup: {
-    marginBottom: "20px", // Increased margin for more spacing
+    marginBottom: "20px",
     width: "100%",
   },
   input: {
@@ -114,9 +120,7 @@ const styles = {
     padding: "10px",
     borderRadius: "4px",
     border: "1px solid #ccc",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard property
+    boxSizing: "border-box",
   },
   submitButton: {
     padding: "10px 15px",
@@ -126,17 +130,30 @@ const styles = {
     borderRadius: "4px",
     cursor: "pointer",
     width: "100%",
-    WebkitTransition: "background-color 0.3s ease", // Safari
-    MozTransition: "background-color 0.3s ease",    // Firefox
-    transition: "background-color 0.3s ease",       // Standard property
+    transition: "background-color 0.3s ease",
   },
-  backButton: {
+  linkButton: {
     padding: "10px 15px",
-    backgroundColor: "#f4f4f4",
-    color: "#333",
-    border: "1px solid #ccc",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
     borderRadius: "4px",
+    textDecoration: "none", // Styling to make it look like a button
+    textAlign: "center",
+    display: "block",
+    marginTop: "10px",
+  },
+  backLink: {
+    textDecoration: "none",
+    color: "#4CAF50",
     cursor: "pointer",
+  },
+  errorMessage: {
+    color: "red",
+    marginTop: "10px",
+  },
+  successMessage: {
+    color: "green",
     marginTop: "10px",
   },
 };
