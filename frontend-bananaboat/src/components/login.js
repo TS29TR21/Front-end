@@ -8,9 +8,9 @@ const Login = ({ onLogin }) => {
     password: "",
   });
 
-  // Manage section state
   const [activeSection, setActiveSection] = useState("login");
-  const [error, setError] = useState(""); // To handle error messages
+  const [errors, setErrors] = useState({}); // State to manage validation errors
+  const [error, setError] = useState(""); // To handle server error messages
 
   // Handle form input change
   const handleInputChange = (e) => {
@@ -19,11 +19,37 @@ const Login = ({ onLogin }) => {
       ...formData,
       [name]: value,
     });
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" })); // Clear errors when input changes
+  };
+
+  // Validate form data
+  const validateForm = () => {
+    const newErrors = {};
+    const { username_or_email, password } = formData;
+
+    // Check if username or email is empty
+    if (!username_or_email) {
+      newErrors.username_or_email = "Username or Email is required.";
+    }
+
+    // Check if password is empty
+    if (!password) {
+      newErrors.password = "Password is required.";
+    }
+
+    return newErrors;
   };
 
   // Handle form submission (login button)
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors); // Set validation errors if found
+      return;
+    }
+
     // Logic for handling login action
     try {
       const response = await fetch("http://127.0.0.1:8000/api/user/deserial", {
@@ -35,14 +61,14 @@ const Login = ({ onLogin }) => {
       });
 
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw new Error("Login failed. Please check your credentials.");
       }
 
       const data = await response.json();
       onLogin(data); // Call the parent component's onLogin method with user data
       console.log("Logged in successfully:", data);
     } catch (err) {
-      setError(err.message);
+      setError(err.message); // Set error from server
     }
   };
 
@@ -70,6 +96,9 @@ const Login = ({ onLogin }) => {
               onChange={handleInputChange}
               style={styles.input}
             />
+            {errors.username_or_email && (
+              <p style={styles.errorText}>{errors.username_or_email}</p>
+            )}
           </div>
           <div style={styles.formGroup}>
             <input
@@ -80,14 +109,14 @@ const Login = ({ onLogin }) => {
               onChange={handleInputChange}
               style={styles.input}
             />
+            {errors.password && (
+              <p style={styles.errorText}>{errors.password}</p>
+            )}
           </div>
           <div style={styles.formGroup}>
-            <input
-              type="submit"
-              value="Login"
-              style={styles.submitButton}
-            />
+            <input type="submit" value="Login" style={styles.submitButton} />
           </div>
+          {error && <p style={styles.errorText}>{error}</p>}
         </form>
       );
     } else if (activeSection === "reset-password") {
@@ -127,7 +156,6 @@ const styles = {
   pageContainer: {
     display: "flex",
     height: "70vh",
-    //padding: "20px",
     backgroundColor: "#f4f4f4",
   },
   mainContent: {
@@ -136,13 +164,13 @@ const styles = {
     backgroundColor: "#ffffff",
     borderRadius: "8px",
     WebkitBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Safari
-    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)",    // Firefox
-    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",       // Standard property
+    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Firefox
+    boxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Standard property
     overflowY: "auto",
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center', // Center content horizontally
-    justifyContent: 'center', // Center content vertically
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
   header: {
     textAlign: "center",
@@ -153,10 +181,10 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    maxWidth: "600px", // Increased max width for more horizontal space
+    maxWidth: "600px",
   },
   formGroup: {
-    marginBottom: "20px", // Increased margin for more spacing
+    marginBottom: "20px",
     width: "100%",
   },
   input: {
@@ -165,8 +193,8 @@ const styles = {
     borderRadius: "4px",
     border: "1px solid #ccc",
     WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard property
+    MozBoxSizing: "border-box", // Firefox
+    boxSizing: "border-box", // Standard property
   },
   submitButton: {
     padding: "10px 15px",
@@ -177,13 +205,18 @@ const styles = {
     cursor: "pointer",
     width: "100%",
     WebkitTransition: "background-color 0.3s ease", // Safari
-    MozTransition: "background-color 0.3s ease",    // Firefox
-    transition: "background-color 0.3s ease",       // Standard property
+    MozTransition: "background-color 0.3s ease", // Firefox
+    transition: "background-color 0.3s ease", // Standard property
   },
   forgotPassword: {
     textDecoration: "none",
     color: "#4CAF50",
     cursor: "pointer",
+  },
+  errorText: {
+    color: "red",
+    fontSize: "0.9rem",
+    marginTop: "5px",
   },
 };
 
