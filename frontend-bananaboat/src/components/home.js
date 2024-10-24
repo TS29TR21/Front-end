@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Box,
   Drawer,
   List,
   ListItem,
@@ -9,9 +8,10 @@ import {
   Toolbar,
   Typography,
   IconButton,
+  Box,
   Container,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu"; // Icon for the menu button
+import MenuIcon from "@mui/icons-material/Menu";
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
 import ModerationForm from "./moderation.js";
@@ -32,8 +32,14 @@ import Analytics from "./analytics.js";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeSection, setActiveSection] = useState("overview");
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Initially closed
+  const [activeSection, setActiveSection] = useState("/");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState(null); // User authentication state
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    setActiveSection("subject-view");
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -42,6 +48,8 @@ const Home = () => {
 
   const renderSectionContent = () => {
     switch (activeSection) {
+      case "/":
+        return <Typography variant="h5">Welcome to Share2Teach</Typography>;
       case "subject-view":
         return <SubjectView />;
       case "resource-search":
@@ -65,7 +73,7 @@ const Home = () => {
       case "faq":
         return <FAQ />;
       case "login":
-        return <Login />;
+        return <Login onLogin={handleLogin} />;
       case "analytics":
         return <Analytics />;
       case "moderate":
@@ -81,23 +89,18 @@ const Home = () => {
     }
   };
 
-  const handleItemClick = (section) => {
-    setActiveSection(section);
-    setSidebarOpen(false); // Close sidebar when an item is clicked
-  };
-
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#e8f5e9" }}>
-      {/* Sidebar Drawer */}
+      {/* Sidebar */}
       <Drawer
-        variant="temporary" // Use 'temporary' for mobile view
+        variant="temporary"
         anchor="left"
         open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)} // Close drawer when clicking outside
+        onClose={() => setSidebarOpen(false)}
         sx={{
           "& .MuiDrawer-paper": {
             width: 240,
-            bgcolor: "#2c7b2f", // Green background for sidebar
+            bgcolor: "#2c7b2f",
             color: "white",
           },
         }}
@@ -113,20 +116,14 @@ const Home = () => {
             { text: "Moderate Resources", section: "moderate" },
             { text: "Contributors", section: "contributors" },
             { text: "Self-Directed Learning", section: "self-directed" },
-            { text: "Login", section: "login" },
-            { text: "Account Creation", section: "register" },
-            { text: "Password Reset", section: "reset-password" },
-            { text: "New Reset", section: "new-password" },
             { text: "Analytics", section: "analytics" },
-            { text: "About Us", section: "about-us" },
-            { text: "FAQ", section: "faq" },
             { text: "Resource Report", section: "resource-report" },
             { text: "Update User Role", section: "update-user-role" },
           ].map(({ text, section }) => (
             <ListItem
               button
               key={text}
-              onClick={() => handleItemClick(section)}
+              onClick={() => setActiveSection(section)}
             >
               <ListItemText primary={text} />
             </ListItem>
@@ -135,36 +132,99 @@ const Home = () => {
       </Drawer>
 
       {/* Main Content */}
-      <Box
-        sx={{
-          flexGrow: 1,
-          transition: "margin-left 0.3s",
-          marginLeft: sidebarOpen ? "240px" : "0",
-        }}
-      >
+      <Box sx={{ flexGrow: 1, transition: "margin-left 0.3s" }}>
         <AppBar position="static" sx={{ bgcolor: "#4caf50" }}>
           <Toolbar>
             <IconButton
               edge="start"
               color="inherit"
               aria-label="menu"
-              onClick={() => setSidebarOpen(true)} // Open sidebar on button click
+              onClick={() => setSidebarOpen(true)}
             >
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Share2Teach
             </Typography>
+            <Box>
+              {user ? (
+                <Typography>Welcome, {user.username}!</Typography>
+              ) : (
+                <>
+                  <button
+                    style={styles.authButton}
+                    onClick={() => setActiveSection("login")}
+                  >
+                    Login
+                  </button>
+                  <button
+                    style={styles.authButton}
+                    onClick={() => setActiveSection("register")}
+                  >
+                    Sign Up
+                  </button>
+                </>
+              )}
+            </Box>
           </Toolbar>
         </AppBar>
+
         <Container sx={{ padding: 2, overflowY: "auto" }}>
           <Box sx={{ padding: 2, bgcolor: "#ffffff", borderRadius: 2 }}>
             {renderSectionContent()}
           </Box>
         </Container>
+
+        {/* Footer */}
+        <Box
+          sx={{
+            bgcolor: "#2c7b2f",
+            color: "white",
+            padding: 2,
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="body2">
+            <button
+              style={styles.footerLink}
+              onClick={() => setActiveSection("about-us")}
+            >
+              About Us
+            </button>
+            {" | "}
+            <button
+              style={styles.footerLink}
+              onClick={() => setActiveSection("faq")}
+            >
+              FAQ
+            </button>
+          </Typography>
+          <Typography variant="caption" sx={{ marginTop: 1 }}>
+            © {new Date().getFullYear()} NexTech. All rights reserved.
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );
+};
+
+const styles = {
+  authButton: {
+    padding: "8px 16px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginLeft: "10px",
+  },
+  footerLink: {
+    color: "white",
+    textDecoration: "none",
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+  },
 };
 
 export default Home;
