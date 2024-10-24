@@ -26,7 +26,7 @@ const Home = () => {
     setUser(userData); // Store user data after login
     setActiveSection("subject-view"); // Redirect to a different section upon login
   };
- 
+
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Search query:", searchQuery);
@@ -71,7 +71,7 @@ const Home = () => {
       case "update-user-role":
         return <UpdateUserRole />;
       default:
-      return <h2>Welcome to Share2Teach</h2>;
+        return <h2>Welcome to Share2Teach</h2>;
     }
   };
 
@@ -149,7 +149,6 @@ const Home = () => {
               >
                 Self-Directed Learning
               </button>
-
             </li>
             <li style={styles.sidebarListItem}>
               <button
@@ -157,22 +156,6 @@ const Home = () => {
                 onClick={() => setActiveSection("analytics")}
               >
                 Analytics
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("about-us")}
-              >
-                About Us
-              </button>
-            </li>
-            <li style={styles.sidebarListItem}>
-              <button
-                style={styles.link}
-                onClick={() => setActiveSection("faq")}
-              >
-                FAQ
               </button>
             </li>
             <li style={styles.sidebarListItem}>
@@ -224,6 +207,31 @@ const Home = () => {
         <section style={styles.banner}>
           <div style={styles.bannerText}>{renderSectionContent()}</div>
         </section>
+
+        {/* Footer */}
+        <footer style={styles.footer}>
+          <ul style={styles.footerList}>
+            <li style={styles.footerItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("about-us")}
+              >
+                About Us
+              </button>
+            </li>
+            <li style={styles.footerItem}>
+              <button
+                style={styles.link}
+                onClick={() => setActiveSection("faq")}
+              >
+                FAQ
+              </button>
+            </li>
+          </ul>
+          <p style={styles.copyright}>
+            © {new Date().getFullYear()} NexTech. All rights reserved.
+          </p>
+        </footer>
       </main>
     </div>
   );
@@ -268,8 +276,8 @@ const styles = {
     background: "none",
     cursor: "pointer",
     WebkitTransition: "background-color 0.3s, transform 0.3s", // Safari
-    MozTransition: "background-color 0.3s, transform 0.3s",    // Firefox
-    transition: "background-color 0.3s, transform 0.3s",       // Standard property
+    MozTransition: "background-color 0.3s, transform 0.3s", // Firefox
+    transition: "background-color 0.3s, transform 0.3s", // Standard property
   },
   header: {
     display: "flex",
@@ -306,13 +314,33 @@ const styles = {
     padding: "20px",
     backgroundColor: "white",
     WebkitBoxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Safari
-    MozBoxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",    // Firefox
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",       // Standard property
+    MozBoxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Firefox
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Standard property
   },
   bannerText: {
     textAlign: "left",
   },
+  footer: {
+    marginTop: "20px",
+    padding: "10px",
+    backgroundColor: "#2c2c2c",
+    color: "white",
+    textAlign: "center",
+  },
+  footerList: {
+    listStyleType: "none",
+    padding: 0,
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+  },
+  footerItem: {
+    marginBottom: "8px",
+  },
+  copyright: {
+    marginTop: "10px",
+    fontSize: "14px",
+  },
 };
 
 export default Home;
-
