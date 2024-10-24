@@ -33,17 +33,12 @@ import Analytics from "./analytics.js";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("/");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar toggle
   const [user, setUser] = useState(null); // User authentication state
 
   const handleLogin = (userData) => {
     setUser(userData);
     setActiveSection("subject-view");
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Search query:", searchQuery);
   };
 
   const renderSectionContent = () => {
@@ -90,10 +85,16 @@ const Home = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", bgcolor: "#e8f5e9" }}>
-      {/* Sidebar */}
+    <Box
+      sx={{
+        display: "flex", // Use flex layout for sidebar and content
+        height: "100vh",
+        bgcolor: "#e8f5e9",
+      }}
+    >
+      {/* Sidebar as a Drawer */}
       <Drawer
-        variant="temporary"
+        variant="temporary" // Use temporary variant for a menu
         anchor="left"
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -123,7 +124,10 @@ const Home = () => {
             <ListItem
               button
               key={text}
-              onClick={() => setActiveSection(section)}
+              onClick={() => {
+                setActiveSection(section);
+                setSidebarOpen(false); // Close sidebar after selecting
+              }}
             >
               <ListItemText primary={text} />
             </ListItem>
@@ -132,14 +136,20 @@ const Home = () => {
       </Drawer>
 
       {/* Main Content */}
-      <Box sx={{ flexGrow: 1, transition: "margin-left 0.3s" }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <AppBar position="static" sx={{ bgcolor: "#4caf50" }}>
           <Toolbar>
             <IconButton
               edge="start"
               color="inherit"
               aria-label="menu"
-              onClick={() => setSidebarOpen(true)}
+              onClick={() => setSidebarOpen(true)} // Open sidebar on menu click
             >
               <MenuIcon />
             </IconButton>
@@ -169,7 +179,7 @@ const Home = () => {
           </Toolbar>
         </AppBar>
 
-        <Container sx={{ padding: 2, overflowY: "auto" }}>
+        <Container sx={{ padding: 2, overflowY: "auto", flexGrow: 1 }}>
           <Box sx={{ padding: 2, bgcolor: "#ffffff", borderRadius: 2 }}>
             {renderSectionContent()}
           </Box>
