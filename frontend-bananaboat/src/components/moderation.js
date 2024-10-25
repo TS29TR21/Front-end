@@ -12,7 +12,7 @@ const ModerationForm = () => {
   const [formData, setFormData] = useState({
     source_id: "",
     mod_comment: "",
-    mod_status: "approved",
+    mod_status: "", // Initialize mod_status to an empty string
   });
 
   const [errors, setErrors] = useState({});
@@ -97,8 +97,10 @@ const ModerationForm = () => {
             onChange={handleInputChange}
             style={styles.select}
           >
-            <option value="">Select Moderation Status</option>
-            <option value="approved">Approve</option>
+            <option value="" disabled>
+              Select Moderation Status
+            </option>
+            <option value="approved">Approved</option>
             <option value="rejected">Reject</option>
           </select>
           {errors.mod_status && <p style={styles.error}>{errors.mod_status}</p>}

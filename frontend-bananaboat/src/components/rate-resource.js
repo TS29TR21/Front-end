@@ -133,22 +133,6 @@ const RateResource = () => {
             Submit Rating
           </button>
         </form>
-
-        <div style={styles.ratedResourcesContainer}>
-          <h2 style={styles.subTitle}>Rated Resources</h2>
-          {ratedResources.length === 0 ? (
-            <p>No resources rated</p>
-          ) : (
-            <ul style={styles.ratedResourcesList}>
-              {ratedResources.map((resource, index) => (
-                <li key={index} style={styles.resourceItem}>
-                  <strong>Resource ID:</strong> {resource.id},{" "}
-                  <strong>Rating:</strong> {resource.rating}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
       </div>
     </div>
   );

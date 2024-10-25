@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const UpdateUserRole = () => {
   const [userId, setUserId] = useState("");
-  const [role, setRole] = useState("adminUser");
+  const [role, setRole] = useState(""); // Set initial role to empty
   const [error, setError] = useState("");
 
   // Handle input changes
@@ -21,6 +21,11 @@ const UpdateUserRole = () => {
     if (!userId) {
       setError("User ID cannot be empty.");
       return;
+    }
+
+    if (!role) {
+      setError("Please select a role.");
+      return; // Ensure a role is selected
     }
 
     const roleData = {
@@ -42,7 +47,7 @@ const UpdateUserRole = () => {
         alert("User role updated successfully!");
         // Clear the form after successful submission
         setUserId("");
-        setRole("adminUser");
+        setRole(""); // Reset to empty on successful submission
         setError(""); // Clear error on successful submission
       } else {
         alert("Failed to update user role. Please try again.");
@@ -90,6 +95,9 @@ const UpdateUserRole = () => {
               onChange={handleRoleChange}
               style={styles.select}
             >
+              <option value="" disabled>
+                Select Role
+              </option>
               <option value="adminUser">Admin</option>
               <option value="moderatorUser">Moderator</option>
               <option value="educatorUser">Educator</option>
