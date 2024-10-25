@@ -171,7 +171,7 @@ const Home = () => {
           },
         }}
       >
-        <IconButton onClick={toggleSidebar}>
+        <IconButton onClick={toggleSidebar} sx={{ marginLeft: "auto" }}>
           <CloseIcon style={{ color: "white" }} />
         </IconButton>
         <List>
