@@ -12,7 +12,7 @@ import {
   Container,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from "@mui/icons-material/Close"; // Optional for closing the sidebar
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
 import ModerationForm from "./moderation.js";
@@ -159,9 +159,10 @@ const Home = () => {
     >
       {/* Sidebar as a Drawer */}
       <Drawer
-        variant="persistent"
+        variant="temporary"
         anchor="left"
         open={sidebarOpen}
+        onClose={toggleSidebar}
         sx={{
           "& .MuiDrawer-paper": {
             width: 240,
@@ -170,12 +171,9 @@ const Home = () => {
           },
         }}
       >
-        <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
-          <Typography variant="h6">Menu</Typography>
-          <IconButton onClick={toggleSidebar} color="inherit">
-            <CloseIcon />
-          </IconButton>
-        </Box>
+        <IconButton onClick={toggleSidebar}>
+          <CloseIcon style={{ color: "white" }} />
+        </IconButton>
         <List>
           {selectedMenu.map(({ text, section }) => (
             <ListItem
@@ -208,14 +206,22 @@ const Home = () => {
               aria-label="menu"
               onClick={toggleSidebar}
             >
-              {sidebarOpen ? <CloseIcon /> : <MenuIcon />}
+              <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Share2Teach
             </Typography>
             <Box>
               {user ? (
-                <Typography>Welcome, {user.username}!</Typography>
+                <>
+                  <Typography>Welcome, {user.username}!</Typography>
+                  <button
+                    style={styles.authButton}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </>
               ) : (
                 <>
                   <button
@@ -266,9 +272,6 @@ const Home = () => {
               FAQ
             </button>
           </Typography>
-          <Typography variant="caption" sx={{ marginTop: 1 }}>
-            © {new Date().getFullYear()} NexTech. All rights reserved.
-          </Typography>
         </Box>
       </Box>
     </Box>
@@ -277,19 +280,19 @@ const Home = () => {
 
 const styles = {
   authButton: {
-    marginLeft: "10px",
-    backgroundColor: "#ffffff",
+    margin: "0 5px",
+    padding: "10px 15px",
+    backgroundColor: "#4caf50",
     border: "none",
-    padding: "8px 16px",
-    borderRadius: "4px",
+    color: "white",
+    borderRadius: "5px",
     cursor: "pointer",
-    color: "#4caf50",
   },
   footerLink: {
-    backgroundColor: "transparent",
+    background: "none",
     border: "none",
-    cursor: "pointer",
     color: "white",
+    cursor: "pointer",
   },
 };
 
