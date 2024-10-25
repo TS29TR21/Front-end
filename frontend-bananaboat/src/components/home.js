@@ -12,6 +12,7 @@ import {
   Container,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
 import ModerationForm from "./moderation.js";
@@ -37,9 +38,14 @@ const Home = () => {
   const [user, setUser] = useState(null);
 
   const handleLogin = (userData) => {
-    console.log(userData);  // Check what properties are available
-    setUser(userData);  // Set user role after login
+    console.log(userData);
+    setUser(userData); // Set user role after login
     setActiveSection("/");
+  };
+
+  const handleLogout = () => {
+    setUser(null); // Clear the user data
+    setActiveSection("/"); // Optionally redirect to home or another section
   };
 
   // Define role-based sidebar menus
@@ -91,6 +97,10 @@ const Home = () => {
       { text: "Resource Report", section: "resource-report" },
       { text: "Update User Role", section: "update-user-role" },
     ],
+  };
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
   };
 
   // Get the appropriate menu based on user role
@@ -149,10 +159,9 @@ const Home = () => {
     >
       {/* Sidebar as a Drawer */}
       <Drawer
-        variant="temporary"
+        variant="persistent"
         anchor="left"
         open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
         sx={{
           "& .MuiDrawer-paper": {
             width: 240,
@@ -161,6 +170,12 @@ const Home = () => {
           },
         }}
       >
+        <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
+          <Typography variant="h6">Menu</Typography>
+          <IconButton onClick={toggleSidebar} color="inherit">
+            <CloseIcon />
+          </IconButton>
+        </Box>
         <List>
           {selectedMenu.map(({ text, section }) => (
             <ListItem
@@ -191,9 +206,9 @@ const Home = () => {
               edge="start"
               color="inherit"
               aria-label="menu"
-              onClick={() => setSidebarOpen(true)}
+              onClick={toggleSidebar}
             >
-              <MenuIcon />
+              {sidebarOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Share2Teach
@@ -262,20 +277,19 @@ const Home = () => {
 
 const styles = {
   authButton: {
-    padding: "8px 16px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
     marginLeft: "10px",
+    backgroundColor: "#ffffff",
+    border: "none",
+    padding: "8px 16px",
+    borderRadius: "4px",
+    cursor: "pointer",
+    color: "#4caf50",
   },
   footerLink: {
-    color: "white",
-    textDecoration: "none",
-    background: "none",
+    backgroundColor: "transparent",
     border: "none",
     cursor: "pointer",
+    color: "white",
   },
 };
 
