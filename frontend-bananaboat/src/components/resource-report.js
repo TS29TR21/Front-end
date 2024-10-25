@@ -4,34 +4,45 @@ const ResourceReport = () => {
   const [resourceId, setResourceId] = useState("");
   const [userId, setUserId] = useState("");
   const [reportComplaint, setReportComplaint] = useState("");
+  const [errors, setErrors] = useState({}); // State for error messages
 
-  // Handle input changes
   const handleResourceIdChange = (e) => setResourceId(e.target.value);
   const handleUserIdChange = (e) => setUserId(e.target.value);
   const handleReportComplaintChange = (e) => setReportComplaint(e.target.value);
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const reportData = {
-      resourceId,
-      userId,
-      reportComplaint,
-    };
+    // Validation
+    const newErrors = {};
+    if (!resourceId) newErrors.resourceId = "Resource ID is required.";
+    if (!userId) newErrors.userId = "User ID is required.";
+    if (!reportComplaint) newErrors.reportComplaint = "Complaint is required.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // Stop submission if there are validation errors
+    }
+
+    const reportData = { resourceId, userId, reportComplaint };
 
     try {
       const response = await fetch("resourceReport", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": getCSRFToken(), // Adjust based on your CSRF token implementation
+          "X-CSRFToken": getCSRFToken(), // Customize based on your CSRF token implementation
         },
         body: JSON.stringify(reportData),
       });
 
       if (response.ok) {
         alert("Report submitted successfully!");
+        // Clear form fields
+        setResourceId("");
+        setUserId("");
+        setReportComplaint("");
+        setErrors({}); // Clear errors
       } else {
         alert("Failed to submit report. Please try again.");
       }
@@ -41,7 +52,7 @@ const ResourceReport = () => {
     }
   };
 
-  // Example function to get CSRF token (customize as needed)
+  // Function to get CSRF token (adjust as needed)
   const getCSRFToken = () => {
     return document.cookie
       .split(";")
@@ -58,9 +69,6 @@ const ResourceReport = () => {
       {/* Resource Report Form */}
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.formGroup}>
-          <label htmlFor="resourceId" style={styles.label}>
-            Resource ID:
-          </label>
           <select
             id="resourceId"
             name="resourceId"
@@ -74,12 +82,12 @@ const ResourceReport = () => {
             <option value="3">Resource 3</option>
             {/* Add more options as needed */}
           </select>
+          {errors.resourceId && (
+            <p style={styles.errorMessage}>{errors.resourceId}</p>
+          )}
         </div>
 
         <div style={styles.formGroup}>
-          <label htmlFor="userId" style={styles.label}>
-            Report User:
-          </label>
           <input
             type="text"
             id="userId"
@@ -89,12 +97,10 @@ const ResourceReport = () => {
             style={styles.input}
             placeholder="Enter User ID"
           />
+          {errors.userId && <p style={styles.errorMessage}>{errors.userId}</p>}
         </div>
 
         <div style={styles.formGroup}>
-          <label htmlFor="reportComplaint" style={styles.label}>
-            Complaint:
-          </label>
           <textarea
             id="reportComplaint"
             name="reportComplaint"
@@ -103,6 +109,9 @@ const ResourceReport = () => {
             style={styles.textarea}
             placeholder="Enter your complaint"
           />
+          {errors.reportComplaint && (
+            <p style={styles.errorMessage}>{errors.reportComplaint}</p>
+          )}
         </div>
 
         <div style={styles.submitButtonWrapper}>
@@ -137,8 +146,6 @@ const styles = {
     padding: "20px",
     borderRadius: "8px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    WebkitBoxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Safari
-    MozBoxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",    // Firefox
   },
   formGroup: {
     marginBottom: "20px",
@@ -155,9 +162,6 @@ const styles = {
     border: "1px solid #ccc",
     borderRadius: "4px",
     fontSize: "14px",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard
   },
   select: {
     width: "100%",
@@ -165,9 +169,6 @@ const styles = {
     border: "1px solid #ccc",
     borderRadius: "4px",
     fontSize: "14px",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard
   },
   textarea: {
     width: "100%",
@@ -176,9 +177,6 @@ const styles = {
     borderRadius: "4px",
     fontSize: "14px",
     minHeight: "100px",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard
   },
   submitButtonWrapper: {
     textAlign: "center",
@@ -192,8 +190,11 @@ const styles = {
     cursor: "pointer",
     fontSize: "16px",
     transition: "background-color 0.3s",
-    WebkitTransition: "background-color 0.3s", // Safari
-    MozTransition: "background-color 0.3s",    // Firefox
+  },
+  errorMessage: {
+    color: "red",
+    fontSize: "12px",
+    marginTop: "5px",
   },
 };
 

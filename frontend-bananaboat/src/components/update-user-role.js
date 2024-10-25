@@ -2,15 +2,31 @@ import React, { useState } from "react";
 
 const UpdateUserRole = () => {
   const [userId, setUserId] = useState("");
-  const [role, setRole] = useState("adminUser");
+  const [role, setRole] = useState(""); // Set initial role to empty
+  const [error, setError] = useState("");
 
   // Handle input changes
-  const handleUserIdChange = (e) => setUserId(e.target.value);
+  const handleUserIdChange = (e) => {
+    setUserId(e.target.value);
+    setError(""); // Clear error on input change
+  };
+
   const handleRoleChange = (e) => setRole(e.target.value);
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate userId
+    if (!userId) {
+      setError("User ID cannot be empty.");
+      return;
+    }
+
+    if (!role) {
+      setError("Please select a role.");
+      return; // Ensure a role is selected
+    }
 
     const roleData = {
       user_id: userId,
@@ -31,7 +47,8 @@ const UpdateUserRole = () => {
         alert("User role updated successfully!");
         // Clear the form after successful submission
         setUserId("");
-        setRole("adminUser");
+        setRole(""); // Reset to empty on successful submission
+        setError(""); // Clear error on successful submission
       } else {
         alert("Failed to update user role. Please try again.");
       }
@@ -57,9 +74,6 @@ const UpdateUserRole = () => {
       <div style={styles.formContainer}>
         <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.formGroup}>
-            <label htmlFor="user_id" style={styles.label}>
-              User ID
-            </label>
             <input
               type="text"
               id="user_id"
@@ -69,12 +83,11 @@ const UpdateUserRole = () => {
               onChange={handleUserIdChange}
               style={styles.input}
             />
+            {error && <p style={styles.error}>{error}</p>}{" "}
+            {/* Display error message */}
           </div>
 
           <div style={styles.formGroup}>
-            <label htmlFor="user_role" style={styles.label}>
-              Role
-            </label>
             <select
               id="user_role"
               name="role"
@@ -82,6 +95,9 @@ const UpdateUserRole = () => {
               onChange={handleRoleChange}
               style={styles.select}
             >
+              <option value="" disabled>
+                Select Role
+              </option>
               <option value="adminUser">Admin</option>
               <option value="moderatorUser">Moderator</option>
               <option value="educatorUser">Educator</option>
@@ -142,11 +158,8 @@ const styles = {
     fontSize: "14px",
     transition: "border-color 0.3s",
     WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard
-  },
-  inputFocus: {
-    borderColor: "#4CAF50",
+    MozBoxSizing: "border-box", // Firefox
+    boxSizing: "border-box", // Standard
   },
   select: {
     width: "100%",
@@ -165,8 +178,10 @@ const styles = {
     fontSize: "16px",
     transition: "background-color 0.3s",
   },
-  submitButtonHover: {
-    backgroundColor: "#45A049",
+  error: {
+    color: "red",
+    fontSize: "12px",
+    marginTop: "5px",
   },
 };
 

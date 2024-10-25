@@ -18,10 +18,11 @@ const ResetPasswordCode = ({ email }) => {
 
     // Check if code is empty
     if (!code) {
-      newErrors.code = "Verification code is required.";
-    } else if (!/^\d{6}$/.test(code)) {
-      // Assuming the verification code is a 6-digit number
-      newErrors.code = "Code must be a 6-digit number.";
+      newErrors.code = "Verification code is required."; // Updated message for empty field
+    } else if (!/^(?=.*[0-9])(?=.*[a-zA-Z]).{6}$/.test(code)) {
+      // Ensure code is 6 characters long, including at least one letter and one number
+      newErrors.code =
+        "Code must be 6 characters long and include letters and numbers.";
     }
 
     return newErrors;
@@ -87,7 +88,9 @@ const ResetPasswordCode = ({ email }) => {
               required
               style={styles.input}
             />
-            {errors.code && <p style={styles.errorText}>{errors.code}</p>}
+            {errors.code && (
+              <p style={styles.errorText}>{errors.code}</p> // Error message displayed directly below the input
+            )}
           </div>
           <div style={styles.formGroup}>
             <input
@@ -158,6 +161,7 @@ const styles = {
     color: "red",
     fontSize: "0.9rem",
     marginTop: "5px",
+    marginBottom: "0", // Ensure space is minimal
   },
 };
 
