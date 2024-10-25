@@ -4,27 +4,67 @@ import { Link } from "react-router-dom"; // Ensure react-router-dom is installed
 const OER = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Example list of useful resources
+  // Sample list of resources based on your provided fields
   const resources = [
-    { title: "Khan Academy", description: "Free educational courses on various subjects", url: "https://www.khanacademy.org" },
-    { title: "Coursera", description: "Courses from top universities and institutions", url: "https://www.coursera.org" },
-    { title: "edX", description: "Free and paid courses from universities", url: "https://www.edx.org" },
-    { title: "MIT OpenCourseWare", description: "Free lecture notes, exams, and videos from MIT", url: "https://ocw.mit.edu" },
-    { title: "OpenStax", description: "Free educational textbooks", url: "https://openstax.org" },
-    { title: "GitHub Education", description: "Developer resources and educational programs", url: "https://education.github.com" },
-    { title: "Codecademy", description: "Interactive coding tutorials", url: "https://www.codecademy.com" },
-    { title: "Udemy", description: "Online learning platform with courses on various topics", url: "https://www.udemy.com" },
-    { title: "FreeCodeCamp", description: "Learn to code for free", url: "https://www.freecodecamp.org" },
-    { title: "Pluralsight", description: "Tech skills learning platform", url: "https://www.pluralsight.com" },
-    { title: "FutureLearn", description: "Online courses from top institutions", url: "https://www.futurelearn.com" },
-    { title: "LinkedIn Learning", description: "Online learning platform with video courses", url: "https://www.linkedin.com/learning" },
-    { title: "Stanford Online", description: "Free and paid courses from Stanford University", url: "https://online.stanford.edu" },
-    { title: "Harvard Online", description: "Courses from Harvard University", url: "https://online-learning.harvard.edu" },
+    {
+      id: 1,
+      file_path1: null,
+      file_path2: null,
+      file_path3: null,
+      file_path4: null,
+      date_contributed: "2024-10-20T00:00:00Z",
+      resource_name: "Introduction to Quantum Computing",
+      subject: "Computer Science",
+      grade: "University Level",
+      keywords: "quantum, computing, technology",
+      resource_rating: null,
+      approval_status: "approved",
+      moderation_comment: "",
+      moderation_date: null,
+      contributor: 1,
+      url: "https://quantum-computing.ibm.com/learn/intro-to-quantum-computing/",
+    },
+    {
+      id: 2,
+      file_path1: null,
+      file_path2: null,
+      file_path3: null,
+      file_path4: null,
+      date_contributed: "2024-10-21T00:00:00Z",
+      resource_name: "Fundamentals of Machine Learning",
+      subject: "Artificial Intelligence",
+      grade: "University Level",
+      keywords: "machine learning, AI, algorithms",
+      resource_rating: null,
+      approval_status: "pending",
+      moderation_comment: "Under review",
+      moderation_date: null,
+      contributor: 2,
+      url: "https://www.coursera.org/learn/machine-learning",
+    },
+    {
+      id: 3,
+      file_path1: null,
+      file_path2: null,
+      file_path3: null,
+      file_path4: null,
+      date_contributed: "2024-10-22T00:00:00Z",
+      resource_name: "Understanding Blockchain Technology",
+      subject: "Information Technology",
+      grade: "College Level",
+      keywords: "blockchain, cryptocurrency, decentralized",
+      resource_rating: null,
+      approval_status: "approved",
+      moderation_comment: "",
+      moderation_date: null,
+      contributor: 3,
+      url: "https://www.edx.org/course/blockchain-fundamentals",
+    },
   ];
 
   // Filter resources based on search query
   const filteredResources = resources.filter((resource) =>
-    resource.title.toLowerCase().includes(searchQuery.toLowerCase())
+    resource.resource_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -48,10 +88,17 @@ const OER = () => {
         {/* Resources Section */}
         <section style={styles.resourcesSection}>
           {filteredResources.length > 0 ? (
-            filteredResources.map((resource, index) => (
-              <div key={index} style={styles.resourceCard}>
-                <h2>{resource.title}</h2>
-                <p>{resource.description}</p>
+            filteredResources.map((resource) => (
+              <div key={resource.id} style={styles.resourceCard}>
+                <h2>{resource.resource_name}</h2>
+                <p>Subject: {resource.subject}</p>
+                <p>Grade: {resource.grade}</p>
+                <p>Keywords: {resource.keywords}</p>
+                <p>
+                  Date Contributed:{" "}
+                  {new Date(resource.date_contributed).toLocaleDateString()}
+                </p>
+
                 <a
                   href={resource.url}
                   target="_blank"
@@ -98,34 +145,26 @@ const styles = {
     borderRadius: "4px",
     border: "1px solid #ccc",
     marginRight: "10px",
-    WebkitBoxSizing: "border-box",  // Safari
-    MozBoxSizing: "border-box",     // Firefox
-    boxSizing: "border-box",        // Standard
+    boxSizing: "border-box",
   },
   resourcesSection: {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gap: "20px",
-    WebkitBoxSizing: "border-box",  // Safari
-    MozBoxSizing: "border-box",     // Firefox
-    boxSizing: "border-box",        // Standard
+    boxSizing: "border-box",
   },
   resourceCard: {
     backgroundColor: "#e4e4e4",
     padding: "20px",
     borderRadius: "8px",
     textAlign: "center",
-    WebkitBoxShadow: "0 2px 4px rgba(0,0,0,0.1)",  // Safari
-    MozBoxShadow: "0 2px 4px rgba(0,0,0,0.1)",     // Firefox
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",        // Standard
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
   },
   link: {
     color: "#4CAF50",
     textDecoration: "none",
     fontWeight: "bold",
-    WebkitTransition: "color 0.3s ease",  // Safari
-    MozTransition: "color 0.3s ease",     // Firefox
-    transition: "color 0.3s ease",        // Standard
+    transition: "color 0.3s ease",
   },
   noResults: {
     textAlign: "center",

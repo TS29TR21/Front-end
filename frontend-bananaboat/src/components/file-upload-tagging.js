@@ -6,6 +6,7 @@ const UploadTaggingResource = () => {
     resourceName: "",
     subject: "",
     grade: "",
+    keywords: [],
     currentKeyword: "",
   });
 
@@ -36,6 +37,17 @@ const UploadTaggingResource = () => {
     setErrors((prev) => ({ ...prev, [e.target.name]: "" })); // Clear error on input change
   };
 
+  const addKeyword = () => {
+    if (formData.currentKeyword) {
+      setFormData((prevState) => ({
+        ...prevState,
+        keywords: [...prevState.keywords, formData.currentKeyword],
+        currentKeyword: "", // Clear input after adding
+      }));
+      setErrors((prev) => ({ ...prev, currentKeyword: "" })); // Clear error
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
@@ -52,8 +64,8 @@ const UploadTaggingResource = () => {
     if (!formData.grade) {
       newErrors.grade = "Grade is required.";
     }
-    if (!formData.currentKeyword) {
-      newErrors.currentKeyword = "Keyword is required.";
+    if (formData.keywords.length === 0) {
+      newErrors.currentKeyword = "At least one keyword is required.";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -61,8 +73,11 @@ const UploadTaggingResource = () => {
       return;
     }
 
+    // Create CSV string from keywords
+    const keywordsCSV = formData.keywords.join(", ");
+
     // Log form data (you can replace this with an API call)
-    console.log("Form Data:", formData);
+    console.log("Form Data:", { ...formData, keywords: keywordsCSV });
     alert("Form submitted! Check console for details.");
     setIsSubmitted(true);
   };
@@ -71,6 +86,13 @@ const UploadTaggingResource = () => {
     setFormData((prevState) => ({
       ...prevState,
       uploadFiles: prevState.uploadFiles.filter((_, i) => i !== index),
+    }));
+  };
+
+  const removeKeyword = (index) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      keywords: prevState.keywords.filter((_, i) => i !== index),
     }));
   };
 
@@ -157,10 +179,27 @@ const UploadTaggingResource = () => {
             onChange={handleInputChange}
             style={styles.keywordInput}
           />
+          <button type="button" onClick={addKeyword} style={styles.addButton}>
+            Add
+          </button>
         </div>
         {errors.currentKeyword && (
           <p style={styles.error}>{errors.currentKeyword}</p>
         )}
+        <div style={styles.keywordsList}>
+          {formData.keywords.map((keyword, index) => (
+            <span key={index} style={styles.keywordItem}>
+              {keyword}
+              <button
+                type="button"
+                onClick={() => removeKeyword(index)}
+                style={styles.removeButton}
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
         <button type="submit" style={styles.submitButton}>
           Submit
         </button>
@@ -226,7 +265,7 @@ const styles = {
     padding: "10px",
     borderRadius: "4px",
     border: "1px solid #ccc",
-    width: "100%", // Ensuring the select box matches the input width
+    width: "100%",
     marginBottom: "5px",
     WebkitAppearance: "none",
     MozAppearance: "none",
@@ -234,13 +273,35 @@ const styles = {
   },
   keywordContainer: {
     marginBottom: "15px",
+    display: "flex",
   },
   keywordInput: {
     border: "1px solid #ccc",
     borderRadius: "4px",
     padding: "5px",
     width: "100%",
-    marginBottom: "5px",
+    marginRight: "10px",
+  },
+  addButton: {
+    padding: "10px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
+  keywordsList: {
+    marginTop: "10px",
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "5px",
+  },
+  keywordItem: {
+    backgroundColor: "#e0e0e0",
+    borderRadius: "4px",
+    padding: "5px",
+    display: "flex",
+    alignItems: "center",
   },
   submitButton: {
     padding: "10px",

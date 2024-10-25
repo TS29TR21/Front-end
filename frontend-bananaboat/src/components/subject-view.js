@@ -10,12 +10,18 @@ const SubjectView = () => {
     const fetchResources = async () => {
       try {
         const response = await fetch(
-          "http://contained-share2teach.onrender.com/api/resource/deserial"
+          "https://contained-share2teach.onrender.com/api/resource/deserial"
         ); // API endpoint
         if (!response.ok) throw new Error("Failed to fetch resources");
         const data = await response.json();
         setAllResources(data); // Set the fetched resources
-        setFilteredSubjects(data.map((resource) => resource.subject)); // Initialize filtered subjects
+
+        // Filter for approved resources on initial load
+        const approvedSubjects = data
+          .filter((resource) => resource.approval_status === "approved") // Only approved resources
+          .map((resource) => resource.subject); // Extract subjects from approved resources
+
+        setFilteredSubjects(approvedSubjects); // Initialize filtered subjects with approved resources
       } catch (error) {
         console.error("Error fetching resources:", error);
       }
@@ -29,9 +35,10 @@ const SubjectView = () => {
     const value = e.target.value;
     setSearchQuery(value);
 
-    // Filter subjects based on the search input
+    // Filter subjects based on the search input and approval status
     const filtered = allResources
-      .map((resource) => resource.subject) // Extract subjects from resources
+      .filter((resource) => resource.approval_status === "approved") // Only include approved resources
+      .map((resource) => resource.subject) // Extract subjects from approved resources
       .filter((subject) => subject.toLowerCase().includes(value.toLowerCase())); // Filter subjects
 
     setFilteredSubjects(filtered); // Update filtered subjects
