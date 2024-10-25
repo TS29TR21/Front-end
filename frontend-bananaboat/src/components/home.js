@@ -12,7 +12,7 @@ import {
   Container,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close"; // Optional for closing the sidebar
+import CloseIcon from "@mui/icons-material/Close";
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
 import ModerationForm from "./moderation.js";
@@ -30,6 +30,7 @@ import OER from "./oer.js";
 import Contributors from "./contributors.js";
 import Self from "./sdl.js";
 import Analytics from "./analytics.js";
+import "./style.css"; // Importing style.css
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -215,20 +216,20 @@ const Home = () => {
               {user ? (
                 <>
                   <Typography>Welcome, {user.username}!</Typography>
-                  <button style={styles.authButton} onClick={handleLogout}>
+                  <button className="auth-button" onClick={handleLogout}>
                     Logout
                   </button>
                 </>
               ) : (
                 <>
                   <button
-                    style={styles.authButton}
+                    className="auth-button"
                     onClick={() => setActiveSection("login")}
                   >
                     Login
                   </button>
                   <button
-                    style={styles.authButton}
+                    className="auth-button"
                     onClick={() => setActiveSection("register")}
                   >
                     Sign Up
@@ -256,45 +257,26 @@ const Home = () => {
         >
           <Typography variant="body2">
             <button
-              style={styles.footerLink}
+              className="footer-link"
               onClick={() => setActiveSection("about-us")}
             >
               About Us
             </button>
             {" | "}
             <button
-              style={styles.footerLink}
+              className="footer-link"
               onClick={() => setActiveSection("faq")}
             >
               FAQ
             </button>
           </Typography>
           <Typography variant="body2" sx={{ marginTop: 1 }}>
-            © {new Date().getFullYear()} NexTech. All Rights Reserved.
+            &copy; {new Date().getFullYear()} Share2Teach. All rights reserved.
           </Typography>
         </Box>
       </Box>
     </Box>
   );
-};
-
-const styles = {
-  authButton: {
-    backgroundColor: "#4caf50",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    padding: "10px",
-    marginLeft: "10px",
-    cursor: "pointer",
-  },
-  footerLink: {
-    background: "none",
-    border: "none",
-    color: "white",
-    cursor: "pointer",
-    textDecoration: "underline",
-  },
 };
 
 export default Home;

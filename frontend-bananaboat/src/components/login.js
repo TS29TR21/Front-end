@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PasswordReset from "./reset-password.js";
+import "./style.css"; // Importing style.css
 
 const Login = ({ onLogin }) => {
   // Sample users
@@ -9,7 +10,7 @@ const Login = ({ onLogin }) => {
     { username_or_email: "moderator", password: "pass123", role: "moderator" },
     { username_or_email: "admin", password: "pass123", role: "administrator" },
   ];
-  
+
   // Manage form state
   const [formData, setFormData] = useState({
     username_or_email: "",
@@ -77,12 +78,13 @@ const Login = ({ onLogin }) => {
       console.log("Logged in successfully:", data);
     } catch (err) {
       setError(err.message); // Set error from server
-    }*/
-   // Find a matching user from sample users
-   const matchedUser = sampleUsers.find(
-    (user) =>
-      user.username_or_email === formData.username_or_email &&
-      user.password === formData.password
+    } */
+
+    // Find a matching user from sample users
+    const matchedUser = sampleUsers.find(
+      (user) =>
+        user.username_or_email === formData.username_or_email &&
+        user.password === formData.password
     );
 
     if (matchedUser) {
@@ -170,75 +172,6 @@ const Login = ({ onLogin }) => {
       </main>
     </div>
   );
-};
-
-// Styles for the component
-const styles = {
-  pageContainer: {
-    display: "flex",
-    height: "70vh",
-    backgroundColor: "#f4f4f4",
-  },
-  mainContent: {
-    flex: 1,
-    padding: "20px",
-    backgroundColor: "#ffffff",
-    borderRadius: "8px",
-    WebkitBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Safari
-    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Firefox
-    boxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Standard property
-    overflowY: "auto",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  header: {
-    textAlign: "center",
-    marginBottom: "20px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    width: "100%",
-    maxWidth: "600px",
-  },
-  formGroup: {
-    marginBottom: "20px",
-    width: "100%",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box", // Firefox
-    boxSizing: "border-box", // Standard property
-  },
-  submitButton: {
-    padding: "10px 15px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    width: "100%",
-    WebkitTransition: "background-color 0.3s ease", // Safari
-    MozTransition: "background-color 0.3s ease", // Firefox
-    transition: "background-color 0.3s ease", // Standard property
-  },
-  forgotPassword: {
-    textDecoration: "none",
-    color: "#4CAF50",
-    cursor: "pointer",
-  },
-  errorText: {
-    color: "red",
-    fontSize: "0.9rem",
-    marginTop: "5px",
-  },
 };
 
 export default Login;

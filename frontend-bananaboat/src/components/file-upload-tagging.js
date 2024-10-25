@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./style.css"; // Import your CSS file here
 
 const UploadTaggingResource = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +27,7 @@ const UploadTaggingResource = () => {
       ...prevState,
       uploadFiles: [...prevState.uploadFiles, ...files],
     }));
-    setErrors((prev) => ({ ...prev, file: "" })); // Clear error if valid
+    setErrors((prev) => ({ ...prev, file: "" }));
   };
 
   const handleInputChange = (e) => {
@@ -34,7 +35,7 @@ const UploadTaggingResource = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    setErrors((prev) => ({ ...prev, [e.target.name]: "" })); // Clear error on input change
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
 
   const addKeyword = () => {
@@ -42,9 +43,9 @@ const UploadTaggingResource = () => {
       setFormData((prevState) => ({
         ...prevState,
         keywords: [...prevState.keywords, formData.currentKeyword],
-        currentKeyword: "", // Clear input after adding
+        currentKeyword: "",
       }));
-      setErrors((prev) => ({ ...prev, currentKeyword: "" })); // Clear error
+      setErrors((prev) => ({ ...prev, currentKeyword: "" }));
     }
   };
 
@@ -73,10 +74,7 @@ const UploadTaggingResource = () => {
       return;
     }
 
-    // Create CSV string from keywords
     const keywordsCSV = formData.keywords.join(", ");
-
-    // Log form data (you can replace this with an API call)
     console.log("Form Data:", { ...formData, keywords: keywordsCSV });
     alert("Form submitted! Check console for details.");
     setIsSubmitted(true);
@@ -97,30 +95,30 @@ const UploadTaggingResource = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Upload and Tag Keywords to Resources</h1>
+    <div className="container">
+      <h1 className="title">Upload and Tag Keywords to Resources</h1>
       <form
         onSubmit={handleSubmit}
         encType="multipart/form-data"
-        style={styles.form}
+        className="form"
       >
-        <div style={styles.fileInputGroup}>
+        <div className="fileInputGroup">
           <input
             type="file"
             multiple
             accept=".jpg,.png,.pdf,.docx"
             onChange={handleFileChange}
-            style={styles.fileInput}
+            className="fileInput"
           />
-          {errors.file && <p style={styles.error}>{errors.file}</p>}
-          <div style={styles.uploadedFiles}>
+          {errors.file && <p className="error">{errors.file}</p>}
+          <div className="uploadedFiles">
             {formData.uploadFiles.map((file, index) => (
-              <div key={index} style={styles.fileItem}>
+              <div key={index} className="fileItem">
                 {file.name}
                 <button
                   type="button"
                   onClick={() => removeFile(index)}
-                  style={styles.removeButton}
+                  className="removeButton"
                 >
                   ×
                 </button>
@@ -134,25 +132,23 @@ const UploadTaggingResource = () => {
           name="resourceName"
           value={formData.resourceName}
           onChange={handleInputChange}
-          style={styles.input}
+          className="input"
         />
-        {errors.resourceName && (
-          <p style={styles.error}>{errors.resourceName}</p>
-        )}
+        {errors.resourceName && <p className="error">{errors.resourceName}</p>}
         <input
           type="text"
           placeholder="Subject"
           name="subject"
           value={formData.subject}
           onChange={handleInputChange}
-          style={styles.input}
+          className="input"
         />
-        {errors.subject && <p style={styles.error}>{errors.subject}</p>}
+        {errors.subject && <p className="error">{errors.subject}</p>}
         <select
           name="grade"
           value={formData.grade}
           onChange={handleInputChange}
-          style={styles.select}
+          className="select"
         >
           <option value="" disabled>
             Select Grade
@@ -169,156 +165,44 @@ const UploadTaggingResource = () => {
           ))}
           <option value="Honours">Honours</option>
         </select>
-        {errors.grade && <p style={styles.error}>{errors.grade}</p>}
-        <div style={styles.keywordContainer}>
+        {errors.grade && <p className="error">{errors.grade}</p>}
+        <div className="keywordContainer">
           <input
             type="text"
             placeholder="Add keyword"
             name="currentKeyword"
             value={formData.currentKeyword}
             onChange={handleInputChange}
-            style={styles.keywordInput}
+            className="keywordInput"
           />
-          <button type="button" onClick={addKeyword} style={styles.addButton}>
+          <button type="button" onClick={addKeyword} className="addButton">
             Add
           </button>
         </div>
         {errors.currentKeyword && (
-          <p style={styles.error}>{errors.currentKeyword}</p>
+          <p className="error">{errors.currentKeyword}</p>
         )}
-        <div style={styles.keywordsList}>
+        <div className="keywordsList">
           {formData.keywords.map((keyword, index) => (
-            <span key={index} style={styles.keywordItem}>
+            <span key={index} className="keywordItem">
               {keyword}
               <button
                 type="button"
                 onClick={() => removeKeyword(index)}
-                style={styles.removeButton}
+                className="removeButton"
               >
                 ×
               </button>
             </span>
           ))}
         </div>
-        <button type="submit" style={styles.submitButton}>
+        <button type="submit" className="submitButton">
           Submit
         </button>
       </form>
-      {isSubmitted && (
-        <p style={styles.success}>Form submitted successfully!</p>
-      )}
+      {isSubmitted && <p className="success">Form submitted successfully!</p>}
     </div>
   );
-};
-
-// Styles for the component
-const styles = {
-  container: {
-    maxWidth: "800px",
-    margin: "auto",
-    padding: "20px",
-    backgroundColor: "#f9f9f9",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-  },
-  title: {
-    textAlign: "center",
-    marginBottom: "20px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  fileInputGroup: {
-    marginBottom: "15px",
-  },
-  fileInput: {
-    marginBottom: "10px",
-  },
-  uploadedFiles: {
-    marginTop: "10px",
-  },
-  fileItem: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#e0e0e0",
-    borderRadius: "4px",
-    padding: "5px",
-    margin: "5px 0",
-  },
-  removeButton: {
-    border: "none",
-    background: "transparent",
-    color: "red",
-    cursor: "pointer",
-    fontWeight: "bold",
-  },
-  input: {
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    width: "100%",
-    marginBottom: "5px",
-  },
-  select: {
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    width: "100%",
-    marginBottom: "5px",
-    WebkitAppearance: "none",
-    MozAppearance: "none",
-    appearance: "none",
-  },
-  keywordContainer: {
-    marginBottom: "15px",
-    display: "flex",
-  },
-  keywordInput: {
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    padding: "5px",
-    width: "100%",
-    marginRight: "10px",
-  },
-  addButton: {
-    padding: "10px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  keywordsList: {
-    marginTop: "10px",
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "5px",
-  },
-  keywordItem: {
-    backgroundColor: "#e0e0e0",
-    borderRadius: "4px",
-    padding: "5px",
-    display: "flex",
-    alignItems: "center",
-  },
-  submitButton: {
-    padding: "10px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  error: {
-    color: "red",
-    fontSize: "12px",
-    margin: "0 0 10px 0",
-  },
-  success: {
-    color: "green",
-  },
 };
 
 export default UploadTaggingResource;
