@@ -33,13 +33,68 @@ import Analytics from "./analytics.js";
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeSection, setActiveSection] = useState("/");
-  const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar toggle
-  const [user, setUser] = useState(null); // User authentication state
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
   const handleLogin = (userData) => {
-    setUser(userData);
-    setActiveSection("subject-view");
+    console.log(userData);  // Check what properties are available
+    setUser(userData);  // Set user role after login
+    setActiveSection("/");
   };
+
+  // Define role-based sidebar menus
+  const menus = {
+    openUser: [
+      { text: "Home", section: "/" },
+      { text: "Subject View", section: "subject-view" },
+      { text: "Search Resources", section: "resource-search" },
+      { text: "Other Useful OERs", section: "oer" },
+      { text: "Rate Resources", section: "rate-resource" },
+      { text: "Contributors", section: "contributors" },
+      { text: "Self-Directed Learning", section: "self-directed" },
+      { text: "Resource Report", section: "resource-report" },
+    ],
+    educator: [
+      { text: "Home", section: "/" },
+      { text: "Subject View", section: "subject-view" },
+      { text: "Search Resources", section: "resource-search" },
+      { text: "Contribute", section: "file-upload" },
+      { text: "Other Useful OERs", section: "oer" },
+      { text: "Rate Resources", section: "rate-resource" },
+      { text: "Contributors", section: "contributors" },
+      { text: "Self-Directed Learning", section: "self-directed" },
+      { text: "Resource Report", section: "resource-report" },
+    ],
+    moderator: [
+      { text: "Home", section: "/" },
+      { text: "Subject View", section: "subject-view" },
+      { text: "Search Resources", section: "resource-search" },
+      { text: "Contribute", section: "file-upload" },
+      { text: "Other Useful OERs", section: "oer" },
+      { text: "Rate Resources", section: "rate-resource" },
+      { text: "Moderate Resources", section: "moderate" },
+      { text: "Contributors", section: "contributors" },
+      { text: "Self-Directed Learning", section: "self-directed" },
+      { text: "Resource Report", section: "resource-report" },
+    ],
+    administrator: [
+      { text: "Home", section: "/" },
+      { text: "Subject View", section: "subject-view" },
+      { text: "Search Resources", section: "resource-search" },
+      { text: "Contribute", section: "file-upload" },
+      { text: "Other Useful OERs", section: "oer" },
+      { text: "Rate Resources", section: "rate-resource" },
+      { text: "Moderate Resources", section: "moderate" },
+      { text: "Contributors", section: "contributors" },
+      { text: "Self-Directed Learning", section: "self-directed" },
+      { text: "Analytics", section: "analytics" },
+      { text: "Resource Report", section: "resource-report" },
+      { text: "Update User Role", section: "update-user-role" },
+    ],
+  };
+
+  // Get the appropriate menu based on user role
+  const selectedMenu = user ? menus[user.role] : menus.openUser;
 
   const renderSectionContent = () => {
     switch (activeSection) {
@@ -87,14 +142,14 @@ const Home = () => {
   return (
     <Box
       sx={{
-        display: "flex", // Use flex layout for sidebar and content
+        display: "flex",
         height: "100vh",
         bgcolor: "#e8f5e9",
       }}
     >
       {/* Sidebar as a Drawer */}
       <Drawer
-        variant="temporary" // Use temporary variant for a menu
+        variant="temporary"
         anchor="left"
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -107,26 +162,13 @@ const Home = () => {
         }}
       >
         <List>
-          {[
-            { text: "Home", section: "/" },
-            { text: "Subject View", section: "subject-view" },
-            { text: "Search Resources", section: "resource-search" },
-            { text: "Contribute", section: "file-upload" },
-            { text: "Other Useful OERs", section: "oer" },
-            { text: "Rate Resources", section: "rate-resource" },
-            { text: "Moderate Resources", section: "moderate" },
-            { text: "Contributors", section: "contributors" },
-            { text: "Self-Directed Learning", section: "self-directed" },
-            { text: "Analytics", section: "analytics" },
-            { text: "Resource Report", section: "resource-report" },
-            { text: "Update User Role", section: "update-user-role" },
-          ].map(({ text, section }) => (
+          {selectedMenu.map(({ text, section }) => (
             <ListItem
               button
               key={text}
               onClick={() => {
                 setActiveSection(section);
-                setSidebarOpen(false); // Close sidebar after selecting
+                setSidebarOpen(false);
               }}
             >
               <ListItemText primary={text} />
@@ -149,7 +191,7 @@ const Home = () => {
               edge="start"
               color="inherit"
               aria-label="menu"
-              onClick={() => setSidebarOpen(true)} // Open sidebar on menu click
+              onClick={() => setSidebarOpen(true)}
             >
               <MenuIcon />
             </IconButton>

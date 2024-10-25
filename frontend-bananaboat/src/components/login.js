@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import PasswordReset from "./reset-password.js";
 
 const Login = ({ onLogin }) => {
+  // Sample users
+  const sampleUsers = [
+    { username_or_email: "openuser", password: "pass123", role: "openUser" },
+    { username_or_email: "educator", password: "pass123", role: "educator" },
+    { username_or_email: "moderator", password: "pass123", role: "moderator" },
+    { username_or_email: "admin", password: "pass123", role: "administrator" },
+  ];
+  
   // Manage form state
   const [formData, setFormData] = useState({
     username_or_email: "",
@@ -51,7 +59,7 @@ const Login = ({ onLogin }) => {
     }
 
     // Logic for handling login action
-    try {
+    /*try {
       const response = await fetch("http://127.0.0.1:8000/api/user/deserial", {
         method: "POST",
         headers: {
@@ -69,6 +77,19 @@ const Login = ({ onLogin }) => {
       console.log("Logged in successfully:", data);
     } catch (err) {
       setError(err.message); // Set error from server
+    }*/
+   // Find a matching user from sample users
+   const matchedUser = sampleUsers.find(
+    (user) =>
+      user.username_or_email === formData.username_or_email &&
+      user.password === formData.password
+    );
+
+    if (matchedUser) {
+      onLogin(matchedUser); // Call the parent component's onLogin method with the matched user data
+      console.log("Logged in successfully:", matchedUser);
+    } else {
+      setError("Login failed. Please check your credentials.");
     }
   };
 
