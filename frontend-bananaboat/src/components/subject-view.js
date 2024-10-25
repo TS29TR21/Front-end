@@ -29,9 +29,10 @@ const SubjectView = () => {
     const value = e.target.value;
     setSearchQuery(value);
 
-    // Filter subjects based on the search input
+    // Filter subjects based on the search input and approval status
     const filtered = allResources
-      .map((resource) => resource.subject) // Extract subjects from resources
+      .filter((resource) => resource.isApproved) // Only include approved resources
+      .map((resource) => resource.subject) // Extract subjects from approved resources
       .filter((subject) => subject.toLowerCase().includes(value.toLowerCase())); // Filter subjects
 
     setFilteredSubjects(filtered); // Update filtered subjects
