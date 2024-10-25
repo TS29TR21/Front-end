@@ -1,82 +1,110 @@
 import React, { useState } from "react";
 
 const UploadTaggingResource = () => {
-  // Define state variables for the form fields
   const [formData, setFormData] = useState({
-    upload_file: null,
-    upload_file1: null,
-    upload_file2: null,
-    upload_file3: null,
+    uploadFiles: [],
     resourceName: "",
     subject: "",
     grade: "",
-    keywords: [],
     currentKeyword: "",
   });
 
-  // Handle file changes
+  const [errors, setErrors] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.files[0],
-    });
+    const files = Array.from(e.target.files);
+    if (files.length + formData.uploadFiles.length > 2) {
+      setErrors((prev) => ({
+        ...prev,
+        file: "You can upload a maximum of 2 files.",
+      }));
+      return;
+    }
+    setFormData((prevState) => ({
+      ...prevState,
+      uploadFiles: [...prevState.uploadFiles, ...files],
+    }));
+    setErrors((prev) => ({ ...prev, file: "" })); // Clear error if valid
   };
 
-  // Handle text input changes
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" })); // Clear error on input change
   };
 
-  // Handle keyword input changes
-  const handleKeywordInputChange = (e) => {
-    setFormData({
-      ...formData,
-      currentKeyword: e.target.value,
-    });
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && formData.currentKeyword) {
-      e.preventDefault();
-      setFormData((prevState) => ({
-        ...prevState,
-        keywords: [...prevState.keywords, prevState.currentKeyword],
-        currentKeyword: '',
-      }));
-    }
-  };
-
-  const removeKeyword = (index) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      keywords: prevState.keywords.filter((_, i) => i !== index),
-    }));
-  };
-
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data:", {
-      ...formData,
-      keywords: formData.keywords.join(", "),
-    });
+    const newErrors = {};
+
+    if (formData.uploadFiles.length === 0) {
+      newErrors.file = "Please upload at least one file.";
+    }
+    if (!formData.resourceName) {
+      newErrors.resourceName = "Resource Name is required.";
+    }
+    if (!formData.subject) {
+      newErrors.subject = "Subject is required.";
+    }
+    if (!formData.grade) {
+      newErrors.grade = "Grade is required.";
+    }
+    if (!formData.currentKeyword) {
+      newErrors.currentKeyword = "Keyword is required.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // Log form data (you can replace this with an API call)
+    console.log("Form Data:", formData);
     alert("Form submitted! Check console for details.");
+    setIsSubmitted(true);
+  };
+
+  const removeFile = (index) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      uploadFiles: prevState.uploadFiles.filter((_, i) => i !== index),
+    }));
   };
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.title}>
-        Upload and Tag Keywords to Resources
-      </h1>
-      <form onSubmit={handleSubmit} encType="multipart/form-data" style={styles.form}>
+      <h1 style={styles.title}>Upload and Tag Keywords to Resources</h1>
+      <form
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+        style={styles.form}
+      >
         <div style={styles.fileInputGroup}>
-          <input type="file" name="upload_file" onChange={handleFileChange} style={styles.fileInput} />
-          <input type="file" name="upload_file1" onChange={handleFileChange} style={styles.fileInput} />
-          <input type="file" name="upload_file2" onChange={handleFileChange} style={styles.fileInput} />
-          <input type="file" name="upload_file3" onChange={handleFileChange} style={styles.fileInput} />
+          <input
+            type="file"
+            multiple
+            accept=".jpg,.png,.pdf,.docx"
+            onChange={handleFileChange}
+            style={styles.fileInput}
+          />
+          {errors.file && <p style={styles.error}>{errors.file}</p>}
+          <div style={styles.uploadedFiles}>
+            {formData.uploadFiles.map((file, index) => (
+              <div key={index} style={styles.fileItem}>
+                {file.name}
+                <button
+                  type="button"
+                  onClick={() => removeFile(index)}
+                  style={styles.removeButton}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
         <input
           type="text"
@@ -86,6 +114,9 @@ const UploadTaggingResource = () => {
           onChange={handleInputChange}
           style={styles.input}
         />
+        {errors.resourceName && (
+          <p style={styles.error}>{errors.resourceName}</p>
+        )}
         <input
           type="text"
           placeholder="Subject"
@@ -94,43 +125,49 @@ const UploadTaggingResource = () => {
           onChange={handleInputChange}
           style={styles.input}
         />
+        {errors.subject && <p style={styles.error}>{errors.subject}</p>}
         <select
           name="grade"
           value={formData.grade}
           onChange={handleInputChange}
           style={styles.select}
         >
-          <option value="" disabled>Select Grade</option>
-          {/* Grade options from 1 to 12 */}
+          <option value="" disabled>
+            Select Grade
+          </option>
           {Array.from({ length: 12 }, (_, i) => (
-            <option key={i} value={`Grade ${i + 1}`}>Grade {i + 1}</option>
+            <option key={i} value={`Grade ${i + 1}`}>
+              Grade {i + 1}
+            </option>
           ))}
-          {/* Year options from 1st to 4th year */}
           {Array.from({ length: 4 }, (_, i) => (
-            <option key={i + 12} value={`${i + 1}st Year`}>{i + 1}st Year</option>
+            <option key={i + 12} value={`${i + 1}st Year`}>
+              {i + 1}st Year
+            </option>
           ))}
           <option value="Honours">Honours</option>
         </select>
+        {errors.grade && <p style={styles.error}>{errors.grade}</p>}
         <div style={styles.keywordContainer}>
-          Add keywords and press Enter
-          {formData.keywords.map((keyword, index) => (
-            <span key={index} style={styles.keywordBubble}>
-              {keyword}
-              <button type="button" onClick={() => removeKeyword(index)} style={styles.removeButton}>×</button>
-            </span>
-          ))}
           <input
             type="text"
-            placeholder="Add keyword and press Enter"
+            placeholder="Add keyword"
             name="currentKeyword"
             value={formData.currentKeyword}
-            onChange={handleKeywordInputChange}
-            onKeyDown={handleKeyDown}
+            onChange={handleInputChange}
             style={styles.keywordInput}
           />
         </div>
-        <button type="submit" style={styles.submitButton}>Submit</button>
+        {errors.currentKeyword && (
+          <p style={styles.error}>{errors.currentKeyword}</p>
+        )}
+        <button type="submit" style={styles.submitButton}>
+          Submit
+        </button>
       </form>
+      {isSubmitted && (
+        <p style={styles.success}>Form submitted successfully!</p>
+      )}
     </div>
   );
 };
@@ -138,82 +175,88 @@ const UploadTaggingResource = () => {
 // Styles for the component
 const styles = {
   container: {
-    maxWidth: '800px',
-    margin: 'auto',
-    padding: '20px',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    maxWidth: "800px",
+    margin: "auto",
+    padding: "20px",
+    backgroundColor: "#f9f9f9",
+    borderRadius: "8px",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
   },
   title: {
-    textAlign: 'center',
-    marginBottom: '20px',
+    textAlign: "center",
+    marginBottom: "20px",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
   fileInputGroup: {
-    marginBottom: '15px',
+    marginBottom: "15px",
   },
   fileInput: {
-    marginBottom: '10px',
+    marginBottom: "10px",
   },
-  input: {
-    padding: '10px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    width: '100%',
-    marginBottom: '15px',
+  uploadedFiles: {
+    marginTop: "10px",
   },
-  select: {
-    padding: '10px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    width: '100%',
-    marginBottom: '15px',
-    WebkitAppearance: 'none', // Vendor prefix for WebKit browsers
-    MozAppearance: 'none',    // Vendor prefix for Firefox
-    appearance: 'none',       // Standard property
-  },
-  keywordContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: '15px',
-  },
-  keywordBubble: {
-    backgroundColor: '#e0e0e0',
-    borderRadius: '15px',
-    padding: '5px 10px',
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '14px',
-    margin: '5px 0',
+  fileItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#e0e0e0",
+    borderRadius: "4px",
+    padding: "5px",
+    margin: "5px 0",
   },
   removeButton: {
-    border: 'none',
-    background: 'transparent',
-    color: 'red',
-    cursor: 'pointer',
-    marginLeft: '5px',
-    fontWeight: 'bold',
+    border: "none",
+    background: "transparent",
+    color: "red",
+    cursor: "pointer",
+    fontWeight: "bold",
+  },
+  input: {
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    width: "100%",
+    marginBottom: "5px",
+  },
+  select: {
+    padding: "10px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    width: "100%", // Ensuring the select box matches the input width
+    marginBottom: "5px",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    appearance: "none",
+  },
+  keywordContainer: {
+    marginBottom: "15px",
   },
   keywordInput: {
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    padding: '5px',
-    marginTop: '5px',
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    padding: "5px",
+    width: "100%",
+    marginBottom: "5px",
   },
   submitButton: {
-    padding: '10px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    WebkitTransition: 'background-color 0.3s ease', // Vendor prefix for Safari
-    MozTransition: 'background-color 0.3s ease',    // Vendor prefix for Firefox
-    transition: 'background-color 0.3s ease',       // Standard property
+    padding: "10px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
+  error: {
+    color: "red",
+    fontSize: "12px",
+    margin: "0 0 10px 0",
+  },
+  success: {
+    color: "green",
   },
 };
 
