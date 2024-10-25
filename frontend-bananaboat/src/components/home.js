@@ -215,10 +215,7 @@ const Home = () => {
               {user ? (
                 <>
                   <Typography>Welcome, {user.username}!</Typography>
-                  <button
-                    style={styles.authButton}
-                    onClick={handleLogout}
-                  >
+                  <button style={styles.authButton} onClick={handleLogout}>
                     Logout
                   </button>
                 </>
@@ -272,6 +269,9 @@ const Home = () => {
               FAQ
             </button>
           </Typography>
+          <Typography variant="body2" sx={{ marginTop: 1 }}>
+            © {new Date().getFullYear()} NexTech. All Rights Reserved.
+          </Typography>
         </Box>
       </Box>
     </Box>
@@ -280,12 +280,12 @@ const Home = () => {
 
 const styles = {
   authButton: {
-    margin: "0 5px",
-    padding: "10px 15px",
     backgroundColor: "#4caf50",
-    border: "none",
     color: "white",
+    border: "none",
     borderRadius: "5px",
+    padding: "10px",
+    marginLeft: "10px",
     cursor: "pointer",
   },
   footerLink: {
@@ -293,6 +293,7 @@ const styles = {
     border: "none",
     color: "white",
     cursor: "pointer",
+    textDecoration: "underline",
   },
 };
 
