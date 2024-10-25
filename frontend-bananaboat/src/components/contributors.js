@@ -11,12 +11,8 @@ const Contributors = () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/contributors");
         const data = await response.json();
-        // Map the data from the API to match the structure of the contributors
-        const formattedContributors = data.map(user => ({
-          name: `${user.first_name} ${user.last_name}`,
-          resources: user.groups, // Adjust this based on the actual structure of user data
-        }));
-        setContributors(formattedContributors);
+        // Set the fetched data directly to contributors
+        setContributors(data);
       } catch (error) {
         console.error("Error fetching contributors:", error);
       }
@@ -36,7 +32,6 @@ const Contributors = () => {
 
   return (
     <div style={styles.pageContainer}>
-      {/* Main Content */}
       <main style={styles.mainContent}>
         <header style={styles.header}>
           <h1>Contributors</h1>
@@ -61,7 +56,7 @@ const Contributors = () => {
               contributor.name.toLowerCase().includes(searchQuery.toLowerCase())
             )
             .map((contributor, index) => (
-              <div key={index} style={styles.contributorItem}>
+              <div key={contributor.id} style={styles.contributorItem}>
                 <h3 onClick={() => toggleExpand(index)} style={styles.contributorName}>
                   {contributor.name}
                 </h3>
@@ -82,7 +77,7 @@ const Contributors = () => {
   );
 };
 
-// Styles for the page
+// Styles for the page (unchanged)
 const styles = {
   pageContainer: {
     display: "flex",
@@ -128,8 +123,6 @@ const styles = {
     padding: "10px",
     cursor: "pointer",
     transition: "background-color 0.3s",
-    WebkitTransition: "background-color 0.3s ease",  // Safari
-    MozTransition: "background-color 0.3s ease",     // Firefox
   },
   contributorName: {
     margin: "0",
