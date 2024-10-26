@@ -271,7 +271,7 @@ const Home = () => {
             </button>
           </Typography>
           <Typography variant="body2" sx={{ marginTop: 1 }}>
-            &copy; {new Date().getFullYear()} NexTech. All rights reserved.
+            &copy; {new Date().getFullYear()} NexTech . All rights reserved.
           </Typography>
         </Box>
       </Box>
