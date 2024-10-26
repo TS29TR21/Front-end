@@ -1,5 +1,6 @@
 /* General Container Styles */
-.container {
+.container,
+.pageContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,8 +12,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Main Content */
-.mainContent {
+.mainContent,
+.formContainer {
   flex: 1;
   background-color: #ffffff;
   padding: 20px;
@@ -26,7 +27,9 @@
 }
 
 /* Header */
-.header {
+.header,
+.title,
+.centerText {
   text-align: center;
   margin-bottom: 20px;
 }
@@ -35,13 +38,21 @@
 .form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   max-width: 600px;
 }
 
+.inputGroup,
+.formGroup {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
 .input,
 .select,
-.keywordInput {
+.keywordInput,
+.searchInput {
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -53,21 +64,28 @@
   appearance: none;
 }
 
-.inputGroup {
-  margin-bottom: 15px;
-}
-
 /* Buttons */
 .submitButton,
-.addButton {
-  padding: 10px 15px;
+.addButton,
+.authButton {
+  padding: 10px;
   background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.backButton {
+  padding: 10px;
+  background-color: #f4f4f4;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 .removeButton {
@@ -101,7 +119,8 @@
 }
 
 /* Error and Success Messages */
-.error {
+.error,
+.errorMessage {
   color: red;
   font-size: 12px;
   margin-top: 5px;
@@ -111,44 +130,45 @@
   color: green;
 }
 
-/* Specific Component Styles */
-.searchInput {
-  padding: 10px;
-  width: 250px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-right: 10px;
-}
-
-.authButton {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-.footerLink {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-/* Metrics Section */
-.metricsSection {
+/* Metrics and Resources Section */
+.metricsSection,
+.resourcesSection,
+.subjectsSection {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
-.metricCard {
+.metricCard,
+.resourceCard,
+.subjectCard {
   background-color: #e4e4e4;
   padding: 20px;
   border-radius: 8px;
   text-align: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.link,
+.footerLink {
+  color: #4caf50;
+  text-decoration: underline;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+/* Search Section */
+.searchSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.noResults {
+  text-align: center;
+  font-size: 18px;
+  color: #999;
 }

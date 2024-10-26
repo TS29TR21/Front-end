@@ -1,5 +1,3 @@
-// about-us.js
-
 import React from "react";
 import "./style.css"; // Import the CSS file
 

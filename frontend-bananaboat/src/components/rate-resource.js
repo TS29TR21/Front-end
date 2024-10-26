@@ -1,12 +1,12 @@
 import React, { useState } from "react";
+import "./style.css"; // Import the CSS file
 
 const RateResource = () => {
   const [resourceId, setResourceId] = useState("");
   const [rating, setRating] = useState("");
   const [ratedResources, setRatedResources] = useState([]);
-  const [errors, setErrors] = useState({}); // State for validation errors
+  const [errors, setErrors] = useState({});
 
-  // Example resource list (replace with your actual resources)
   const resources = [
     { id: "1", name: "Resource 1" },
     { id: "2", name: "Resource 2" },
@@ -15,24 +15,21 @@ const RateResource = () => {
     { id: "5", name: "Resource 5" },
   ];
 
-  // Handle input changes
   const handleResourceIdChange = (e) => {
     setResourceId(e.target.value);
-    setErrors((prev) => ({ ...prev, resourceId: "" })); // Clear error
+    setErrors((prev) => ({ ...prev, resourceId: "" }));
   };
 
   const handleRatingChange = (e) => {
     setRating(e.target.value);
-    setErrors((prev) => ({ ...prev, rating: "" })); // Clear error
+    setErrors((prev) => ({ ...prev, rating: "" }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
 
-    // Validation checks
     if (!resourceId) {
       newErrors.resourceId = "Please select a resource.";
     }
@@ -42,7 +39,6 @@ const RateResource = () => {
       newErrors.rating = "Rating must be between 1 and 5.";
     }
 
-    // Check for errors
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -63,9 +59,7 @@ const RateResource = () => {
 
       if (response.ok) {
         alert("Rating submitted successfully!");
-        // Update the rated resources list
         setRatedResources([...ratedResources, { id: resourceId, rating }]);
-        // Clear input fields
         setResourceId("");
         setRating("");
       } else {
@@ -77,7 +71,6 @@ const RateResource = () => {
     }
   };
 
-  // Example function to get CSRF token
   const getCSRFToken = () => {
     return document.cookie
       .split(";")
@@ -86,17 +79,17 @@ const RateResource = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Rate Resources</h1>
+    <div className="container">
+      <h1 className="title">Rate Resources</h1>
 
-      <div style={styles.flexContainer}>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <div style={styles.inputGroup}>
+      <div className="flex-container">
+        <form onSubmit={handleSubmit} className="form">
+          <div className="input-group">
             <select
               name="resourceId"
               value={resourceId}
               onChange={handleResourceIdChange}
-              style={styles.input}
+              className="input"
             >
               <option value="" disabled>
                 Select a resource
@@ -107,16 +100,14 @@ const RateResource = () => {
                 </option>
               ))}
             </select>
-            {errors.resourceId && (
-              <p style={styles.error}>{errors.resourceId}</p>
-            )}
+            {errors.resourceId && <p className="error">{errors.resourceId}</p>}
           </div>
-          <div style={styles.inputGroup}>
+          <div className="input-group">
             <select
               name="rating"
               value={rating}
               onChange={handleRatingChange}
-              style={styles.input}
+              className="input"
             >
               <option value="" disabled>
                 Select a rating
@@ -127,88 +118,15 @@ const RateResource = () => {
                 </option>
               ))}
             </select>
-            {errors.rating && <p style={styles.error}>{errors.rating}</p>}
+            {errors.rating && <p className="error">{errors.rating}</p>}
           </div>
-          <button type="submit" style={styles.submitButton}>
+          <button type="submit" className="submit-button">
             Submit Rating
           </button>
         </form>
       </div>
     </div>
   );
-};
-
-// Styles for the component
-const styles = {
-  container: {
-    maxWidth: "800px",
-    margin: "auto",
-    padding: "20px",
-    backgroundColor: "#f9f9f9",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-  },
-  title: {
-    textAlign: "center",
-    marginBottom: "20px",
-  },
-  flexContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    marginRight: "20px",
-    flex: 1,
-  },
-  inputGroup: {
-    marginBottom: "15px",
-  },
-  label: {
-    marginBottom: "5px",
-    fontWeight: "bold",
-  },
-  input: {
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    width: "100%",
-    boxSizing: "border-box",
-  },
-  submitButton: {
-    padding: "10px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease",
-  },
-  ratedResourcesContainer: {
-    marginTop: "20px",
-    padding: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    backgroundColor: "#ffffff",
-    flex: 1,
-    boxSizing: "border-box",
-  },
-  subTitle: {
-    marginBottom: "10px",
-  },
-  ratedResourcesList: {
-    listStyleType: "none",
-    padding: "0",
-  },
-  resourceItem: {
-    padding: "5px 0",
-  },
-  error: {
-    color: "red",
-    fontSize: "12px",
-    margin: "5px 0 0 0",
-  },
 };
 
 export default RateResource;

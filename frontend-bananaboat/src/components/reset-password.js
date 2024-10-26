@@ -1,144 +1,59 @@
 import React, { useState } from "react";
 import ResetPasswordCode from "./reset-password-code.js"; // Import the reset password code component
+import "./style.css"; // Import the CSS file
 
 const PasswordReset = ({ handleBackToLoginClick }) => {
-  // Manage form state
   const [email, setEmail] = useState("");
-  
-  // Manage section state
   const [activeSection, setActiveSection] = useState("reset-password");
 
-  // Handle input change
-  const handleInputChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const handleInputChange = (e) => setEmail(e.target.value);
 
-  // Handle form submission (Get Code button)
   const handleResetSubmit = (e) => {
     e.preventDefault();
     console.log("Email for password reset:", email);
-    
-    // Navigate to the reset-password-code section
     setActiveSection("reset-password-code");
   };
 
-  // Render content based on the active section
   const renderSectionContent = () => {
     if (activeSection === "reset-password") {
       return (
-        <form onSubmit={handleResetSubmit} style={styles.form}>
-          <div style={styles.formGroup}>
+        <form onSubmit={handleResetSubmit} className="form">
+          <div className="form-group">
             <input
               type="email"
               placeholder="Enter your email"
               value={email}
               onChange={handleInputChange}
-              style={styles.input}
+              className="input"
             />
           </div>
-          <div style={styles.formGroup}>
-            <input
-              type="submit"
-              value="Get Code"
-              style={styles.submitButton}
-            />
+          <div className="form-group">
+            <input type="submit" value="Get Code" className="submit-button" />
           </div>
         </form>
       );
     } else if (activeSection === "reset-password-code") {
-      return <ResetPasswordCode />; // Render the reset-password-code component
+      return <ResetPasswordCode />;
     }
   };
 
   return (
-    <div style={styles.pageContainer}>
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
+    <div className="page-container">
+      <main className="main-content">
+        <header className="header">
           <h3>Password Reset</h3>
         </header>
 
-        {/* Render form or reset password code component */}
         {renderSectionContent()}
 
-        {/* Back to Login button */}
         {activeSection === "reset-password" && (
-          <button onClick={handleBackToLoginClick} style={styles.backButton}>
+          <button onClick={handleBackToLoginClick} className="back-button">
             Back to Login
           </button>
         )}
       </main>
     </div>
   );
-};
-
-// Styles for the component
-const styles = {
-  pageContainer: {
-    display: "flex",
-    height: "60vh",
-    width: "100vh",
-    //padding: "20px",
-    backgroundColor: "#f4f4f4",
-  },
-  mainContent: {
-    flex: 1,
-    padding: "20px",
-    backgroundColor: "#ffffff",
-    borderRadius: "8px",
-    WebkitBoxShadow: "0 2px 10px rgba(0,0,0,0.1)", // Safari
-    MozBoxShadow: "0 2px 10px rgba(0,0,0,0.1)",    // Firefox
-    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",       // Standard property
-    overflowY: "auto",
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center', // Center content horizontally
-    justifyContent: 'center', // Center content vertically
-  },
-  header: {
-    textAlign: "center",
-    marginBottom: "20px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    width: "100%",
-    maxWidth: "600px", // Increased max width for more horizontal space
-  },
-  formGroup: {
-    marginBottom: "20px", // Increased margin for more spacing
-    width: "100%",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard property
-  },
-  submitButton: {
-    padding: "10px 15px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    width: "100%",
-    WebkitTransition: "background-color 0.3s ease", // Safari
-    MozTransition: "background-color 0.3s ease",    // Firefox
-    transition: "background-color 0.3s ease",       // Standard property
-  },
-  backButton: {
-    padding: "10px 15px",
-    backgroundColor: "#f4f4f4",
-    color: "#333",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    cursor: "pointer",
-    marginTop: "10px",
-  },
 };
 
 export default PasswordReset;
