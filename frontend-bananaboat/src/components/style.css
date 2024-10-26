@@ -58,6 +58,7 @@
   border: 1px solid #ccc;
   width: 100%;
   box-sizing: border-box;
+  transition: border-color 0.3s; /* Smooth border color transition */
 }
 
 .select {
@@ -75,9 +76,29 @@
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
-  transition: background-color 0.3s ease;
+  justify-content: space-between;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease; /* Added box-shadow transition */
 }
 
+/* Dynamic Hover Effect */
+.submitButton:hover,
+.addButton:hover,
+.authButton:hover {
+  background-color: #388e3c; /* Darker shade on hover */
+  transform: translateY(-2px) scale(1.02); /* Slight lift and scale */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+/* Active effect (when clicked) */
+.submitButton:active,
+.addButton:active,
+.authButton:active {
+  background-color: #2e7d32; /* Even darker shade on click */
+  transform: translateY(0) scale(0.95); /* Scale down when clicked */
+}
+
+/* Back Button */
 .backButton {
   padding: 10px;
   background-color: #f4f4f4;
@@ -86,14 +107,35 @@
   border-radius: 4px;
   cursor: pointer;
   margin-top: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
 }
 
+.backButton:hover {
+  background-color: #e0e0e0; /* Change background color on hover */
+  transform: translateY(-2px); /* Slight lift */
+}
+
+.backButton:active {
+  background-color: #d0d0d0; /* Change background color on click */
+  transform: scale(0.95); /* Scale down when clicked */
+}
+
+/* Remove Button */
 .removeButton {
   background: transparent;
   color: red;
   border: none;
   cursor: pointer;
   font-weight: bold;
+  transition: color 0.3s ease; /* Smooth transition */
+}
+
+.removeButton:hover {
+  color: darkred; /* Darker red on hover */
+}
+
+.removeButton:active {
+  color: #a30000; /* Darker red on click */
 }
 
 /* File & Keyword Lists */
@@ -108,14 +150,12 @@
   margin: 5px 0;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
 }
 
-.fileInputGroup,
-.keywordContainer {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
+.fileItem:hover,
+.keywordItem:hover {
+  background-color: #d0d0d0; /* Darker background on hover */
 }
 
 /* Error and Success Messages */
@@ -147,8 +187,16 @@
   border-radius: 8px;
   text-align: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease; /* Smooth transform transition */
 }
 
+.metricCard:hover,
+resourceCard:hover,
+.subjectCard:hover {
+  transform: scale(1.05); /* Scale up on hover */
+}
+
+/* Link and Footer Links */
 .link,
 .footerLink {
   color: #4caf50;
@@ -157,7 +205,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease; /* Smooth transition */
 }
 
 /* Search Section */
@@ -171,4 +219,49 @@
   text-align: center;
   font-size: 18px;
   color: #999;
+}
+
+/* Auth buttons and footer links */
+.auth-button,
+.footer-link {
+  background-color: #4caf50; /* Base button color */
+  color: white; /* Button text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Button padding */
+  cursor: pointer; /* Change cursor on hover */
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease; /* Transition for smooth effects */
+}
+
+.auth-button:hover,
+.footer-link:hover {
+  background-color: #45a049; /* Darker green on hover */
+  transform: translateY(-2px) scale(1.02); /* Slight lift and scale */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.auth-button:active,
+.footer-link:active {
+  transform: scale(0.95); /* Scale down when active */
+}
+
+/* Keyframe Animations (if needed) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
