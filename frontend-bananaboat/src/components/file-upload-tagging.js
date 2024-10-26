@@ -7,7 +7,7 @@ const UploadTaggingResource = () => {
     resourceName: "",
     subject: "",
     grade: "",
-    keywords: [],
+    keywords: "", // Store keywords as a CSV string
     currentKeyword: "",
   });
 
@@ -42,7 +42,9 @@ const UploadTaggingResource = () => {
     if (formData.currentKeyword) {
       setFormData((prevState) => ({
         ...prevState,
-        keywords: [...prevState.keywords, formData.currentKeyword],
+        keywords: prevState.keywords
+          ? `${prevState.keywords}, ${formData.currentKeyword}` // Append new keyword
+          : formData.currentKeyword, // Set initial keyword
         currentKeyword: "",
       }));
       setErrors((prev) => ({ ...prev, currentKeyword: "" }));
@@ -65,7 +67,7 @@ const UploadTaggingResource = () => {
     if (!formData.grade) {
       newErrors.grade = "Grade is required.";
     }
-    if (formData.keywords.length === 0) {
+    if (!formData.keywords) {
       newErrors.currentKeyword = "At least one keyword is required.";
     }
 
@@ -74,8 +76,7 @@ const UploadTaggingResource = () => {
       return;
     }
 
-    const keywordsCSV = formData.keywords.join(", ");
-    console.log("Form Data:", { ...formData, keywords: keywordsCSV });
+    console.log("Form Data:", { ...formData });
     alert("Form submitted! Check console for details.");
     setIsSubmitted(true);
   };
@@ -88,9 +89,13 @@ const UploadTaggingResource = () => {
   };
 
   const removeKeyword = (index) => {
+    const updatedKeywords = formData.keywords
+      .split(", ")
+      .filter((_, i) => i !== index) // Filter out the keyword to remove
+      .join(", "); // Join back to a CSV string
     setFormData((prevState) => ({
       ...prevState,
-      keywords: prevState.keywords.filter((_, i) => i !== index),
+      keywords: updatedKeywords,
     }));
   };
 
@@ -183,18 +188,21 @@ const UploadTaggingResource = () => {
           <p className="error">{errors.currentKeyword}</p>
         )}
         <div className="keywordsList">
-          {formData.keywords.map((keyword, index) => (
-            <span key={index} className="keywordItem">
-              {keyword}
-              <button
-                type="button"
-                onClick={() => removeKeyword(index)}
-                className="removeButton"
-              >
-                ×
-              </button>
-            </span>
-          ))}
+          {formData.keywords.split(", ").map(
+            (keyword, index) =>
+              keyword && ( // Ensure non-empty keywords
+                <span key={index} className="keywordItem">
+                  {keyword}
+                  <button
+                    type="button"
+                    onClick={() => removeKeyword(index)}
+                    className="removeButton"
+                  >
+                    x
+                  </button>
+                </span>
+              )
+          )}
         </div>
         <button type="submit" className="submitButton">
           Submit
