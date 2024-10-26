@@ -58,6 +58,7 @@
   border: 1px solid #ccc;
   width: 100%;
   box-sizing: border-box;
+  transition: border-color 0.3s; /* Smooth border color transition */
 }
 
 .select {
@@ -75,29 +76,17 @@
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
-  position: relative; /* For pseudo-element */
-  overflow: hidden; /* Ensure children don't overflow */
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease; /* Added box-shadow transition */
 }
 
-/* Dynamic Hover effect with pseudo-element */
+/* Dynamic Hover Effect */
 .submitButton:hover,
 .addButton:hover,
 .authButton:hover {
   background-color: #388e3c; /* Darker shade on hover */
-}
-
-.submitButton:hover::after,
-.addButton:hover::after,
-.authButton:hover::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.3); /* Light overlay */
-  transition: transform 0.5s ease; /* Smooth transition */
-  transform: scale(2); /* Scale to cover */
+  transform: translateY(-2px) scale(1.02); /* Slight lift and scale */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
 }
 
 /* Active effect (when clicked) */
@@ -105,6 +94,7 @@
 .addButton:active,
 .authButton:active {
   background-color: #2e7d32; /* Even darker shade on click */
+  transform: translateY(0) scale(0.95); /* Scale down when clicked */
 }
 
 /* Back Button */
@@ -119,10 +109,14 @@
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
 }
 
-/* Hover effect */
 .backButton:hover {
   background-color: #e0e0e0; /* Change background color on hover */
-  transform: translateY(-2px); /* Lift effect */
+  transform: translateY(-2px); /* Slight lift */
+}
+
+.backButton:active {
+  background-color: #d0d0d0; /* Change background color on click */
+  transform: scale(0.95); /* Scale down when clicked */
 }
 
 /* Remove Button */
@@ -137,7 +131,10 @@
 
 .removeButton:hover {
   color: darkred; /* Darker red on hover */
-  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+}
+
+.removeButton:active {
+  color: #a30000; /* Darker red on click */
 }
 
 /* File & Keyword Lists */
@@ -152,13 +149,12 @@
   margin: 5px 0;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Dynamic transition */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
 }
 
 .fileItem:hover,
 .keywordItem:hover {
-  background-color: #d0d0d0; /* Darker shade on hover */
-  transform: scale(1.02); /* Slightly increase size */
+  background-color: #d0d0d0; /* Darker background on hover */
 }
 
 /* Error and Success Messages */
@@ -183,23 +179,23 @@
 }
 
 .metricCard,
-resourceCard,
+.resourceCard,
 .subjectCard {
   background-color: #e4e4e4;
   padding: 20px;
   border-radius: 8px;
   text-align: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease; /* Smooth transition */
+  transition: transform 0.3s ease; /* Smooth transform transition */
 }
 
 .metricCard:hover,
 resourceCard:hover,
 .subjectCard:hover {
-  transform: translateY(-5px); /* Lift effect */
+  transform: scale(1.05); /* Scale up on hover */
 }
 
-/* Link styles */
+/* Link and Footer Links */
 .link,
 .footerLink {
   color: #4caf50;
@@ -208,13 +204,7 @@ resourceCard:hover,
   background: none;
   border: none;
   cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.link:hover,
-.footerLink:hover {
-  color: #388e3c; /* Darker green on hover */
-  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+  transition: color 0.3s ease; /* Smooth transition */
 }
 
 /* Search Section */
@@ -230,6 +220,7 @@ resourceCard:hover,
   color: #999;
 }
 
+/* Auth buttons and footer links */
 .auth-button,
 .footer-link {
   background-color: #4caf50; /* Base button color */
@@ -238,13 +229,15 @@ resourceCard:hover,
   border-radius: 5px; /* Rounded corners */
   padding: 10px 15px; /* Button padding */
   cursor: pointer; /* Change cursor on hover */
-  transition: background-color 0.3s, transform 0.2s; /* Transition for smooth effects */
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease; /* Transition for smooth effects */
 }
 
 .auth-button:hover,
 .footer-link:hover {
   background-color: #45a049; /* Darker green on hover */
-  transform: translateY(-2px); /* Lift effect on hover */
+  transform: translateY(-2px) scale(1.02); /* Slight lift and scale */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
 }
 
 .auth-button:active,
@@ -252,4 +245,22 @@ resourceCard:hover,
   transform: scale(0.95); /* Scale down when active */
 }
 
-/* Add additional styling for animations if needed */
+/* Keyframe Animations (if needed) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
