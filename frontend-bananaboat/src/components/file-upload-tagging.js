@@ -171,7 +171,12 @@ const UploadTaggingResource = () => {
           <option value="Honours">Honours</option>
         </select>
         {errors.grade && <p className="error">{errors.grade}</p>}
-        <div className="keywordContainer">
+
+        {/* Update to align Add keyword input and button */}
+        <div
+          className="keywordContainer"
+          style={{ display: "flex", gap: "8px" }}
+        >
           <input
             type="text"
             placeholder="Add keyword"
@@ -184,15 +189,33 @@ const UploadTaggingResource = () => {
             Add
           </button>
         </div>
+
         {errors.currentKeyword && (
           <p className="error">{errors.currentKeyword}</p>
         )}
-        <div className="keywordsList">
+
+        {/* Update to align keyword display as a CSV string */}
+        <div
+          className="keywordsList"
+          style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}
+        >
           {formData.keywords.split(", ").map(
             (keyword, index) =>
               keyword && ( // Ensure non-empty keywords
-                <span key={index} className="keywordItem">
-                  {keyword}
+                <div
+                  key={index}
+                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                >
+                  <span
+                    className="keywordItem"
+                    style={{
+                      background: "#e0e0e0",
+                      padding: "4px 8px",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    {keyword}
+                  </span>
                   <button
                     type="button"
                     onClick={() => removeKeyword(index)}
@@ -200,7 +223,7 @@ const UploadTaggingResource = () => {
                   >
                     x
                   </button>
-                </span>
+                </div>
               )
           )}
         </div>
