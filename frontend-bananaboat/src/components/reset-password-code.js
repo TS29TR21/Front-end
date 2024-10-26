@@ -16,9 +16,8 @@ const ResetPasswordCode = ({ email }) => {
     const newErrors = {};
     if (!code) {
       newErrors.code = "Verification code is required.";
-    } else if (!/^(?=.*[0-9])(?=.*[a-zA-Z]).{6}$/.test(code)) {
-      newErrors.code =
-        "Code must be 6 characters long and include letters and numbers.";
+    } else if (code.length !== 6) {
+      newErrors.code = "Code must be exactly 6 characters long.";
     }
     return newErrors;
   };
