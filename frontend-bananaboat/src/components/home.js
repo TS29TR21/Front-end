@@ -105,7 +105,7 @@ const Home = () => {
   };
 
   // Get the appropriate menu based on user role
-  const selectedMenu = user ? menus[user.role] : menus.openUser;
+  const selectedMenu = user && user.role ? menus[user.role] : menus.openUser;
 
   const renderSectionContent = () => {
     switch (activeSection) {
@@ -176,7 +176,7 @@ const Home = () => {
           <CloseIcon style={{ color: "white" }} />
         </IconButton>
         <List>
-          {selectedMenu.map(({ text, section }) => (
+          {(selectedMenu || []).map(({ text, section }) => (
             <ListItem
               button
               key={text}
@@ -271,7 +271,7 @@ const Home = () => {
             </button>
           </Typography>
           <Typography variant="body2" sx={{ marginTop: 1 }}>
-            &copy; {new Date().getFullYear()} NexTech . All rights reserved.
+            &copy; {new Date().getFullYear()} NexTech. All rights reserved.
           </Typography>
         </Box>
       </Box>
