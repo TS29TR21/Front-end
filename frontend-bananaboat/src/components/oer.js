@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Ensure react-router-dom is installed
+import "./style.css"; // Import the CSS file
 
 const OER = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -68,28 +68,28 @@ const OER = () => {
   );
 
   return (
-    <div style={styles.pageContainer}>
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
+    <div className="pageContainer">
+      <main className="mainContent">
+        <header className="header">
           <h1>Other Useful Educational Resources</h1>
         </header>
 
         {/* Search Section */}
-        <section style={styles.searchSection}>
+        <section className="searchSection">
           <input
             type="text"
             placeholder="Search resources..."
-            style={styles.searchInput}
+            className="searchInput"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </section>
 
         {/* Resources Section */}
-        <section style={styles.resourcesSection}>
+        <section className="resourcesSection">
           {filteredResources.length > 0 ? (
             filteredResources.map((resource) => (
-              <div key={resource.id} style={styles.resourceCard}>
+              <div key={resource.id} className="resourceCard">
                 <h2>{resource.resource_name}</h2>
                 <p>Subject: {resource.subject}</p>
                 <p>Grade: {resource.grade}</p>
@@ -103,73 +103,19 @@ const OER = () => {
                   href={resource.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={styles.link}
+                  className="link"
                 >
                   Access Resource
                 </a>
               </div>
             ))
           ) : (
-            <p style={styles.noResults}>No resources found.</p>
+            <p className="noResults">No resources found.</p>
           )}
         </section>
       </main>
     </div>
   );
-};
-
-// Styles for the page
-const styles = {
-  pageContainer: {
-    display: "flex",
-    height: "100vh",
-  },
-  mainContent: {
-    flex: 1,
-    padding: "20px",
-    backgroundColor: "#f4f4f4",
-    overflowY: "auto",
-  },
-  header: {
-    textAlign: "center",
-    paddingBottom: "20px",
-  },
-  searchSection: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "20px",
-  },
-  searchInput: {
-    padding: "10px",
-    width: "250px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    marginRight: "10px",
-    boxSizing: "border-box",
-  },
-  resourcesSection: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: "20px",
-    boxSizing: "border-box",
-  },
-  resourceCard: {
-    backgroundColor: "#e4e4e4",
-    padding: "20px",
-    borderRadius: "8px",
-    textAlign: "center",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-  },
-  link: {
-    color: "#4CAF50",
-    textDecoration: "none",
-    fontWeight: "bold",
-    transition: "color 0.3s ease",
-  },
-  noResults: {
-    textAlign: "center",
-    color: "#999",
-  },
 };
 
 export default OER;

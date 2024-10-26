@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./style.css"; // Import the CSS file
 
 const SubjectView = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -45,87 +46,40 @@ const SubjectView = () => {
   };
 
   return (
-    <div style={styles.pageContainer}>
-      <main style={styles.mainContent}>
-        <header style={styles.header}>
+    <div className="pageContainer">
+      <main className="mainContent">
+        <header className="header">
           <h1>Subject View</h1>
         </header>
 
         {/* Search Section */}
-        <section style={styles.searchSection}>
+        <section className="searchSection">
           <input
             type="text"
             placeholder="Search subjects"
-            style={styles.searchInput}
+            className="searchInput" // Update to use className
             value={searchQuery}
             onChange={handleSearchChange}
           />
         </section>
 
         {/* Subjects Section */}
-        <section style={styles.subjectsSection}>
+        <section className="subjectsSection">
           {filteredSubjects.length > 0 ? (
             filteredSubjects.map((subject, index) => (
-              <div key={index} style={styles.subjectCard}>
+              <div key={index} className="subjectCard">
+                {" "}
+                {/* Update to use className */}
                 <h2>{subject}</h2>
               </div>
             ))
           ) : (
-            <p style={styles.noResults}>No subjects found.</p>
+            <p className="noResults">No subjects found.</p> // Update to use className
           )}
         </section>
       </main>
     </div>
   );
-};
-
-// Styles for the page
-const styles = {
-  pageContainer: {
-    display: "flex",
-    height: "100vh",
-  },
-  mainContent: {
-    flex: 1,
-    padding: "20px",
-    backgroundColor: "#f4f4f4",
-    overflowY: "auto",
-  },
-  header: {
-    textAlign: "center",
-    paddingBottom: "20px",
-  },
-  searchSection: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "20px",
-  },
-  searchInput: {
-    padding: "10px",
-    width: "250px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    marginRight: "10px",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box", // Firefox
-    boxSizing: "border-box", // Standard
-  },
-  subjectsSection: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: "20px",
-  },
-  subjectCard: {
-    backgroundColor: "#e4e4e4",
-    padding: "20px",
-    borderRadius: "8px",
-    textAlign: "center",
-  },
-  noResults: {
-    textAlign: "center",
-    fontSize: "18px",
-    color: "#999",
-  },
 };
 
 export default SubjectView;

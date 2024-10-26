@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./style.css"; // Import the CSS file
 
 const UpdateUserRole = () => {
   const [userId, setUserId] = useState("");
@@ -67,13 +68,13 @@ const UpdateUserRole = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <header style={styles.header}>
+    <div className="container">
+      <header className="header">
         <h1>Update User Role</h1>
       </header>
-      <div style={styles.formContainer}>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <div style={styles.formGroup}>
+      <div className="formContainer">
+        <form onSubmit={handleSubmit} className="form">
+          <div className="formGroup">
             <input
               type="text"
               id="user_id"
@@ -81,19 +82,19 @@ const UpdateUserRole = () => {
               name="user_id"
               value={userId}
               onChange={handleUserIdChange}
-              style={styles.input}
+              className="input" // Update to use className
             />
-            {error && <p style={styles.error}>{error}</p>}{" "}
+            {error && <p className="error">{error}</p>}{" "}
             {/* Display error message */}
           </div>
 
-          <div style={styles.formGroup}>
+          <div className="formGroup">
             <select
               id="user_role"
               name="role"
               value={role}
               onChange={handleRoleChange}
-              style={styles.select}
+              className="select" // Update to use className
             >
               <option value="" disabled>
                 Select Role
@@ -104,8 +105,8 @@ const UpdateUserRole = () => {
             </select>
           </div>
 
-          <div style={styles.formGroup}>
-            <button type="submit" style={styles.submitButton}>
+          <div className="formGroup">
+            <button type="submit" className="submitButton">
               Update Role
             </button>
           </div>
@@ -113,76 +114,6 @@ const UpdateUserRole = () => {
       </div>
     </div>
   );
-};
-
-// Styling for the page
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-    backgroundColor: "#f4f4f9",
-  },
-  header: {
-    textAlign: "center",
-    marginBottom: "20px",
-  },
-  formContainer: {
-    width: "100%",
-    maxWidth: "500px",
-    backgroundColor: "#fff",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  formGroup: {
-    marginBottom: "20px",
-  },
-  label: {
-    marginBottom: "8px",
-    fontWeight: "bold",
-    fontSize: "14px",
-    color: "#333",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    fontSize: "14px",
-    transition: "border-color 0.3s",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box", // Firefox
-    boxSizing: "border-box", // Standard
-  },
-  select: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    fontSize: "14px",
-  },
-  submitButton: {
-    padding: "10px 20px",
-    backgroundColor: "#4CAF50",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    fontSize: "16px",
-    transition: "background-color 0.3s",
-  },
-  error: {
-    color: "red",
-    fontSize: "12px",
-    marginTop: "5px",
-  },
 };
 
 export default UpdateUserRole;

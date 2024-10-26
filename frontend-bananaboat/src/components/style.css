@@ -1,0 +1,174 @@
+/* General Container Styles */
+.container,
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mainContent,
+.formContainer {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header,
+.title,
+.centerText {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form Styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.inputGroup,
+.formGroup {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.input,
+.select,
+.keywordInput,
+.searchInput {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.select {
+  appearance: none;
+}
+
+/* Buttons */
+.submitButton,
+.addButton,
+.authButton {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.backButton {
+  padding: 10px;
+  background-color: #f4f4f4;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.removeButton {
+  background: transparent;
+  color: red;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* File & Keyword Lists */
+.fileItem,
+.keywordItem {
+  display: flex;
+  justify-content: space-between;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 5px 0;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.fileInputGroup,
+.keywordContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Error and Success Messages */
+.error,
+.errorMessage {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.success {
+  color: green;
+}
+
+/* Metrics and Resources Section */
+.metricsSection,
+.resourcesSection,
+.subjectsSection {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.metricCard,
+.resourceCard,
+.subjectCard {
+  background-color: #e4e4e4;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.link,
+.footerLink {
+  color: #4caf50;
+  text-decoration: underline;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+/* Search Section */
+.searchSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.noResults {
+  text-align: center;
+  font-size: 18px;
+  color: #999;
+}

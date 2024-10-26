@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./style.css"; // Import the CSS file
 
 const ResourceSearch = () => {
   const [keywords, setKeywords] = useState("");
@@ -9,8 +10,10 @@ const ResourceSearch = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch('https://contained-share2teach.onrender.com/api/resource/deserial'); // API endpoint
-        if (!response.ok) throw new Error('Failed to fetch resources');
+        const response = await fetch(
+          "https://contained-share2teach.onrender.com/api/resource/deserial"
+        ); // API endpoint
+        if (!response.ok) throw new Error("Failed to fetch resources");
         const data = await response.json();
         
         // Filter to include only approved resources
@@ -18,7 +21,7 @@ const ResourceSearch = () => {
         setAllResources(approvedResources); // Set the fetched approved resources
         setFilteredResources(approvedResources); // Initialize filtered resources
       } catch (error) {
-        console.error('Error fetching resources:', error);
+        console.error("Error fetching resources:", error);
       }
     };
 
@@ -31,21 +34,25 @@ const ResourceSearch = () => {
     setKeywords(value);
 
     // Filter resources based on the search input
-    const filtered = allResources.filter(resource => {
+    const filtered = allResources.filter((resource) => {
       const resourceKeywords = resource.keywords.toLowerCase();
       return (
         resource.resource_name.toLowerCase().includes(value.toLowerCase()) ||
-        resourceKeywords.split(',').some(keyword => keyword.trim().includes(value.toLowerCase()))
+        resourceKeywords
+          .split(",")
+          .some((keyword) => keyword.trim().includes(value.toLowerCase()))
       );
     });
-    
+
     setFilteredResources(filtered); // Update filtered resources
   };
 
   return (
     <div>
-      <form onSubmit={(e) => e.preventDefault()} style={styles.searchForm}>
-        <label htmlFor="keywords" style={styles.label}>Keywords:</label>
+      <form onSubmit={(e) => e.preventDefault()} className="searchForm">
+        <label htmlFor="keywords" className="label">
+          Keywords:
+        </label>
         <input
           type="text"
           name="keywords"
@@ -53,7 +60,7 @@ const ResourceSearch = () => {
           placeholder="Search for resources based on keywords"
           value={keywords}
           onChange={handleKeywordsChange}
-          style={styles.searchInput}
+          className="searchInput" // Update to use className
         />
       </form>
 
@@ -71,29 +78,6 @@ const ResourceSearch = () => {
       </ul>
     </div>
   );
-};
-
-// Styles for the search section
-const styles = {
-  searchForm: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "20px",
-  },
-  label: {
-    marginRight: "10px",
-    alignSelf: "center",
-  },
-  searchInput: {
-    padding: "10px",
-    width: "250px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    marginRight: "10px",
-    WebkitBoxSizing: "border-box", // Safari
-    MozBoxSizing: "border-box",    // Firefox
-    boxSizing: "border-box",       // Standard
-  },
 };
 
 export default ResourceSearch;
