@@ -15,8 +15,11 @@ const ResourceSearch = () => {
         ); // API endpoint
         if (!response.ok) throw new Error("Failed to fetch resources");
         const data = await response.json();
-        setAllResources(data); // Set the fetched resources
-        setFilteredResources(data); // Initialize filtered resources
+        
+        // Filter to include only approved resources
+        const approvedResources = data.filter(resource => resource.approval_status === "approved");
+        setAllResources(approvedResources); // Set the fetched approved resources
+        setFilteredResources(approvedResources); // Initialize filtered resources
       } catch (error) {
         console.error("Error fetching resources:", error);
       }
@@ -70,7 +73,7 @@ const ResourceSearch = () => {
             </li>
           ))
         ) : (
-          <li>No resources found.</li>
+          <li>Loading...</li>
         )}
       </ul>
     </div>
