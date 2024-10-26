@@ -3,20 +3,11 @@ import PasswordReset from "./reset-password.js";
 import "./style.css"; // Importing style.css
 
 const Login = ({ onLogin }) => {
-  // Sample users
-  const sampleUsers = [
-    { username_or_email: "openuser", password: "pass123", role: "openUser" },
-    { username_or_email: "educator", password: "pass123", role: "educator" },
-    { username_or_email: "moderator", password: "pass123", role: "moderator" },
-    { username_or_email: "admin", password: "pass123", role: "administrator" },
-  ];
-
   // Manage form state
   const [formData, setFormData] = useState({
     username_or_email: "",
     password: "",
   });
-
   const [activeSection, setActiveSection] = useState("login");
   const [errors, setErrors] = useState({});
   const [error, setError] = useState("");
@@ -54,17 +45,54 @@ const Login = ({ onLogin }) => {
       return;
     }
 
-    const matchedUser = sampleUsers.find(
-      (user) =>
-        user.username_or_email === formData.username_or_email &&
-        user.password === formData.password
-    );
+    try {
+      const tokenData = {
+        username: formData.username_or_email,
+        password: formData.password,
+      };
 
-    if (matchedUser) {
-      onLogin(matchedUser);
-      console.log("Logged in successfully:", matchedUser);
-    } else {
-      setError("Login failed. Please check your credentials.");
+      const tokenResponse = await fetch("http://127.0.0.1:8000/api/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tokenData),
+      });
+
+      if (!tokenResponse.ok) {
+        const errorData = await tokenResponse.json();
+        throw new Error(
+          `Failed to retrieve tokens: ${errorData.detail || "Unknown error"}`
+        );
+      }
+
+      const { access, refresh } = await tokenResponse.json();
+      localStorage.setItem("accessToken", access);
+      localStorage.setItem("refreshToken", refresh);
+
+      console.log("Logged in successfully:", { access, refresh });
+
+      const roleResponse = await fetch("http://127.0.0.1:8000/api/role", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access}`,
+        },
+      });
+
+      if (!roleResponse.ok) {
+        const roleErrorData = await roleResponse.json();
+        throw new Error(
+          `Failed to retrieve user role: ${roleErrorData.detail || "Unknown error"}`
+        );
+      }
+
+      const { userRole } = await roleResponse.json();
+      console.log("User Role:", userRole);
+      localStorage.setItem("userRole", userRole);
+      onLogin({ access, refresh, userRole });
+
+    } catch (err) {
+      setError(err.message);
+      console.error("Login error:", err);
     }
   };
 
@@ -121,10 +149,7 @@ const Login = ({ onLogin }) => {
         <header className="header">
           <h1>Login</h1>
         </header>
-
-        {/* Render login form or password reset component */}
         {renderSectionContent()}
-
         {activeSection === "login" && (
           <center>
             <br />
