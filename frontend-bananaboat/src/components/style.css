@@ -191,7 +191,7 @@
 }
 
 .metricCard:hover,
-resourceCard:hover,
+.resourceCard:hover,
 .subjectCard:hover {
   transform: scale(1.05); /* Scale up on hover */
 }

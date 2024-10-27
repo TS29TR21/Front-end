@@ -83,8 +83,8 @@ const Register = () => {
     <div className="container">
       <h1 className="title">Register</h1>
       <form onSubmit={handleSubmit} className="form">
-        <div className="input-group">
-          <div className="input-wrapper">
+        <div className="inputGroup">
+          <div className="formGroup">
             <input
               type="text"
               placeholder="First Name"
@@ -94,10 +94,10 @@ const Register = () => {
               className="input"
             />
             {errors.firstname && (
-              <p className="error-text">{errors.firstname}</p>
+              <p className="error">{errors.firstname}</p>
             )}
           </div>
-          <div className="input-wrapper">
+          <div className="formGroup">
             <input
               type="text"
               placeholder="Last Name"
@@ -106,11 +106,13 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.lastname && <p className="error-text">{errors.lastname}</p>}
+            {errors.lastname && (
+              <p className="error">{errors.lastname}</p>
+            )}
           </div>
         </div>
-        <div className="input-group">
-          <div className="input-wrapper">
+        <div className="inputGroup">
+          <div className="formGroup">
             <input
               type="text"
               placeholder="Username"
@@ -119,9 +121,11 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.username && <p className="error-text">{errors.username}</p>}
+            {errors.username && (
+              <p className="error">{errors.username}</p>
+            )}
           </div>
-          <div className="input-wrapper">
+          <div className="formGroup">
             <input
               type="text"
               placeholder="Email"
@@ -130,11 +134,13 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.email && <p className="error-text">{errors.email}</p>}
+            {errors.email && (
+              <p className="error">{errors.email}</p>
+            )}
           </div>
         </div>
-        <div className="input-group">
-          <div className="input-wrapper">
+        <div className="inputGroup">
+          <div className="formGroup">
             <input
               type="password"
               placeholder="Password"
@@ -143,9 +149,11 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.password && <p className="error-text">{errors.password}</p>}
+            {errors.password && (
+              <p className="error">{errors.password}</p>
+            )}
           </div>
-          <div className="input-wrapper">
+          <div className="formGroup">
             <input
               type="password"
               placeholder="Confirm Password"
@@ -155,11 +163,11 @@ const Register = () => {
               className="input"
             />
             {errors.confirmpassword && (
-              <p className="error-text">{errors.confirmpassword}</p>
+              <p className="error">{errors.confirmpassword}</p>
             )}
           </div>
         </div>
-        <button type="submit" className="submit-button">
+        <button type="submit" className="submitButton">
           Register
         </button>
       </form>

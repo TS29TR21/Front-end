@@ -16,87 +16,76 @@ import CloseIcon from "@mui/icons-material/Close";
 import Login from "./login.js";
 import ResourceSearch from "./resource-search.js";
 import ModerationForm from "./moderation.js";
-import NewPassword from "./new-password.js";
 import RateResource from "./rate-resource.js";
 import Register from "./register.js";
-import PasswordReset from "./reset-password.js";
 import ResourceReport from "./resource-report.js";
 import UpdateUserRole from "./update-user-role.js";
 import UploadTaggingResource from "./file-upload-tagging.js";
 import SubjectView from "./subject-view.js";
 import FAQ from "./faq.js";
-import AboutUs from "./about-us.js";
-import OER from "./oer.js";
-import Contributors from "./contributors.js";
-import Self from "./sdl.js";
+import AboutUs from "./about-us.js"; // Import AboutUs component
 import Analytics from "./analytics.js";
 import "./style.css"; // Importing style.css
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const storedUsername = localStorage.getItem("username");
+  const storedUserRole = localStorage.getItem("userRole");
+
   const [activeSection, setActiveSection] = useState("/");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
 
   const handleLogin = (userData) => {
     console.log(userData);
-    setUser(userData); // Set user role after login
+    setUser(userData); // Set user data after login
     setActiveSection("/");
   };
 
   const handleLogout = () => {
     setUser(null); // Clear the user data
-    setActiveSection("/"); // Optionally redirect to home or another section
+    setActiveSection("/");
   };
 
   // Define role-based sidebar menus
   const menus = {
     openUser: [
       { text: "Home", section: "/" },
-      { text: "Subject View", section: "subject-view" },
+      { text: "FAQ", section: "faq" },
       { text: "Search Resources", section: "resource-search" },
-      { text: "Other Useful OERs", section: "oer" },
-      { text: "Rate Resources", section: "rate-resource" },
-      { text: "Contributors", section: "contributors" },
-      { text: "Self-Directed Learning", section: "self-directed" },
+      { text: "Subject View", section: "subject-view" },
       { text: "Resource Report", section: "resource-report" },
-    ],
-    educator: [
-      { text: "Home", section: "/" },
-      { text: "Subject View", section: "subject-view" },
-      { text: "Search Resources", section: "resource-search" },
-      { text: "Contribute", section: "file-upload" },
-      { text: "Other Useful OERs", section: "oer" },
       { text: "Rate Resources", section: "rate-resource" },
-      { text: "Contributors", section: "contributors" },
-      { text: "Self-Directed Learning", section: "self-directed" },
+    ],
+    educatorUser: [
+      { text: "Home", section: "/" },
+      { text: "FAQ", section: "faq" },
+      { text: "Search Resources", section: "resource-search" },
+      { text: "Subject View", section: "subject-view" },
       { text: "Resource Report", section: "resource-report" },
-    ],
-    moderator: [
-      { text: "Home", section: "/" },
-      { text: "Subject View", section: "subject-view" },
-      { text: "Search Resources", section: "resource-search" },
-      { text: "Contribute", section: "file-upload" },
-      { text: "Other Useful OERs", section: "oer" },
       { text: "Rate Resources", section: "rate-resource" },
+      { text: "Contribute", section: "file-upload" },
+    ],
+    moderatorUser: [
+      { text: "Home", section: "/" },
+      { text: "FAQ", section: "faq" },
+      { text: "Search Resources", section: "resource-search" },
+      { text: "Subject View", section: "subject-view" },
+      { text: "Resource Report", section: "resource-report" },
+      { text: "Rate Resources", section: "rate-resource" },
+      { text: "Contribute", section: "file-upload" },
       { text: "Moderate Resources", section: "moderate" },
-      { text: "Contributors", section: "contributors" },
-      { text: "Self-Directed Learning", section: "self-directed" },
-      { text: "Resource Report", section: "resource-report" },
     ],
-    administrator: [
+    adminUser: [
       { text: "Home", section: "/" },
-      { text: "Subject View", section: "subject-view" },
+      { text: "FAQ", section: "faq" },
       { text: "Search Resources", section: "resource-search" },
-      { text: "Contribute", section: "file-upload" },
-      { text: "Other Useful OERs", section: "oer" },
-      { text: "Rate Resources", section: "rate-resource" },
-      { text: "Moderate Resources", section: "moderate" },
-      { text: "Contributors", section: "contributors" },
-      { text: "Self-Directed Learning", section: "self-directed" },
-      { text: "Analytics", section: "analytics" },
+      { text: "Subject View", section: "subject-view" },
       { text: "Resource Report", section: "resource-report" },
+      { text: "Rate Resources", section: "rate-resource" },
+      { text: "Contribute", section: "file-upload" },
+      { text: "Moderate Resources", section: "moderate" },
       { text: "Update User Role", section: "update-user-role" },
+      { text: "Analytics", section: "analytics" },
     ],
   };
 
@@ -105,7 +94,7 @@ const Home = () => {
   };
 
   // Get the appropriate menu based on user role
-  const selectedMenu = user && user.role ? menus[user.role] : menus.openUser;
+  const selectedMenu = user ? menus[user.userRole] : menus.openUser;
 
   const renderSectionContent = () => {
     switch (activeSection) {
@@ -117,37 +106,35 @@ const Home = () => {
         return <ResourceSearch />;
       case "file-upload":
         return <UploadTaggingResource />;
-      case "oer":
-        return <OER />;
-      case "contributors":
-        return <Contributors />;
-      case "self-directed":
-        return <Self />;
-      case "register":
-        return <Register />;
-      case "reset-password":
-        return <PasswordReset />;
-      case "new-password":
-        return <NewPassword />;
-      case "about-us":
-        return <AboutUs />;
       case "faq":
         return <FAQ />;
-      case "login":
-        return <Login onLogin={handleLogin} />;
-      case "analytics":
-        return <Analytics />;
-      case "moderate":
-        return <ModerationForm />;
-      case "rate-resource":
-        return <RateResource />;
       case "resource-report":
         return <ResourceReport />;
+      case "rate-resource":
+        return <RateResource />;
+      case "moderate":
+        return <ModerationForm />;
+      case "analytics":
+        return <Analytics />;
       case "update-user-role":
         return <UpdateUserRole />;
+      case "about-us": // Added About Us case
+        return <AboutUs />;
+      case "login":
+        return <Login onLogin={handleLogin} />;
+      case "register":
+        return <Register />; // Render the Register component
       default:
         return <Typography variant="h5">Welcome to Share2Teach</Typography>;
     }
+  };
+
+  // Mapping user roles to display labels
+  const roleLabels = {
+    openUser: "Open User",
+    educatorUser: "Educator",
+    moderatorUser: "Moderator",
+    adminUser: "Admin",
   };
 
   return (
@@ -212,10 +199,13 @@ const Home = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Share2Teach
             </Typography>
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               {user ? (
                 <>
-                  <Typography>Welcome, {user.username}!</Typography>
+                  <Typography sx={{ marginRight: 2 }}>
+                    User: {storedUsername}
+                    <br />Role: {roleLabels[storedUserRole] || storedUserRole}
+                  </Typography>
                   <button className="auth-button" onClick={handleLogout}>
                     Logout
                   </button>
@@ -230,7 +220,7 @@ const Home = () => {
                   </button>
                   <button
                     className="auth-button"
-                    onClick={() => setActiveSection("register")}
+                    onClick={() => setActiveSection("register")} // Set active section to register
                   >
                     Sign Up
                   </button>
@@ -258,7 +248,7 @@ const Home = () => {
           <Typography variant="body2">
             <button
               className="footer-link"
-              onClick={() => setActiveSection("about-us")}
+              onClick={() => setActiveSection("about-us")} // Set active section to about-us
             >
               About Us
             </button>
