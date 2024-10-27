@@ -3,36 +3,57 @@ import "./style.css"; // Import the external CSS file
 
 const Contributors = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [expandedIndex, setExpandedIndex] = useState(null);
-  const [contributors, setContributors] = useState([]);
+  const [resources, setResources] = useState([]);
+  const [users, setUsers] = useState({}); // Object to store users by their ID
 
-  // Fetch contributors from the API when the component mounts
+  // Retrieve the access token from local storage or any other source
+  const accessToken = localStorage.getItem("accessToken");
+
+  // Fetch resources and users from the API when the component mounts
   useEffect(() => {
-    const fetchContributors = async () => {
+    const fetchResourcesAndUsers = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/contributors");
-        const data = await response.json();
-        // Map the data from the API to match the structure of the contributors
-        const formattedContributors = data.map((user) => ({
-          name: `${user.first_name} ${user.last_name}`,
-          resources: user.groups, // Adjust this based on the actual structure of user data
-        }));
-        setContributors(formattedContributors);
+        const [resourcesResponse, usersResponse] = await Promise.all([
+          fetch("http://127.0.0.1:8000/api/resource/deserial", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${accessToken}`, // Include the access token in the header
+            },
+          }),
+          fetch("http://127.0.0.1:8000/api/user/deserial", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }),
+        ]);
+
+        if (!resourcesResponse.ok || !usersResponse.ok) {
+          throw new Error("Failed to fetch resources or users");
+        }
+
+        const [resourcesData, usersData] = await Promise.all([
+          resourcesResponse.json(),
+          usersResponse.json(),
+        ]);
+
+        setResources(resourcesData); // Store the raw resources
+        // Create an object to map user IDs to names for easier access
+        const userMap = {};
+        usersData.forEach((user) => {
+          userMap[user.id] = `${user.first_name} ${user.last_name}`;
+        });
+        setUsers(userMap); // Store users in state
       } catch (error) {
-        console.error("Error fetching contributors:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchContributors();
-  }, []);
+    fetchResourcesAndUsers();
+  }, [accessToken]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Search query:", searchQuery);
-  };
-
-  const toggleExpand = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
   };
 
   return (
@@ -59,27 +80,16 @@ const Contributors = () => {
         </div>
 
         <div className="contributorList">
-          {contributors
-            .filter((contributor) =>
-              contributor.name.toLowerCase().includes(searchQuery.toLowerCase())
+          {resources
+            .filter((resource) =>
+              users[resource.contributor] && 
+              users[resource.contributor].toLowerCase().includes(searchQuery.toLowerCase())
             )
-            .map((contributor, index) => (
-              <div key={index} className="contributorItem">
-                <h3
-                  onClick={() => toggleExpand(index)}
-                  className="contributorName"
-                >
-                  {contributor.name}
-                </h3>
-                {expandedIndex === index && (
-                  <ul className="resourceList">
-                    {contributor.resources.map((resource, resourceIndex) => (
-                      <li key={resourceIndex} className="resourceItem">
-                        {resource}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+            .map((resource, index) => (
+              <div key={index} className="contributorItem" style={{ marginLeft: "20px" }}>
+                <p className="contributorName">
+                  {users[resource.contributor]} - {resource.resource_name}
+                </p>
               </div>
             ))}
         </div>

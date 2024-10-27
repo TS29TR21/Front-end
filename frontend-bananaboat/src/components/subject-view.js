@@ -10,9 +10,13 @@ const SubjectView = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch(
-          "https://contained-share2teach.onrender.com/api/resource/deserial"
-        ); // API endpoint
+        const accessToken = localStorage.getItem("accessToken"); // Retrieve the access token
+        const response = await fetch("http://127.0.0.1:8000/api/resource/deserial", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Include the access token in the headers
+          },
+        });
         if (!response.ok) throw new Error("Failed to fetch resources");
         const data = await response.json();
         setAllResources(data); // Set the fetched resources
@@ -68,8 +72,6 @@ const SubjectView = () => {
           {filteredSubjects.length > 0 ? (
             filteredSubjects.map((subject, index) => (
               <div key={index} className="subjectCard">
-                {" "}
-                {/* Update to use className */}
                 <h2>{subject}</h2>
               </div>
             ))

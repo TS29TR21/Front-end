@@ -27,6 +27,7 @@ import AboutUs from "./about-us.js"; // Import AboutUs component
 import Analytics from "./analytics.js";
 import OER from "./oer.js"; // OER Component
 import Self from "./sdl.js"; // Self Directed Learning Component
+import Contributors from "./contributors.js";
 
 import "./style.css"; // Importing style.css
 
@@ -59,6 +60,7 @@ const Home = () => {
       { text: "Rate Resources", section: "rate-resource" },
       { text: "Other Educational Resources", section: "oer" }, // Updated
       { text: "Self Directed Learning", section: "sdl" }, // Updated
+      { text: "Contributors", section: "contributors" }, // Added Contributors
     ],
     educatorUser: [
       { text: "Home", section: "/" },
@@ -69,6 +71,7 @@ const Home = () => {
       { text: "Contribute", section: "file-upload" },
       { text: "Other Educational Resources", section: "oer" }, // Updated
       { text: "Self Directed Learning", section: "sdl" }, // Updated
+      { text: "Contributors", section: "contributors" }, // Added Contributors
     ],
     moderatorUser: [
       { text: "Home", section: "/" },
@@ -80,6 +83,7 @@ const Home = () => {
       { text: "Moderate Resources", section: "moderate" },
       { text: "Other Educational Resources", section: "oer" }, // Updated
       { text: "Self Directed Learning", section: "sdl" }, // Updated
+      { text: "Contributors", section: "contributors" }, // Added Contributors
     ],
     adminUser: [
       { text: "Home", section: "/" },
@@ -93,6 +97,7 @@ const Home = () => {
       { text: "Analytics", section: "analytics" },
       { text: "Other Educational Resources", section: "oer" }, // Updated
       { text: "Self Directed Learning", section: "sdl" }, // Updated
+      { text: "Contributors", section: "contributors" }, // Added Contributors
     ],
   };
 
@@ -135,6 +140,8 @@ const Home = () => {
         return <Login onLogin={handleLogin} />;
       case "register":
         return <Register />;
+      case "contributors": // Added case for Contributors
+        return <Contributors />;
       default:
         return <Typography variant="h5">Welcome to Share2Teach</Typography>;
     }
