@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css"; // Import the CSS file
 
 const RateResource = () => {
@@ -6,14 +6,32 @@ const RateResource = () => {
   const [rating, setRating] = useState("");
   const [ratedResources, setRatedResources] = useState([]);
   const [errors, setErrors] = useState({});
+  const [resources, setResources] = useState([]); // State for storing resources
 
-  const resources = [
-    { id: "1", name: "Resource 1" },
-    { id: "2", name: "Resource 2" },
-    { id: "3", name: "Resource 3" },
-    { id: "4", name: "Resource 4" },
-    { id: "5", name: "Resource 5" },
-  ];
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/resource/deserial", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Add authorization if needed
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch resources");
+        }
+
+        const data = await response.json();
+        setResources(data); // Store the fetched resources
+      } catch (error) {
+        console.error("Error fetching resources:", error);
+        alert("Failed to load resources.");
+      }
+    };
+
+    fetchResources();
+  }, []);
 
   const handleResourceIdChange = (e) => {
     setResourceId(e.target.value);
@@ -44,22 +62,25 @@ const RateResource = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("resourceId", resourceId);
-    formData.append("rating", rating);
+    // Convert resourceId and rating to integers
+    const requestData = {
+      resourceId: parseInt(resourceId, 10), // Convert resourceId to integer
+      rating: parseInt(rating, 10), // Convert rating to integer
+    };
 
     try {
-      const response = await fetch("resourceRating", {
+      const response = await fetch("http://127.0.0.1:8000/api/rate-resource", {
         method: "POST",
-        body: formData,
         headers: {
-          "X-CSRFToken": getCSRFToken(),
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Send authorization token
         },
+        body: JSON.stringify(requestData), // Send resourceId and rating as JSON
       });
 
       if (response.ok) {
         alert("Rating submitted successfully!");
-        setRatedResources([...ratedResources, { id: resourceId, rating }]);
+        setRatedResources([...ratedResources, { id: requestData.resourceId, rating: requestData.rating }]);
         setResourceId("");
         setRating("");
       } else {
@@ -69,13 +90,6 @@ const RateResource = () => {
       console.error("Error submitting rating:", error);
       alert("An error occurred while submitting the rating.");
     }
-  };
-
-  const getCSRFToken = () => {
-    return document.cookie
-      .split(";")
-      .find((item) => item.trim().startsWith("csrftoken="))
-      .split("=")[1];
   };
 
   return (
@@ -96,7 +110,7 @@ const RateResource = () => {
               </option>
               {resources.map((resource) => (
                 <option key={resource.id} value={resource.id}>
-                  {resource.name}
+                  {resource.resource_name} {/* Display resource name */}
                 </option>
               ))}
             </select>
