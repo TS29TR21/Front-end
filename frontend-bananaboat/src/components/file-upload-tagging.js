@@ -79,9 +79,15 @@ const UploadTaggingResource = () => {
 
     // Prepare the form data for submission
     const data = new FormData();
-    formData.uploadFiles.forEach((file) => {
-      data.append("upload_file", file);
-    });
+
+    if (formData.uploadFiles.length > 0) {
+      data.append("upload_file", formData.uploadFiles[0]); // Always append the first file
+    }
+    
+    if (formData.uploadFiles.length > 1) {
+      data.append("upload_file1", formData.uploadFiles[1]); // Append the second file if it exists
+    }
+
     data.append("resourceName", formData.resourceName);
     data.append("subject", formData.subject);
     data.append("grade", formData.grade);
@@ -89,7 +95,6 @@ const UploadTaggingResource = () => {
 
     // Make API call
     try {
-      
       const response = await fetch("http://127.0.0.1:8000/api/contribute-resource", {
         method: "POST",
         headers: {

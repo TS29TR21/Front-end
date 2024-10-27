@@ -25,6 +25,9 @@ import SubjectView from "./subject-view.js";
 import FAQ from "./faq.js";
 import AboutUs from "./about-us.js"; // Import AboutUs component
 import Analytics from "./analytics.js";
+import OER from "./oer.js"; // OER Component
+import Self from "./sdl.js"; // Self Directed Learning Component
+
 import "./style.css"; // Importing style.css
 
 const Home = () => {
@@ -50,34 +53,36 @@ const Home = () => {
   const menus = {
     openUser: [
       { text: "Home", section: "/" },
-      { text: "FAQ", section: "faq" },
       { text: "Search Resources", section: "resource-search" },
       { text: "Subject View", section: "subject-view" },
       { text: "Resource Report", section: "resource-report" },
       { text: "Rate Resources", section: "rate-resource" },
+      { text: "Other Educational Resources", section: "oer" }, // Updated
+      { text: "Self Directed Learning", section: "sdl" }, // Updated
     ],
     educatorUser: [
       { text: "Home", section: "/" },
-      { text: "FAQ", section: "faq" },
       { text: "Search Resources", section: "resource-search" },
       { text: "Subject View", section: "subject-view" },
       { text: "Resource Report", section: "resource-report" },
       { text: "Rate Resources", section: "rate-resource" },
       { text: "Contribute", section: "file-upload" },
+      { text: "Other Educational Resources", section: "oer" }, // Updated
+      { text: "Self Directed Learning", section: "sdl" }, // Updated
     ],
     moderatorUser: [
       { text: "Home", section: "/" },
-      { text: "FAQ", section: "faq" },
       { text: "Search Resources", section: "resource-search" },
       { text: "Subject View", section: "subject-view" },
       { text: "Resource Report", section: "resource-report" },
       { text: "Rate Resources", section: "rate-resource" },
       { text: "Contribute", section: "file-upload" },
       { text: "Moderate Resources", section: "moderate" },
+      { text: "Other Educational Resources", section: "oer" }, // Updated
+      { text: "Self Directed Learning", section: "sdl" }, // Updated
     ],
     adminUser: [
       { text: "Home", section: "/" },
-      { text: "FAQ", section: "faq" },
       { text: "Search Resources", section: "resource-search" },
       { text: "Subject View", section: "subject-view" },
       { text: "Resource Report", section: "resource-report" },
@@ -86,6 +91,8 @@ const Home = () => {
       { text: "Moderate Resources", section: "moderate" },
       { text: "Update User Role", section: "update-user-role" },
       { text: "Analytics", section: "analytics" },
+      { text: "Other Educational Resources", section: "oer" }, // Updated
+      { text: "Self Directed Learning", section: "sdl" }, // Updated
     ],
   };
 
@@ -106,8 +113,6 @@ const Home = () => {
         return <ResourceSearch />;
       case "file-upload":
         return <UploadTaggingResource />;
-      case "faq":
-        return <FAQ />;
       case "resource-report":
         return <ResourceReport />;
       case "rate-resource":
@@ -118,12 +123,18 @@ const Home = () => {
         return <Analytics />;
       case "update-user-role":
         return <UpdateUserRole />;
-      case "about-us": // Added About Us case
+      case "oer":
+        return <OER />;
+      case "sdl":
+        return <Self />;
+      case "about-us":
         return <AboutUs />;
+      case "faq": // Added case for FAQ
+        return <FAQ />;
       case "login":
         return <Login onLogin={handleLogin} />;
       case "register":
-        return <Register />; // Render the Register component
+        return <Register />;
       default:
         return <Typography variant="h5">Welcome to Share2Teach</Typography>;
     }
@@ -220,7 +231,7 @@ const Home = () => {
                   </button>
                   <button
                     className="auth-button"
-                    onClick={() => setActiveSection("register")} // Set active section to register
+                    onClick={() => setActiveSection("register")}
                   >
                     Sign Up
                   </button>
@@ -248,7 +259,7 @@ const Home = () => {
           <Typography variant="body2">
             <button
               className="footer-link"
-              onClick={() => setActiveSection("about-us")} // Set active section to about-us
+              onClick={() => setActiveSection("about-us")}
             >
               About Us
             </button>
