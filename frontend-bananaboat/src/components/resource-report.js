@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css"; // Importing style.css
 
 const ResourceReport = () => {
@@ -6,6 +6,32 @@ const ResourceReport = () => {
   const [userId, setUserId] = useState("");
   const [reportComplaint, setReportComplaint] = useState("");
   const [errors, setErrors] = useState({});
+  const [resources, setResources] = useState([]); // State for storing resources
+
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/resource/deserial", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Add authorization if needed
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch resources");
+        }
+
+        const data = await response.json();
+        setResources(data); // Store the fetched resources
+      } catch (error) {
+        console.error("Error fetching resources:", error);
+        alert("Failed to load resources.");
+      }
+    };
+
+    fetchResources();
+  }, []);
 
   const handleResourceIdChange = (e) => setResourceId(e.target.value);
   const handleUserIdChange = (e) => setUserId(e.target.value);
@@ -26,11 +52,11 @@ const ResourceReport = () => {
     const reportData = { resourceId, userId, reportComplaint };
 
     try {
-      const response = await fetch("resourceReport", {
+      const response = await fetch("http://127.0.0.1:8000/api/resource/report", { // Adjusted URL to your report endpoint
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": getCSRFToken(),
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Send authorization token
         },
         body: JSON.stringify(reportData),
       });
@@ -50,13 +76,6 @@ const ResourceReport = () => {
     }
   };
 
-  const getCSRFToken = () => {
-    return document.cookie
-      .split(";")
-      .find((item) => item.trim().startsWith("csrftoken="))
-      .split("=")[1];
-  };
-
   return (
     <div className="page-container">
       <header className="header">
@@ -73,9 +92,11 @@ const ResourceReport = () => {
             className="select"
           >
             <option value="">Select Resource ID</option>
-            <option value="1">Resource 1</option>
-            <option value="2">Resource 2</option>
-            <option value="3">Resource 3</option>
+            {resources.map((resource) => (
+              <option key={resource.id} value={resource.id}>
+                {resource.resource_name} {/* Display the resource name */}
+              </option>
+            ))}
           </select>
           {errors.resourceId && (
             <p className="error-message">{errors.resourceId}</p>
