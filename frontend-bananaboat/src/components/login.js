@@ -59,14 +59,13 @@ const Login = ({ onLogin }) => {
 
       if (!tokenResponse.ok) {
         const errorData = await tokenResponse.json();
-        throw new Error(
-          `Failed to retrieve tokens: ${errorData.detail || "Unknown error"}`
-        );
+        throw new Error(`Invalid username or password`);
       }
 
       const { access, refresh } = await tokenResponse.json();
       localStorage.setItem("accessToken", access);
       localStorage.setItem("refreshToken", refresh);
+      localStorage.setItem("username", formData.username_or_email); // Store the username
 
       console.log("Logged in successfully:", { access, refresh });
 
