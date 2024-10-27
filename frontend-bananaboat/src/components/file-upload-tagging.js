@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./style.css"; // Import your CSS file here
 
 const UploadTaggingResource = () => {
+  const token = localStorage.getItem("accessToken");
   const [formData, setFormData] = useState({
     uploadFiles: [],
     resourceName: "",
@@ -51,7 +52,7 @@ const UploadTaggingResource = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -76,9 +77,42 @@ const UploadTaggingResource = () => {
       return;
     }
 
-    console.log("Form Data:", { ...formData });
-    alert("Form submitted! Check console for details.");
-    setIsSubmitted(true);
+    // Prepare the form data for submission
+    const data = new FormData();
+    formData.uploadFiles.forEach((file) => {
+      data.append("upload_file", file);
+    });
+    data.append("resourceName", formData.resourceName);
+    data.append("subject", formData.subject);
+    data.append("grade", formData.grade);
+    data.append("keywords", formData.keywords);
+
+    // Make API call
+    try {
+      
+      const response = await fetch("http://127.0.0.1:8000/api/contribute-resource", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`, // Use the token for authorization
+        },
+        body: data,
+      });
+
+      const result = await response.json();
+      console.log("API Response:", result); // Show the response in the console
+
+      if (response.ok) {
+        alert("Form submitted successfully!");
+        setIsSubmitted(true);
+        // Optionally, reset form state here
+      } else {
+        console.error("Error:", result);
+        alert("Submission failed. Check console for details.");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      alert("An error occurred. Check console for details.");
+    }
   };
 
   const removeFile = (index) => {
@@ -102,11 +136,7 @@ const UploadTaggingResource = () => {
   return (
     <div className="container">
       <h1 className="title">Upload and Tag Keywords to Resources</h1>
-      <form
-        onSubmit={handleSubmit}
-        encType="multipart/form-data"
-        className="form"
-      >
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="form">
         <div className="fileInputGroup">
           <input
             type="file"
@@ -172,11 +202,7 @@ const UploadTaggingResource = () => {
         </select>
         {errors.grade && <p className="error">{errors.grade}</p>}
 
-        {/* Update to align Add keyword input and button */}
-        <div
-          className="keywordContainer"
-          style={{ display: "flex", gap: "8px" }}
-        >
+        <div className="keywordContainer" style={{ display: "flex", gap: "8px" }}>
           <input
             type="text"
             placeholder="Add keyword"
@@ -190,22 +216,13 @@ const UploadTaggingResource = () => {
           </button>
         </div>
 
-        {errors.currentKeyword && (
-          <p className="error">{errors.currentKeyword}</p>
-        )}
+        {errors.currentKeyword && <p className="error">{errors.currentKeyword}</p>}
 
-        {/* Update to align keyword display as a CSV string */}
-        <div
-          className="keywordsList"
-          style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}
-        >
+        <div className="keywordsList" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
           {formData.keywords.split(", ").map(
             (keyword, index) =>
-              keyword && ( // Ensure non-empty keywords
-                <div
-                  key={index}
-                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
-                >
+              keyword && (
+                <div key={index} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                   <span
                     className="keywordItem"
                     style={{
