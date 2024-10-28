@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import GoogleAnalytics from "./GoogleAnalytics.js";
+import GoogleAnalytics from "./GoogleAnalytics3.js"; // Import the Google Analytics component
 import "./style.css";
 
 const ModerationForm = () => {
@@ -9,9 +9,9 @@ const ModerationForm = () => {
     mod_comment: "",
     mod_status: "",
   });
-
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [analyticsData, setAnalyticsData] = useState(null); // Track analytics data to send
 
   // Fetch resources from the API on component mount
   useEffect(() => {
@@ -74,6 +74,15 @@ const ModerationForm = () => {
         alert(result.message); // Display success message
         setFormData({ source_id: "", mod_comment: "", mod_status: "" }); // Reset form
         setSubmitted(true);
+
+        // Prepare analytics data
+        setAnalyticsData({
+          page: "ModerationForm",
+          userId: localStorage.getItem("userId") || "unknown",
+          eventType: "form_submit",
+        });
+
+        console.log("Form submitted successfully.");
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.error || "Failed to moderate resource."}`);
@@ -143,13 +152,11 @@ const ModerationForm = () => {
         </div>
       </form>
 
-      {submitted && (
+      {submitted && analyticsData && (
         <GoogleAnalytics
-          page="ModerationForm"
-          userId="example_user_id"
-          eventType="form_submit"
-          duration={0}
-          customParam="ModerationForm"
+          page={analyticsData.page}
+          userId={analyticsData.userId}
+          eventType={analyticsData.eventType}
         />
       )}
     </div>

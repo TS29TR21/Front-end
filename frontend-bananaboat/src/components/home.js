@@ -28,6 +28,7 @@ import Analytics from "./analytics.js";
 import OER from "./oer.js"; // OER Component
 import Self from "./sdl.js"; // Self Directed Learning Component
 import Contributors from "./contributors.js";
+// import GoogleAnalytics from "./GoogleAnalytics1.js"; // Google Analytics component
 
 import "./style.css"; // Importing style.css
 
@@ -42,7 +43,7 @@ const Home = () => {
   const handleLogin = (userData) => {
     console.log(userData);
     setUser(userData); // Set user data after login
-    setActiveSection("/");
+    setActiveSection("/"); // Redirect to home after login
   };
 
   const handleLogout = async () => {
@@ -78,7 +79,7 @@ const Home = () => {
       { text: "Home", section: "/" },
       { text: "Search Resources", section: "resource-search" },
       { text: "Subject View", section: "subject-view" },
-      { text: "Rate Resources", section: "rate-resource" },
+      // Removed Rate Resources option for openUser
       { text: "Other Educational Resources", section: "oer" },
       { text: "Self Directed Learning", section: "sdl" },
       { text: "Contributors", section: "contributors" },
@@ -271,6 +272,7 @@ const Home = () => {
 
         <Container sx={{ padding: 2, overflowY: "auto", flexGrow: 1 }}>
           <Box sx={{ padding: 2, bgcolor: "#ffffff", borderRadius: 2 }}>
+            {/* GoogleAnalytics component omitted for brevity */}
             {renderSectionContent()}
           </Box>
         </Container>

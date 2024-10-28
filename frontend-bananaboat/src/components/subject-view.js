@@ -10,14 +10,13 @@ const SubjectView = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken"); // Retrieve the access token
         const response = await fetch("http://127.0.0.1:8000/api/resource/deserial", {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // Include the access token in the headers
-          },
+          // Removed authorization headers
         });
+        
         if (!response.ok) throw new Error("Failed to fetch resources");
+        
         const data = await response.json();
         setAllResources(data); // Set the fetched resources
 

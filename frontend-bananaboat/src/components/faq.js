@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import GoogleAnalytics from './GoogleAnalytics2.js'; // Import the Google Analytics component
 import "./style.css"; // Import the external CSS file
 
 const FAQ = () => {
@@ -7,6 +8,7 @@ const FAQ = () => {
   const [faqs, setFaqs] = useState([]); // State for storing FAQs
   const [loading, setLoading] = useState(true); // State for loading indicator
   const [error, setError] = useState(""); // State for error messages
+  const [analyticsData, setAnalyticsData] = useState(null); // Track analytics data
 
   useEffect(() => {
     const fetchFAQs = async () => {
@@ -38,7 +40,21 @@ const FAQ = () => {
 
   const toggleExpand = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
+    
+    // Trigger analytics when a question is expanded or collapsed
+    if (expandedIndex !== index) {
+      const userId = localStorage.getItem("userId") || "unknown"; // Use stored user ID or default to 'unknown'
+      const eventType = "faq_interaction"; // Define the event type for interaction
+      setAnalyticsData({ userId, eventType }); // Prepare analytics data
+    }
   };
+
+  // Track analytics for the FAQ page view
+  useEffect(() => {
+    const userId = localStorage.getItem("userId") || "unknown"; // Set user ID to stored value or 'unknown'
+    const eventType = "view_faq"; // Define the event type
+    setAnalyticsData({ userId, eventType }); // Prepare analytics data for the view
+  }, []); // Only run on mount
 
   return (
     <div className="pageContainer">
@@ -87,6 +103,14 @@ const FAQ = () => {
           </>
         )}
       </main>
+
+      {analyticsData && (
+        <GoogleAnalytics
+          page="FAQPage"
+          userId={analyticsData.userId}
+          eventType={analyticsData.eventType}
+        />
+      )}
     </div>
   );
 };

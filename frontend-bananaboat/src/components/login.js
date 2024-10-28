@@ -11,7 +11,9 @@ const Login = ({ onLogin }) => {
   const [activeSection, setActiveSection] = useState("login");
   const [errors, setErrors] = useState({});
   const [error, setError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
+  // Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -21,6 +23,7 @@ const Login = ({ onLogin }) => {
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
+  // Validate form inputs
   const validateForm = () => {
     const newErrors = {};
     const { username_or_email, password } = formData;
@@ -28,14 +31,13 @@ const Login = ({ onLogin }) => {
     if (!username_or_email) {
       newErrors.username_or_email = "Username or Email is required.";
     }
-
     if (!password) {
       newErrors.password = "Password is required.";
     }
-
     return newErrors;
   };
 
+  // Handle login submission
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
@@ -58,16 +60,13 @@ const Login = ({ onLogin }) => {
       });
 
       if (!tokenResponse.ok) {
-        const errorData = await tokenResponse.json();
-        throw new Error(`Invalid username or password`);
+        throw new Error("Invalid username or password");
       }
 
       const { access, refresh } = await tokenResponse.json();
       localStorage.setItem("accessToken", access);
       localStorage.setItem("refreshToken", refresh);
       localStorage.setItem("username", formData.username_or_email); // Store the username
-
-      console.log("Logged in successfully:", { access, refresh });
 
       const roleResponse = await fetch("http://127.0.0.1:8000/api/role", {
         method: "POST",
@@ -78,16 +77,13 @@ const Login = ({ onLogin }) => {
       });
 
       if (!roleResponse.ok) {
-        const roleErrorData = await roleResponse.json();
-        throw new Error(
-          `Failed to retrieve user role: ${roleErrorData.detail || "Unknown error"}`
-        );
+        throw new Error("Failed to retrieve user role");
       }
 
       const { userRole } = await roleResponse.json();
-      console.log("User Role:", userRole);
       localStorage.setItem("userRole", userRole);
       onLogin({ access, refresh, userRole });
+      setIsLoggedIn(true); // Update login state
 
     } catch (err) {
       setError(err.message);
@@ -95,14 +91,17 @@ const Login = ({ onLogin }) => {
     }
   };
 
+  // Handle password reset click
   const handleForgotPasswordClick = () => {
     setActiveSection("reset-password");
   };
 
+  // Handle back to login click
   const handleBackToLoginClick = () => {
     setActiveSection("login");
   };
 
+  // Render the appropriate section based on activeSection
   const renderSectionContent = () => {
     if (activeSection === "login") {
       return (

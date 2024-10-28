@@ -5,9 +5,6 @@ const Contributors = () => {
   const [resources, setResources] = useState([]);
   const [users, setUsers] = useState({}); // Object to store users by their ID
 
-  // Retrieve the access token from local storage or any other source
-  const accessToken = localStorage.getItem("accessToken");
-
   // Fetch resources and users from the API when the component mounts
   useEffect(() => {
     const fetchResourcesAndUsers = async () => {
@@ -15,15 +12,9 @@ const Contributors = () => {
         const [resourcesResponse, usersResponse] = await Promise.all([
           fetch("http://127.0.0.1:8000/api/resource/deserial", {
             method: "GET",
-            headers: {
-              Authorization: `Bearer ${accessToken}`, // Include the access token in the header
-            },
           }),
           fetch("http://127.0.0.1:8000/api/user/deserial", {
             method: "GET",
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
           }),
         ]);
 
@@ -49,7 +40,7 @@ const Contributors = () => {
     };
 
     fetchResourcesAndUsers();
-  }, [accessToken]);
+  }, []);
 
   return (
     <div className="pageContainer">

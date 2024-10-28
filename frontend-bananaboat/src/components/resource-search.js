@@ -10,13 +10,11 @@ const ResourceSearch = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken"); // Retrieve the access token
         const response = await fetch("http://127.0.0.1:8000/api/resource/deserial", {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // Include the access token in the headers
-          },
+          // Removed authorization headers
         });
+
         if (!response.ok) throw new Error("Failed to fetch resources");
         const data = await response.json();
         
@@ -72,12 +70,59 @@ const ResourceSearch = () => {
       <ul>
         {filteredResources.length > 0 ? (
           filteredResources.map((resource) => (
-            <li key={resource.id}>
-              {resource.resource_name} - {resource.subject} - {resource.grade}
+            <li key={resource.id} className="resourceItem">
+              <div className="resourceDetails">
+                <h3>{resource.resource_name}</h3>
+                <p>Subject: {resource.subject}</p>
+                <p>Grade: {resource.grade}</p>
+              </div>
+              {/* Display PDF files with links if available */}
+              <div className="fileLinks">
+                {resource.file_path1 && (
+                  <div>
+                    <h4>PDF 1:</h4>
+                    <a 
+                      href={`https://cpmg323-project-file-storage-django.s3.af-south-1.amazonaws.com${resource.file_path1}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="viewLink"
+                    >
+                      View PDF
+                    </a>
+                    <a 
+                      href={`https://cpmg323-project-file-storage-django.s3.af-south-1.amazonaws.com${resource.file_path1}`} 
+                      download
+                      className="downloadLink"
+                    >
+                      Download PDF
+                    </a>
+                  </div>
+                )}
+                {resource.file_path2 && (
+                  <div>
+                    <h4>PDF 2:</h4>
+                    <a 
+                      href={`https://cpmg323-project-file-storage-django.s3.af-south-1.amazonaws.com${resource.file_path2}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="viewLink"
+                    >
+                      View PDF
+                    </a>
+                    <a 
+                      href={`https://cpmg323-project-file-storage-django.s3.af-south-1.amazonaws.com${resource.file_path2}`} 
+                      download
+                      className="downloadLink"
+                    >
+                      Download PDF
+                    </a>
+                  </div>
+                )}
+              </div>
             </li>
           ))
         ) : (
-          <li>Loading...</li>
+          <li>No results found.</li>
         )}
       </ul>
     </div>
