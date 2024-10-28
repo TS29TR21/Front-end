@@ -56,7 +56,7 @@ const Register = () => {
     console.log("Form Data Submitted:", formData);
 
     try {
-      const response = await fetch("http://contained-share2teach.onrender.com/api/register", {
+      const response = await fetch("https://contained-share2teach.onrender.com/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

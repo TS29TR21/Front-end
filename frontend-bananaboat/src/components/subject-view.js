@@ -10,7 +10,7 @@ const SubjectView = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch("http://contained-share2teach.onrender.com/api/resource/deserial", {
+        const response = await fetch("https://contained-share2teach.onrender.com/api/resource/deserial", {
           method: "GET",
           // Removed authorization headers
         });

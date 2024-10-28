@@ -10,7 +10,7 @@ const ResourceSearch = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch("http://contained-share2teach.onrender.com/api/resource/deserial");
+        const response = await fetch("https://contained-share2teach.onrender.com/api/resource/deserial");
         if (!response.ok) throw new Error("Failed to fetch resources");
         
         const data = await response.json();

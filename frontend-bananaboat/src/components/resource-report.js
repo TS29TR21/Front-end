@@ -10,7 +10,7 @@ const ResourceReport = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch("http://contained-share2teach.onrender.com/api/resource/deserial", {
+        const response = await fetch("https://contained-share2teach.onrender.com/api/resource/deserial", {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Add authorization if needed
@@ -49,7 +49,7 @@ const ResourceReport = () => {
     const reportData = { resourceId, reportComplaint }; // Removed userId
 
     try {
-      const response = await fetch("http://contained-share2teach.onrender.com/api/report-resource", { // Adjusted URL to your report endpoint
+      const response = await fetch("https://contained-share2teach.onrender.com/api/report-resource", { // Adjusted URL to your report endpoint
         method: "POST",
         headers: {
           "Content-Type": "application/json",

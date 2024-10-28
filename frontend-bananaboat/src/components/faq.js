@@ -13,7 +13,7 @@ const FAQ = () => {
   useEffect(() => {
     const fetchFAQs = async () => {
       try {
-        const response = await fetch("http://contained-share2teach.onrender.com/api/faq/deserial", {
+        const response = await fetch("https://contained-share2teach.onrender.com/api/faq/deserial", {
           method: "GET",
         });
 

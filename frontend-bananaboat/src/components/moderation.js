@@ -17,7 +17,7 @@ const ModerationForm = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch("http://contained-share2teach.onrender.com/api/resource/deserial", {
+        const response = await fetch("https://contained-share2teach.onrender.com/api/resource/deserial", {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
@@ -60,7 +60,7 @@ const ModerationForm = () => {
     }
 
     try {
-      const response = await fetch("http://contained-share2teach.onrender.com/api/moderate-resource", {
+      const response = await fetch("https://contained-share2teach.onrender.com/api/moderate-resource", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

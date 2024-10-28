@@ -53,7 +53,7 @@ const Login = ({ onLogin }) => {
         password: formData.password,
       };
 
-      const tokenResponse = await fetch("http://contained-share2teach.onrender.com/api/token", {
+      const tokenResponse = await fetch("https://contained-share2teach.onrender.com/api/token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tokenData),

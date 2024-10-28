@@ -48,7 +48,7 @@ const NewPassword = () => {
 
     try {
       // Make API call to change the password
-      const response = await fetch("http://contained-share2teach.onrender.com/api/new-password", {
+      const response = await fetch("https://contained-share2teach.onrender.com/api/new-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
