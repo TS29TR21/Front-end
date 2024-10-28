@@ -81,6 +81,7 @@ const AboutUs = () => {
             individuals who work together to create an inclusive and dynamic
             learning environment.
           </p>
+          <h2>Development Team</h2>
           <p>
             <strong>Junier Herandien:</strong> Backend Dev
           </p>

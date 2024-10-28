@@ -9,11 +9,6 @@ const subjects = [
   { name: "English", image: require("./images/english.jpeg") },
   { name: "Geography", image: require("./images/geography.jpeg") },
   { name: "History", image: require("./images/history.jpeg") },
-  {
-    name: "Computer Science",
-    image: require("./images/computer science.jpeg"),
-  },
-  { name: "Economics", image: require("./images/economics.jpeg") },
   { name: "Art", image: require("./images/art.png") },
 ];
 
