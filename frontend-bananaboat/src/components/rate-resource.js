@@ -4,7 +4,6 @@ import "./style.css"; // Import the CSS file
 const RateResource = () => {
   const [resourceId, setResourceId] = useState("");
   const [rating, setRating] = useState("");
-  const [ratedResources, setRatedResources] = useState([]);
   const [errors, setErrors] = useState({});
   const [resources, setResources] = useState([]); // State for storing resources
 
@@ -62,7 +61,7 @@ const RateResource = () => {
       return;
     }
 
-    // Convert resourceId and rating to integers
+    // Prepare the data for the request
     const requestData = {
       resourceId: parseInt(resourceId, 10), // Convert resourceId to integer
       rating: parseInt(rating, 10), // Convert rating to integer
@@ -80,11 +79,11 @@ const RateResource = () => {
 
       if (response.ok) {
         alert("Rating submitted successfully!");
-        setRatedResources([...ratedResources, { id: requestData.resourceId, rating: requestData.rating }]);
         setResourceId("");
         setRating("");
       } else {
-        alert("Failed to submit rating.");
+        const errorData = await response.json();
+        alert(`Failed to submit rating: ${errorData.error || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Error submitting rating:", error);

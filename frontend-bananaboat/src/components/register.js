@@ -24,17 +24,18 @@ const Register = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    const { firstname, lastname, username, email, password, confirmpassword } =
-      formData;
+    const { firstname, lastname, username, email, password, confirmpassword } = formData;
 
     if (!firstname) newErrors.firstname = "First name is required.";
     if (!lastname) newErrors.lastname = "Last name is required.";
     if (!username) newErrors.username = "Username is required.";
-    if (!email) newErrors.email = "Email is required.";
+    if (!email) {
+      newErrors.email = "Email is required.";
+    } else if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
+      newErrors.email = "Invalid email format.";
+    }
     if (!password) newErrors.password = "Password is required.";
-    if (!confirmpassword)
-      newErrors.confirmpassword = "Please confirm your password.";
-
+    if (!confirmpassword) newErrors.confirmpassword = "Please confirm your password.";
     if (password !== confirmpassword) {
       newErrors.confirmpassword = "Passwords do not match.";
     }
@@ -51,12 +52,14 @@ const Register = () => {
       return;
     }
 
+    // Log the form data to the console
+    console.log("Form Data Submitted:", formData);
+
     try {
-      const response = await fetch("register", {
+      const response = await fetch("http://127.0.0.1:8000/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": getCSRFToken(),
         },
         body: JSON.stringify(formData),
       });
@@ -64,19 +67,13 @@ const Register = () => {
       if (response.ok) {
         alert("Registration successful!");
       } else {
-        alert("Registration failed. Please try again.");
+        const errorData = await response.json(); // Get the error message from the response
+        alert(`Registration failed: ${errorData.error}`);
       }
     } catch (error) {
       console.error("Error during registration:", error);
       alert("An error occurred while registering.");
     }
-  };
-
-  const getCSRFToken = () => {
-    return document.cookie
-      .split(";")
-      .find((item) => item.trim().startsWith("csrftoken="))
-      .split("=")[1];
   };
 
   return (
@@ -93,9 +90,7 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.firstname && (
-              <p className="error">{errors.firstname}</p>
-            )}
+            {errors.firstname && <p className="error">{errors.firstname}</p>}
           </div>
           <div className="formGroup">
             <input
@@ -106,9 +101,7 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.lastname && (
-              <p className="error">{errors.lastname}</p>
-            )}
+            {errors.lastname && <p className="error">{errors.lastname}</p>}
           </div>
         </div>
         <div className="inputGroup">
@@ -121,9 +114,7 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.username && (
-              <p className="error">{errors.username}</p>
-            )}
+            {errors.username && <p className="error">{errors.username}</p>}
           </div>
           <div className="formGroup">
             <input
@@ -134,9 +125,7 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.email && (
-              <p className="error">{errors.email}</p>
-            )}
+            {errors.email && <p className="error">{errors.email}</p>}
           </div>
         </div>
         <div className="inputGroup">
@@ -149,9 +138,7 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.password && (
-              <p className="error">{errors.password}</p>
-            )}
+            {errors.password && <p className="error">{errors.password}</p>}
           </div>
           <div className="formGroup">
             <input
@@ -162,9 +149,7 @@ const Register = () => {
               onChange={handleInputChange}
               className="input"
             />
-            {errors.confirmpassword && (
-              <p className="error">{errors.confirmpassword}</p>
-            )}
+            {errors.confirmpassword && <p className="error">{errors.confirmpassword}</p>}
           </div>
         </div>
         <button type="submit" className="submitButton">

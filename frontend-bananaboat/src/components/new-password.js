@@ -1,23 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css"; // Import the CSS file
 
-// Utility function to get the CSRF token from the cookie
-const getCSRFToken = () => {
-  let csrfToken = null;
-  const cookies = document.cookie.split(";");
-  cookies.forEach((cookie) => {
-    if (cookie.trim().startsWith("csrftoken=")) {
-      csrfToken = cookie.split("=")[1];
-    }
-  });
-  return csrfToken;
-};
-
 // New Password Component
-const NewPassword = ({ email }) => {
+const NewPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(""); // For displaying success/error messages
+  const [email, setEmail] = useState(""); // State to store email
+
+  useEffect(() => {
+    // Get the email from localStorage
+    const storedEmail = localStorage.getItem("resetEmail");
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+  }, []);
 
   const handleNewPasswordChange = (e) => setNewPassword(e.target.value);
   const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
@@ -48,31 +45,33 @@ const NewPassword = ({ email }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validatePassword()) return;
-    try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/newPassword/deserial",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCSRFToken(),
-          },
-          body: JSON.stringify({ email, newPassword }),
-        }
-      );
 
-      if (response.ok) {
-        setMessage("Password has been updated successfully!");
-        window.location.href = "/login";
-      } else {
-        const data = await response.json();
-        setMessage(
-          data.error || "Failed to update password. Please try again."
-        );
+    try {
+      // Make API call to change the password
+      const response = await fetch("http://127.0.0.1:8000/api/new-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({ newPassword, confirmPassword, email }), // Send passwords and email
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setMessage(errorData.error || "An error occurred while changing the password.");
+        return;
       }
+
+      const data = await response.json();
+      setMessage(data.message); // Display success message
+
+      // Optionally, you can clear the email from localStorage or navigate to another page
+      localStorage.removeItem("resetEmail"); // Clear email after successful password change
+      // window.location.href = "/login"; // Uncomment to redirect to login page
+
     } catch (error) {
-      console.error("Error updating password:", error);
-      setMessage("An error occurred while updating the password.");
+      setMessage("An error occurred while changing the password.");
+      console.error("Error during password change:", error);
     }
   };
 

@@ -3,10 +3,10 @@ import "./style.css"; // Import the CSS file
 
 const UpdateUserRole = () => {
   const [userId, setUserId] = useState("");
-  const [role, setRole] = useState(""); // Set initial role to empty
+  const [role, setRole] = useState("");
   const [error, setError] = useState("");
-  const [users, setUsers] = useState([]); // State for storing users
-  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -14,7 +14,7 @@ const UpdateUserRole = () => {
         const response = await fetch("http://127.0.0.1:8000/api/user/deserial", {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Use the correct access token key
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
           },
         });
 
@@ -23,7 +23,7 @@ const UpdateUserRole = () => {
         }
 
         const data = await response.json();
-        setUsers(data); // Store the fetched users
+        setUsers(data);
       } catch (error) {
         console.error("Error fetching users:", error);
         setError("Failed to load users.");
@@ -33,23 +33,22 @@ const UpdateUserRole = () => {
     fetchUsers();
   }, []);
 
-  // Handle input changes
   const handleUserIdChange = (e) => {
     setUserId(e.target.value);
-    setError(""); // Clear error on input change
+    setError("");
   };
 
-  const handleRoleChange = (e) => setRole(e.target.value);
+  const handleRoleChange = (e) => {
+    setRole(e.target.value);
+  };
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate userId
     if (!userId) {
       setError("User ID cannot be empty.");
       return;
@@ -57,31 +56,23 @@ const UpdateUserRole = () => {
 
     if (!role) {
       setError("Please select a role.");
-      return; // Ensure a role is selected
+      return;
     }
 
-    const userRole = localStorage.getItem("userRole"); // Get user role from local storage
-
     const roleData = {
-      user_id: userId, // Ensure the correct userId is being sent
-      role: userRole,   // Use the role from local storage
+      user_id: userId,
+      role: role,
     };
-
-    // Log the userId to the console
-    console.log("Submitting userId:", userId); // Log the userId for debugging
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/update-role", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Add the authorization header
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        body: JSON.stringify(roleData), // Send data as JSON
+        body: JSON.stringify(roleData),
       });
-
-      // Log the response for debugging
-      console.log("Update Role Response:", response);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -89,17 +80,15 @@ const UpdateUserRole = () => {
       }
 
       alert("User role updated successfully!");
-      // Clear the form after successful submission
-      setUserId(""); // Reset userId on successful submission
-      setRole("");   // Reset role to empty on successful submission
-      setError("");  // Clear error on successful submission
+      setUserId("");
+      setRole("");
+      setError("");
     } catch (error) {
       console.error("Error updating user role:", error);
       alert(error.message || "An unexpected error occurred.");
     }
   };
 
-  // Filter users based on the search query
   const filteredUsers = users.filter(user =>
     user.username.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -135,7 +124,7 @@ const UpdateUserRole = () => {
                 </option>
               ))}
             </select>
-            {error && <p className="error">{error}</p>} {/* Display error message */}
+            {error && <p className="error">{error}</p>}
           </div>
 
           <div className="formGroup">

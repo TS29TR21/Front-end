@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./style.css"; // Import the external CSS file
 
 const Contributors = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const [resources, setResources] = useState([]);
   const [users, setUsers] = useState({}); // Object to store users by their ID
 
@@ -52,10 +51,6 @@ const Contributors = () => {
     fetchResourcesAndUsers();
   }, [accessToken]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-  };
-
   return (
     <div className="pageContainer">
       {/* Main Content */}
@@ -64,34 +59,14 @@ const Contributors = () => {
           <h1>Contributors</h1>
         </header>
 
-        <div className="searchSection">
-          <form onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search contributors..."
-              className="searchInput"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button type="submit" className="searchButton">
-              Search
-            </button>
-          </form>
-        </div>
-
         <div className="contributorList">
-          {resources
-            .filter((resource) =>
-              users[resource.contributor] && 
-              users[resource.contributor].toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            .map((resource, index) => (
-              <div key={index} className="contributorItem" style={{ marginLeft: "20px" }}>
-                <p className="contributorName">
-                  {users[resource.contributor]} - {resource.resource_name}
-                </p>
-              </div>
-            ))}
+          {resources.map((resource, index) => (
+            <div key={index} className="contributorItem" style={{ marginLeft: "20px" }}>
+              <p className="contributorName">
+                {users[resource.contributor]} - {resource.resource_name}
+              </p>
+            </div>
+          ))}
         </div>
       </main>
     </div>

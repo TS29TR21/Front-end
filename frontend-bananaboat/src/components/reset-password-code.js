@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "./style.css"; // Importing style.css
+import NewPassword from "./new-password.js"; // Importing NewPassword component
 
-const ResetPasswordCode = ({ email }) => {
+const ResetPasswordCode = () => {
   const [code, setCode] = useState("");
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
+  const [isCodeValid, setIsCodeValid] = useState(false); // State to track code validity
+  const [email, setEmail] = useState(""); // State to store email
+
+  useEffect(() => {
+    // Get the email from localStorage
+    const storedEmail = localStorage.getItem("resetEmail");
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+  }, []);
 
   const handleCodeChange = (e) => {
     setCode(e.target.value);
@@ -16,8 +25,8 @@ const ResetPasswordCode = ({ email }) => {
     const newErrors = {};
     if (!code) {
       newErrors.code = "Verification code is required.";
-    } else if (code.length !== 6) {
-      newErrors.code = "Code must be exactly 6 characters long.";
+    } else if (code.length !== 8) {
+      newErrors.code = "Code must be exactly 8 characters long.";
     }
     return newErrors;
   };
@@ -29,34 +38,36 @@ const ResetPasswordCode = ({ email }) => {
       setErrors(formErrors);
       return;
     }
+
     try {
-      const response = await fetch("validateCode", {
+      // Make API call to validate verification code
+      const response = await fetch("http://127.0.0.1:8000/api/validate-code", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCSRFToken(),
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({ code, email }),
+        body: new URLSearchParams({ code, email }), // Send both code and email
       });
 
-      if (response.ok) {
-        alert("Code validated successfully!");
-        navigate("/new-password-page");
-      } else {
-        alert("Failed to validate code. Please try again.");
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrors({ code: errorData.error || "An error occurred." });
+        return;
       }
+
+      const data = await response.json();
+      alert(data.message); // Optional: Show success message
+      setIsCodeValid(true); // Set code as valid
+
     } catch (error) {
+      setErrors({ code: "An error occurred while validating the code." });
       console.error("Error during code validation:", error);
-      alert("An error occurred while validating the code.");
     }
   };
 
-  const getCSRFToken = () => {
-    return document.cookie
-      .split("; ")
-      .find((item) => item.startsWith("csrftoken="))
-      ?.split("=")[1];
-  };
+  if (isCodeValid) {
+    return <NewPassword />; // Render the NewPassword component if the code is valid
+  }
 
   return (
     <div className="page-container">

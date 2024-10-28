@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 
-const GoogleAnalytics = ({ page, userId, eventType, duration, customParam }) => {
+const GoogleAnalytics = ({ userId, eventType }) => {
   useEffect(() => {
-    const trackAnalytics = () => {
+    const trackAnalytics = async () => {
+      const pageTitle = document.title; // Get the current page title
+      const timestamp = new Date().toISOString(); // Current timestamp in ISO format
+
       const data = {
-        page,
         userId,
+        page: pageTitle,
         eventType,
-        duration,
-        customParam,
-        timestamp: new Date(),
+        timestamp,
       };
 
       // Log to console for testing
@@ -17,22 +18,37 @@ const GoogleAnalytics = ({ page, userId, eventType, duration, customParam }) => 
 
       // Send data to Google Analytics
       if (window.gtag) {
-        window.gtag('event', 'track_event', {
+        window.gtag('event', eventType, {
           event_category: 'User Interaction',
-          event_action: eventType,
-          event_label: page,
+          event_label: pageTitle,
           user_id: userId,
-          event_duration: duration,
-          custom_param: customParam,
-          page_location: window.location.href,
-          page_path: page,
-          page_title: document.title,
+          timestamp,
         });
+      }
+
+      // Send data to the backend
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/user-interaction/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data), // Send the data as JSON
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Error sending data to backend:', errorData);
+        } else {
+          console.log('Data successfully sent to backend');
+        }
+      } catch (error) {
+        console.error('Network error while sending data to backend:', error);
       }
     };
 
     trackAnalytics();
-  }, [page, userId, eventType, duration, customParam]);
+  }, [userId, eventType]);
 
   return null; // This component doesn't need to render anything
 };

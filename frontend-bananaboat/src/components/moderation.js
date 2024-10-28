@@ -1,15 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GoogleAnalytics from "./GoogleAnalytics.js";
 import "./style.css";
 
 const ModerationForm = () => {
-  const resources = [
-    { id: "1", name: "Resource One" },
-    { id: "2", name: "Resource Two" },
-    { id: "3", name: "Resource Three" },
-    { id: "4", name: "Resource Four" },
-  ];
-
+  const [resources, setResources] = useState([]);
   const [formData, setFormData] = useState({
     source_id: "",
     mod_comment: "",
@@ -19,13 +13,41 @@ const ModerationForm = () => {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
+  // Fetch resources from the API on component mount
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/resource/deserial", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch resources");
+        }
+
+        const data = await response.json();
+        setResources(data);
+      } catch (error) {
+        console.error("Error fetching resources:", error);
+        alert("Failed to load resources.");
+      }
+    };
+
+    fetchResources();
+  }, []);
+
+  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
     if (!formData.source_id) newErrors.source_id = "Resource ID is required.";
@@ -37,8 +59,29 @@ const ModerationForm = () => {
       return;
     }
 
-    console.log("Form submitted with data:", formData);
-    setSubmitted(true);
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/moderate-resource", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert(result.message); // Display success message
+        setFormData({ source_id: "", mod_comment: "", mod_status: "" }); // Reset form
+        setSubmitted(true);
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.error || "Failed to moderate resource."}`);
+      }
+    } catch (error) {
+      console.error("Error submitting moderation:", error);
+      alert("An error occurred while submitting moderation.");
+    }
   };
 
   return (
@@ -58,7 +101,7 @@ const ModerationForm = () => {
             <option value="">Select Resource ID</option>
             {resources.map((resource) => (
               <option key={resource.id} value={resource.id}>
-                {resource.name}
+                {resource.resource_name}
               </option>
             ))}
           </select>
@@ -88,7 +131,7 @@ const ModerationForm = () => {
               Select Moderation Status
             </option>
             <option value="approved">Approved</option>
-            <option value="rejected">Reject</option>
+            <option value="rejected">Rejected</option>
           </select>
           {errors.mod_status && <p className="error">{errors.mod_status}</p>}
         </div>

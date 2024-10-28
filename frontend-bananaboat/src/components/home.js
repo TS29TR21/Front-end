@@ -45,9 +45,31 @@ const Home = () => {
     setActiveSection("/");
   };
 
-  const handleLogout = () => {
-    setUser(null); // Clear the user data
-    setActiveSection("/");
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/logout", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Use the correct access token
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Logout failed.");
+      }
+
+      // Clear user data and tokens after successful logout
+      localStorage.removeItem("username");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("accessToken");
+      setUser(null); // Clear the user data
+      setActiveSection("/"); // Redirect to home or login
+      alert("Logged out successfully!");
+    } catch (error) {
+      console.error("Error during logout:", error);
+      alert(error.message || "An unexpected error occurred.");
+    }
   };
 
   // Define role-based sidebar menus
@@ -56,11 +78,10 @@ const Home = () => {
       { text: "Home", section: "/" },
       { text: "Search Resources", section: "resource-search" },
       { text: "Subject View", section: "subject-view" },
-      { text: "Resource Report", section: "resource-report" },
       { text: "Rate Resources", section: "rate-resource" },
-      { text: "Other Educational Resources", section: "oer" }, // Updated
-      { text: "Self Directed Learning", section: "sdl" }, // Updated
-      { text: "Contributors", section: "contributors" }, // Added Contributors
+      { text: "Other Educational Resources", section: "oer" },
+      { text: "Self Directed Learning", section: "sdl" },
+      { text: "Contributors", section: "contributors" },
     ],
     educatorUser: [
       { text: "Home", section: "/" },
@@ -69,9 +90,9 @@ const Home = () => {
       { text: "Resource Report", section: "resource-report" },
       { text: "Rate Resources", section: "rate-resource" },
       { text: "Contribute", section: "file-upload" },
-      { text: "Other Educational Resources", section: "oer" }, // Updated
-      { text: "Self Directed Learning", section: "sdl" }, // Updated
-      { text: "Contributors", section: "contributors" }, // Added Contributors
+      { text: "Other Educational Resources", section: "oer" },
+      { text: "Self Directed Learning", section: "sdl" },
+      { text: "Contributors", section: "contributors" },
     ],
     moderatorUser: [
       { text: "Home", section: "/" },
@@ -81,9 +102,9 @@ const Home = () => {
       { text: "Rate Resources", section: "rate-resource" },
       { text: "Contribute", section: "file-upload" },
       { text: "Moderate Resources", section: "moderate" },
-      { text: "Other Educational Resources", section: "oer" }, // Updated
-      { text: "Self Directed Learning", section: "sdl" }, // Updated
-      { text: "Contributors", section: "contributors" }, // Added Contributors
+      { text: "Other Educational Resources", section: "oer" },
+      { text: "Self Directed Learning", section: "sdl" },
+      { text: "Contributors", section: "contributors" },
     ],
     adminUser: [
       { text: "Home", section: "/" },
@@ -93,11 +114,11 @@ const Home = () => {
       { text: "Rate Resources", section: "rate-resource" },
       { text: "Contribute", section: "file-upload" },
       { text: "Moderate Resources", section: "moderate" },
-      { text: "Update User Role", section: "update-user-role" },
+      { text: "User Management", section: "update-user-role" },
       { text: "Analytics", section: "analytics" },
-      { text: "Other Educational Resources", section: "oer" }, // Updated
-      { text: "Self Directed Learning", section: "sdl" }, // Updated
-      { text: "Contributors", section: "contributors" }, // Added Contributors
+      { text: "Other Educational Resources", section: "oer" },
+      { text: "Self Directed Learning", section: "sdl" },
+      { text: "Contributors", section: "contributors" },
     ],
   };
 

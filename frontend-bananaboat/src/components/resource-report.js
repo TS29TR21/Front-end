@@ -3,7 +3,6 @@ import "./style.css"; // Importing style.css
 
 const ResourceReport = () => {
   const [resourceId, setResourceId] = useState("");
-  const [userId, setUserId] = useState("");
   const [reportComplaint, setReportComplaint] = useState("");
   const [errors, setErrors] = useState({});
   const [resources, setResources] = useState([]); // State for storing resources
@@ -34,14 +33,12 @@ const ResourceReport = () => {
   }, []);
 
   const handleResourceIdChange = (e) => setResourceId(e.target.value);
-  const handleUserIdChange = (e) => setUserId(e.target.value);
   const handleReportComplaintChange = (e) => setReportComplaint(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
     if (!resourceId) newErrors.resourceId = "Resource ID is required.";
-    if (!userId) newErrors.userId = "User ID is required.";
     if (!reportComplaint) newErrors.reportComplaint = "Complaint is required.";
 
     if (Object.keys(newErrors).length > 0) {
@@ -49,10 +46,10 @@ const ResourceReport = () => {
       return;
     }
 
-    const reportData = { resourceId, userId, reportComplaint };
+    const reportData = { resourceId, reportComplaint }; // Removed userId
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/resource/report", { // Adjusted URL to your report endpoint
+      const response = await fetch("http://127.0.0.1:8000/api/report-resource", { // Adjusted URL to your report endpoint
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +61,6 @@ const ResourceReport = () => {
       if (response.ok) {
         alert("Report submitted successfully!");
         setResourceId("");
-        setUserId("");
         setReportComplaint("");
         setErrors({});
       } else {
@@ -101,19 +97,6 @@ const ResourceReport = () => {
           {errors.resourceId && (
             <p className="error-message">{errors.resourceId}</p>
           )}
-        </div>
-
-        <div className="form-group">
-          <input
-            type="text"
-            id="userId"
-            name="userId"
-            value={userId}
-            onChange={handleUserIdChange}
-            className="input"
-            placeholder="Enter User ID"
-          />
-          {errors.userId && <p className="error-message">{errors.userId}</p>}
         </div>
 
         <div className="form-group">

@@ -5,13 +5,57 @@ import "./style.css"; // Import the CSS file
 const PasswordReset = ({ handleBackToLoginClick }) => {
   const [email, setEmail] = useState("");
   const [activeSection, setActiveSection] = useState("reset-password");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleInputChange = (e) => setEmail(e.target.value);
+  const handleInputChange = (e) => {
+    setEmail(e.target.value);
+    setErrorMessage(""); // Clear error message on input change
+  };
 
-  const handleResetSubmit = (e) => {
+  const validateEmail = (email) => {
+    // Simple email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleResetSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email for password reset:", email);
-    setActiveSection("reset-password-code");
+
+    // Validate email before proceeding
+    if (!validateEmail(email)) {
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      // Make API call to reset password
+      const response = await fetch("http://127.0.0.1:8000/api/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({ email }), // Use URLSearchParams for form-urlencoded data
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || "An error occurred.");
+        return;
+      }
+
+      const data = await response.json();
+      setSuccessMessage(data.message);
+
+      // Save the email to localStorage
+      localStorage.setItem("resetEmail", email);
+
+      setActiveSection("reset-password-code");
+
+    } catch (error) {
+      setErrorMessage("An error occurred while sending the verification code.");
+      console.error("Error during password reset:", error);
+    }
   };
 
   const renderSectionContent = () => {
@@ -25,15 +69,18 @@ const PasswordReset = ({ handleBackToLoginClick }) => {
               value={email}
               onChange={handleInputChange}
               className="input"
+              required
             />
           </div>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          {successMessage && <div className="success-message">{successMessage}</div>}
           <div className="form-group">
             <input type="submit" value="Get Code" className="submit-button" />
           </div>
         </form>
       );
     } else if (activeSection === "reset-password-code") {
-      return <ResetPasswordCode />;
+      return <ResetPasswordCode />; // Handle the next step after success
     }
   };
 

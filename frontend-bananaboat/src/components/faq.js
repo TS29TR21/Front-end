@@ -13,9 +13,6 @@ const FAQ = () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/faq/deserial", {
           method: "GET",
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Include token if necessary
-          },
         });
 
         if (!response.ok) {
