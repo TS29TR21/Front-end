@@ -29,6 +29,7 @@ import OER from "./oer.js"; // OER Component
 import Self from "./sdl.js"; // Self Directed Learning Component
 import Contributors from "./contributors.js";
 // import GoogleAnalytics from "./GoogleAnalytics1.js"; // Google Analytics component
+import SubjectGallery from "./gallery.js"; // New component import
 
 import "./style.css"; // Importing style.css
 
@@ -51,7 +52,7 @@ const Home = () => {
       const response = await fetch("http://127.0.0.1:8000/api/logout", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Use the correct access token
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Use the correct access token
         },
       });
 
@@ -133,7 +134,12 @@ const Home = () => {
   const renderSectionContent = () => {
     switch (activeSection) {
       case "/":
-        return <Typography variant="h5">Welcome to Share2Teach</Typography>;
+        return (
+          <>
+            <Typography variant="h5">Welcome to Share2Teach</Typography>
+            <SubjectGallery />
+          </>
+        );
       case "subject-view":
         return <SubjectView />;
       case "resource-search":
@@ -239,12 +245,13 @@ const Home = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Share2Teach
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               {user ? (
                 <>
                   <Typography sx={{ marginRight: 2 }}>
                     User: {storedUsername}
-                    <br />Role: {roleLabels[storedUserRole] || storedUserRole}
+                    <br />
+                    Role: {roleLabels[storedUserRole] || storedUserRole}
                   </Typography>
                   <button className="auth-button" onClick={handleLogout}>
                     Logout
