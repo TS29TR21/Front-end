@@ -95,7 +95,7 @@ const UploadTaggingResource = () => {
 
     // Make API call
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/contribute-resource", {
+      const response = await fetch("http://contained-share2teach.onrender.com/api/contribute-resource", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`, // Use the token for authorization

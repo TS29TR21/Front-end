@@ -53,7 +53,7 @@ const Login = ({ onLogin }) => {
         password: formData.password,
       };
 
-      const tokenResponse = await fetch("http://127.0.0.1:8000/api/token", {
+      const tokenResponse = await fetch("http://contained-share2teach.onrender.com/api/token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tokenData),
@@ -68,7 +68,7 @@ const Login = ({ onLogin }) => {
       localStorage.setItem("refreshToken", refresh);
       localStorage.setItem("username", formData.username_or_email); // Store the username
 
-      const roleResponse = await fetch("http://127.0.0.1:8000/api/role", {
+      const roleResponse = await fetch("http://contained-share2teach.onrender.com/api/role", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

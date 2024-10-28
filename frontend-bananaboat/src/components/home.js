@@ -49,7 +49,7 @@ const Home = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/logout", {
+      const response = await fetch("http://contained-share2teach.onrender.com/api/logout", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Use the correct access token

@@ -29,7 +29,7 @@ const GoogleAnalytics = ({ userId, eventType, page }) => {
       const accessToken = localStorage.getItem('accessToken'); // Retrieve access token from local storage
 
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/analytics', {
+        const response = await fetch('http://contained-share2teach.onrender.com/api/analytics', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

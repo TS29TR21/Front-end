@@ -10,10 +10,10 @@ const Contributors = () => {
     const fetchResourcesAndUsers = async () => {
       try {
         const [resourcesResponse, usersResponse] = await Promise.all([
-          fetch("http://127.0.0.1:8000/api/resource/deserial", {
+          fetch("http://contained-share2teach.onrender.com/api/resource/deserial", {
             method: "GET",
           }),
-          fetch("http://127.0.0.1:8000/api/user/deserial", {
+          fetch("http://contained-share2teach.onrender.com/api/user/deserial", {
             method: "GET",
           }),
         ]);

@@ -41,7 +41,7 @@ const ResetPasswordCode = () => {
 
     try {
       // Make API call to validate verification code
-      const response = await fetch("http://127.0.0.1:8000/api/validate-code", {
+      const response = await fetch("http://contained-share2teach.onrender.com/api/validate-code", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
