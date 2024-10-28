@@ -1,60 +1,50 @@
 import React, { useState, useEffect } from "react";
-import "./style.css"; // Import the CSS file
+import "./style.css";
 
 const ResourceSearch = () => {
   const [keywords, setKeywords] = useState("");
-  const [allResources, setAllResources] = useState([]); // Store all resources
-  const [filteredResources, setFilteredResources] = useState([]); // Store filtered resources
+  const [allResources, setAllResources] = useState([]);
+  const [filteredResources, setFilteredResources] = useState([]);
+  const [error, setError] = useState(null); // State to manage errors
 
-  // Fetch resources from the API on mount
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/resource/deserial", {
-          method: "GET",
-          // Removed authorization headers
-        });
-
+        const response = await fetch("http://127.0.0.1:8000/api/resource/deserial");
         if (!response.ok) throw new Error("Failed to fetch resources");
-        const data = await response.json();
         
-        // Filter to include only approved resources
+        const data = await response.json();
         const approvedResources = data.filter(resource => resource.approval_status === "approved");
-        setAllResources(approvedResources); // Set the fetched approved resources
-        setFilteredResources(approvedResources); // Initialize filtered resources
+        setAllResources(approvedResources);
+        setFilteredResources(approvedResources);
       } catch (error) {
         console.error("Error fetching resources:", error);
+        setError(error.message); // Set error message
       }
     };
 
     fetchResources();
   }, []);
 
-  // Handle input changes
   const handleKeywordsChange = (e) => {
     const value = e.target.value;
     setKeywords(value);
 
-    // Filter resources based on the search input
     const filtered = allResources.filter((resource) => {
       const resourceKeywords = resource.keywords.toLowerCase();
       return (
         resource.resource_name.toLowerCase().includes(value.toLowerCase()) ||
-        resourceKeywords
-          .split(",")
-          .some((keyword) => keyword.trim().includes(value.toLowerCase()))
+        resourceKeywords.split(",").some((keyword) => keyword.trim().includes(value.toLowerCase()))
       );
     });
 
-    setFilteredResources(filtered); // Update filtered resources
+    setFilteredResources(filtered);
   };
 
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()} className="searchForm">
-        <label htmlFor="keywords" className="label">
-          Keywords:
-        </label>
+        <label htmlFor="keywords" className="label">Keywords:</label>
         <input
           type="text"
           name="keywords"
@@ -62,11 +52,12 @@ const ResourceSearch = () => {
           placeholder="Search for resources based on keywords"
           value={keywords}
           onChange={handleKeywordsChange}
-          className="searchInput" // Update to use className
+          className="searchInput"
         />
       </form>
 
       <h2>Search Results:</h2>
+      {error && <p className="error">{error}</p>} {/* Display error message */}
       <ul>
         {filteredResources.length > 0 ? (
           filteredResources.map((resource) => (
@@ -76,7 +67,6 @@ const ResourceSearch = () => {
                 <p>Subject: {resource.subject}</p>
                 <p>Grade: {resource.grade}</p>
               </div>
-              {/* Display PDF files with links if available */}
               <div className="fileLinks">
                 {resource.file_path1 && (
                   <div>
