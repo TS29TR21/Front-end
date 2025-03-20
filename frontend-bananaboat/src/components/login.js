@@ -68,7 +68,7 @@ const Login = ({ onLogin }) => {
       localStorage.setItem("refreshToken", refresh);
       localStorage.setItem("username", formData.username_or_email); // Store the username
 
-      const roleResponse = await fetch("http://contained-share2teach.onrender.com/api/role", {
+      const roleResponse = await fetch("https://contained-share2teach.onrender.com/api/role", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
