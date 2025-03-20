@@ -43,6 +43,7 @@ const Register = () => {
     return newErrors;
   };
 
+  const API_URL = "https://share2teach.onrender.com";
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,7 +57,7 @@ const Register = () => {
     console.log("Form Data Submitted:", formData);
 
     try {
-      const response = await fetch("https://contained-share2teach.onrender.com/api/register", {
+      const response = await fetch(`${API_URL}/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
