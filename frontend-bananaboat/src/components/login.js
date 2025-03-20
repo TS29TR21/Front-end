@@ -37,6 +37,8 @@ const Login = ({ onLogin }) => {
     return newErrors;
   };
 
+  const API_URL = "https://share2teach.onrender.com";
+
   // Handle login submission
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +55,7 @@ const Login = ({ onLogin }) => {
         password: formData.password,
       };
 
-      const tokenResponse = await fetch("https://contained-share2teach.onrender.com/api/token", {
+      const tokenResponse = await fetch(`${API_URL}/api/token`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tokenData),
@@ -68,7 +70,7 @@ const Login = ({ onLogin }) => {
       localStorage.setItem("refreshToken", refresh);
       localStorage.setItem("username", formData.username_or_email); // Store the username
 
-      const roleResponse = await fetch("https://contained-share2teach.onrender.com/api/role", {
+      const roleResponse = await fetch(`${API_URL}/api/role`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
