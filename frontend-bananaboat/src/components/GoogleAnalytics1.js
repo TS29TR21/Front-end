@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 
 const GoogleAnalytics = ({ userId, eventType, page }) => {
+
+  const API_URL = "https://share2teach.onrender.com";
+
   useEffect(() => {
     const trackAnalytics = async () => {
       const timestamp = new Date().toISOString(); // Current timestamp in ISO format
@@ -29,7 +32,7 @@ const GoogleAnalytics = ({ userId, eventType, page }) => {
       const accessToken = localStorage.getItem('accessToken'); // Retrieve access token from local storage
 
       try {
-        const response = await fetch('https://contained-share2teach.onrender.com/api/analytics', {
+        const response = await fetch(`${API_URL}/api/analytics`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
