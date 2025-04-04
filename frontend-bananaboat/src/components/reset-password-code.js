@@ -31,6 +31,8 @@ const ResetPasswordCode = () => {
     return newErrors;
   };
 
+  const API_URL = "https://share2teach.onrender.com";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validateForm();
@@ -41,7 +43,7 @@ const ResetPasswordCode = () => {
 
     try {
       // Make API call to validate verification code
-      const response = await fetch("https://contained-share2teach.onrender.com/api/validate-code", {
+      const response = await fetch(`${API_URL}/api/validate-code`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

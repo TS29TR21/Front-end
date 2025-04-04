@@ -47,9 +47,11 @@ const Home = () => {
     setActiveSection("/"); // Redirect to home after login
   };
 
+  const API_URL = "https://share2teach.onrender.com";
+
   const handleLogout = async () => {
     try {
-      const response = await fetch("https://contained-share2teach.onrender.com/api/logout", {
+      const response = await fetch(`${API_URL}/api/logout`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Use the correct access token

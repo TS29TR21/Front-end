@@ -13,11 +13,13 @@ const ModerationForm = () => {
   const [submitted, setSubmitted] = useState(false);
   const [analyticsData, setAnalyticsData] = useState(null); // Track analytics data to send
 
+  const API_URL = "https://share2teach.onrender.com";
+
   // Fetch resources from the API on component mount
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch("https://contained-share2teach.onrender.com/api/resource/deserial", {
+        const response = await fetch(`${API_URL}/api/resource/deserial`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,

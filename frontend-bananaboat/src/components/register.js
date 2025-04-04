@@ -44,6 +44,7 @@ const Register = () => {
   };
 
   const API_URL = "https://share2teach.onrender.com";
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 

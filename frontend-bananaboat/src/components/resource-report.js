@@ -7,10 +7,12 @@ const ResourceReport = () => {
   const [errors, setErrors] = useState({});
   const [resources, setResources] = useState([]); // State for storing resources
 
+  const API_URL = "https://share2teach.onrender.com";
+
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch("https://contained-share2teach.onrender.com/api/resource/deserial", {
+        const response = await fetch(`${API_URL}/api/resource/deserial`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("accessToken")}`, // Add authorization if needed
