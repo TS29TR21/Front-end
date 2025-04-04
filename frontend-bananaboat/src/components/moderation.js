@@ -62,7 +62,7 @@ const ModerationForm = () => {
     }
 
     try {
-      const response = await fetch("https://contained-share2teach.onrender.com/api/moderate-resource", {
+      const response = await fetch(`${API_URL}/api/moderate-resource`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
