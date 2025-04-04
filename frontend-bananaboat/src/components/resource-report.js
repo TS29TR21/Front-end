@@ -51,7 +51,7 @@ const ResourceReport = () => {
     const reportData = { resourceId, reportComplaint }; // Removed userId
 
     try {
-      const response = await fetch("https://contained-share2teach.onrender.com/api/report-resource", { // Adjusted URL to your report endpoint
+      const response = await fetch(`${API_URL}/api/report-resource`, { // Adjusted URL to your report endpoint
         method: "POST",
         headers: {
           "Content-Type": "application/json",

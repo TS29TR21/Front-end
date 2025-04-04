@@ -70,7 +70,7 @@ const RateResource = () => {
     };
 
     try {
-      const response = await fetch("https://contained-share2teach.onrender.com/api/rate-resource", {
+      const response = await fetch(`${API_URL}/api/rate-resource`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
