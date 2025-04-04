@@ -8,10 +8,12 @@ const UpdateUserRole = () => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const API_URL = "https://share2teach.onrender.com";
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("https://contained-share2teach.onrender.com/api/user/deserial", {
+        const response = await fetch(`${API_URL}/api/user/deserial`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
@@ -65,7 +67,7 @@ const UpdateUserRole = () => {
     };
 
     try {
-      const response = await fetch("https://contained-share2teach.onrender.com/api/update-role", {
+      const response = await fetch(`${API_URL}/api/update-role`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

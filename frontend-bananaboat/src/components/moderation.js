@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import GoogleAnalytics from "./GoogleAnalytics3.js"; // Import the Google Analytics component
+import GoogleAnalytics from "./GoogleAnalytics1.js"; // Import the Google Analytics component
 import "./style.css";
 
 const ModerationForm = () => {

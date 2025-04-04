@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import GoogleAnalytics from './GoogleAnalytics2.js'; // Import the Google Analytics component
+import GoogleAnalytics from './GoogleAnalytics1.js'; // Import the Google Analytics component
 import "./style.css"; // Import the external CSS file
 
 const FAQ = () => {

@@ -28,7 +28,6 @@ import Analytics from "./analytics.js";
 import OER from "./oer.js"; // OER Component
 import Self from "./sdl.js"; // Self Directed Learning Component
 import Contributors from "./contributors.js";
-// import GoogleAnalytics from "./GoogleAnalytics1.js"; // Google Analytics component
 import SubjectGallery from "./gallery.js"; // New component import
 
 import "./style.css"; // Importing style.css

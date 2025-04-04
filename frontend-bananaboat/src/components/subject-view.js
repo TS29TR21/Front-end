@@ -6,11 +6,13 @@ const SubjectView = () => {
   const [allResources, setAllResources] = useState([]); // Store all resources
   const [filteredSubjects, setFilteredSubjects] = useState([]); // Store filtered subjects
 
+  const API_URL = "https://share2teach.onrender.com";
+
   // Fetch resources from the API on mount
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch("https://contained-share2teach.onrender.com/api/resource/deserial", {
+        const response = await fetch(`${API_URL}/api/resource/deserial`, {
           method: "GET",
           // Removed authorization headers
         });
