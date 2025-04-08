@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./style.css"; // Import the CSS file
+import "././styles/update-user-role.css"; // Import the CSS file
 
 const UpdateUserRole = () => {
   const [userId, setUserId] = useState("");

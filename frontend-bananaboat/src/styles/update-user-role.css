@@ -1,0 +1,91 @@
+/* General container */
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 24px;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+    color: #2d3748;
+  }
+  
+  /* Search input */
+  .searchInput {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .searchInput:focus {
+    border-color: #3182ce;
+  }
+  
+  /* Form */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* Form group */
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Select dropdown */
+  .select {
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    background-color: white;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .select:focus {
+    border-color: #3182ce;
+  }
+  
+  /* Error message */
+  .error {
+    color: #e53e3e;
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  
+  /* Submit button */
+  .submitButton {
+    background-color: #2b6cb0;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #2c5282;
+    transform: translateY(-2px);
+  }
+  
