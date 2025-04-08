@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./style.css"; // Importing style.css
+import "./styles/resource-report.css"; // Importing style.css
 
 const ResourceReport = () => {
   const [resourceId, setResourceId] = useState("");
