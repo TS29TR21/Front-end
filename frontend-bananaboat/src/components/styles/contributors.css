@@ -1,0 +1,24 @@
+.contributorTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .contributorTable th,
+  .contributorTable td {
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  
+  .contributorTable th {
+    background-color: #1d8a2d;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .contributorTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  

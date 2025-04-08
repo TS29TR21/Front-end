@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./style.css"; // Import the external CSS file
+import "./styles/contributors.css"; // Import the external CSS file
 
 const Contributors = () => {
   const [resources, setResources] = useState([]);
@@ -51,15 +51,24 @@ const Contributors = () => {
         <header className="header">
           <h1>Contributors</h1>
         </header>
-
+  
         <div className="contributorList">
-          {resources.map((resource, index) => (
-            <div key={index} className="contributorItem" style={{ marginLeft: "20px" }}>
-              <p className="contributorName">
-                {users[resource.contributor]} - {resource.resource_name}
-              </p>
-            </div>
-          ))}
+          <table className="contributorTable">
+            <thead>
+              <tr>
+                <th>Contributor</th>
+                <th>Resource</th>
+              </tr>
+            </thead>
+            <tbody>
+              {resources.map((resource, index) => (
+                <tr key={index}>
+                  <td>{users[resource.contributor]}</td>
+                  <td>{resource.resource_name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </main>
     </div>
