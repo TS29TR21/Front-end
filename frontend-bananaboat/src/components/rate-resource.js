@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./style.css"; // Import the CSS file
+import "./styles/rate-resource.css"; // Import the CSS file
 
 const RateResource = () => {
   const [resourceId, setResourceId] = useState("");
